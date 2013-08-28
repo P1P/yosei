@@ -15,6 +15,7 @@ class World : public Component
         void start();
         void update();
     private:
+
 };
 
 #endif // WORLD_H

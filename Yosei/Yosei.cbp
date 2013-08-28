@@ -41,8 +41,11 @@
 		<Unit filename="include/game/game.h" />
 		<Unit filename="include/game/identifiable.h" />
 		<Unit filename="include/gameplay/action.h" />
+		<Unit filename="include/gameplay/coordinates.h" />
+		<Unit filename="include/gameplay/map.h" />
 		<Unit filename="include/gameplay/mentalstate.h" />
 		<Unit filename="include/gameplay/opinion.h" />
+		<Unit filename="include/gameplay/tile.h" />
 		<Unit filename="include/gameplay/world.h" />
 		<Unit filename="include/helpers/observer.h" />
 		<Unit filename="include/perception/stimulus.h" />
@@ -52,8 +55,11 @@
 		<Unit filename="src/game/game.cpp" />
 		<Unit filename="src/game/identifiable.cpp" />
 		<Unit filename="src/gameplay/action.cpp" />
+		<Unit filename="src/gameplay/coordinates.cpp" />
+		<Unit filename="src/gameplay/map.cpp" />
 		<Unit filename="src/gameplay/mentalstate.cpp" />
 		<Unit filename="src/gameplay/opinion.cpp" />
+		<Unit filename="src/gameplay/tile.cpp" />
 		<Unit filename="src/gameplay/world.cpp" />
 		<Unit filename="src/helpers/observer.cpp" />
 		<Unit filename="src/perception/stimulus.cpp" />
