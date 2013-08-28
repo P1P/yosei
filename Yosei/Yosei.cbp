@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Yosei" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Yosei" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Yosei" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-std=c++11" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-std=c++11" />
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add directory="src" />
+			<Add directory="include" />
+		</Compiler>
+		<Unit filename="include/game/component.h" />
+		<Unit filename="include/game/game.h" />
+		<Unit filename="include/game/identifiable.h" />
+		<Unit filename="include/gameplay/action.h" />
+		<Unit filename="include/gameplay/mentalstate.h" />
+		<Unit filename="include/gameplay/opinion.h" />
+		<Unit filename="include/gameplay/world.h" />
+		<Unit filename="include/helpers/observer.h" />
+		<Unit filename="include/perception/stimulus.h" />
+		<Unit filename="include/yosei/yosei.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="src/game/component.cpp" />
+		<Unit filename="src/game/game.cpp" />
+		<Unit filename="src/game/identifiable.cpp" />
+		<Unit filename="src/gameplay/action.cpp" />
+		<Unit filename="src/gameplay/mentalstate.cpp" />
+		<Unit filename="src/gameplay/opinion.cpp" />
+		<Unit filename="src/gameplay/world.cpp" />
+		<Unit filename="src/helpers/observer.cpp" />
+		<Unit filename="src/perception/stimulus.cpp" />
+		<Unit filename="src/yosei/yosei.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
