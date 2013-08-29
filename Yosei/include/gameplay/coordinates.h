@@ -1,26 +1,33 @@
 #ifndef COORDINATES_H
 #define COORDINATES_H
 
-#include <assert.h>
+#include <helpers/observer.h>
 
 class Coordinates
 {
     public:
-        Coordinates(unsigned short, unsigned short, unsigned short, unsigned short);
+        Coordinates(unsigned short*, unsigned short*, unsigned char);
         virtual ~Coordinates();
 
         enum CARDINAL_DIRECTION { NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3 };
 
-        bool go(CARDINAL_DIRECTION);
-        bool is_within_bounds(CARDINAL_DIRECTION) const;
-        bool is_valid(unsigned short*) const;
-        unsigned short cadir_to(CARDINAL_DIRECTION, unsigned char) const;
+        Coordinates* operator+=(CARDINAL_DIRECTION p_cadir);
+        Coordinates* operator+(CARDINAL_DIRECTION p_cadir) const;
+        bool operator==(Coordinates p_other) const;
+
+        std::string to_string() const;
     protected:
     private:
-        static const unsigned char DIMENSIONS = 2;
+        bool go(CARDINAL_DIRECTION);
+        bool is_valid(unsigned short*) const;
+        unsigned short cadir_to(CARDINAL_DIRECTION, unsigned char) const;
+        unsigned short* peek_dimensions(CARDINAL_DIRECTION) const;
+        Coordinates* peek(CARDINAL_DIRECTION) const;
+
+        unsigned char m_nb_dimensions;
 
         unsigned short* m_dimensions;
-        unsigned short* m_lenghts;
+        unsigned short* m_lengths;
 
         friend class Map;
 };

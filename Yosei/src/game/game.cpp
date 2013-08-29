@@ -35,14 +35,15 @@ void Game::start()
     m_lst_components.clear();
 
     m_world = new World();
+    add_component(m_world);
 
+    /*
     Yosei* c1 = new Yosei("Niceguy", 2, 0, 0);
     Yosei* c2 = new Yosei("Notsogood", 0.5, 25, 20);
 
     c1->m_other = c2;
     c2->m_other = c1;
 
-    add_component(m_world);
     add_component(c1);
     add_component(c2);
 
@@ -57,6 +58,7 @@ void Game::start()
     c2->learn_action(a1);
     c2->learn_action(a2);
     c2->learn_action(a3);
+    */
 }
 
 void Game::update()

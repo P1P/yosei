@@ -12,6 +12,7 @@ class Map : Component
         virtual ~Map();
 
         Tile* get_tile(Coordinates);
+        Tile* get_tile_neighbors(Tile*);
     protected:
     private:
         unsigned short m_width;

@@ -5,6 +5,7 @@
 #include <utility>
 
 #include <game/component.h>
+#include <gameplay/coordinates.h>
 
 class World : public Component
 {
@@ -15,7 +16,7 @@ class World : public Component
         void start();
         void update();
     private:
-
+        Coordinates* m_coords;
 };
 
 #endif // WORLD_H

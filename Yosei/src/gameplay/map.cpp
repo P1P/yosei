@@ -29,3 +29,8 @@ Tile* Map::get_tile(Coordinates p_coords)
 {
     return m_matrix[p_coords.m_dimensions[0]][p_coords.m_dimensions[1]];
 }
+
+Tile* Map::get_tile_neighbors(Tile* tile)
+{
+    return new Tile("bob");
+}
