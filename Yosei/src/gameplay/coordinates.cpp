@@ -1,6 +1,6 @@
 #include "gameplay\coordinates.h"
 
-Coordinates::Coordinates(unsigned short* p_dimensions, unsigned short* p_lengths, unsigned char p_nb_dimensions)
+Coordinates::Coordinates(unsigned short* p_dimensions, const unsigned short* p_lengths, unsigned char p_nb_dimensions)
 {
     m_dimensions = p_dimensions;
     m_lengths = p_lengths;
@@ -12,7 +12,6 @@ Coordinates::Coordinates(unsigned short* p_dimensions, unsigned short* p_lengths
 Coordinates::~Coordinates()
 {
     delete m_dimensions;
-    delete m_lengths;
 }
 
 // Returns a new peek towards p_cadir
@@ -73,14 +72,7 @@ Coordinates* Coordinates::peek(CARDINAL_DIRECTION p_cadir) const
 {
     if (unsigned short* candidate_dimensions = peek_dimensions(p_cadir))
     {
-        // Todo: memcpy
-        unsigned short* candidate_lengths = new unsigned short[m_nb_dimensions];
-        for (int i = 0; i < m_nb_dimensions; ++i)
-        {
-            candidate_lengths[i] = m_lengths[i];
-        }
-
-        return new Coordinates(candidate_dimensions, candidate_lengths, m_nb_dimensions);
+        return new Coordinates(candidate_dimensions, m_lengths, m_nb_dimensions);
     }
     return nullptr;
 }
@@ -107,8 +99,6 @@ unsigned short* Coordinates::peek_dimensions(CARDINAL_DIRECTION p_cadir) const
 // Returns whether the Direction is valid
 bool Coordinates::peek_dimensions_valid(CARDINAL_DIRECTION p_cadir) const
 {
-    unsigned short* candidate_dimensions = new unsigned short[m_nb_dimensions];
-
     for (int i = 0; i < m_nb_dimensions; ++i)
     {
         if (!is_valid(m_dimensions[i] + cadir_to(p_cadir, i), i)) return false;
@@ -155,9 +145,9 @@ unsigned short Coordinates::cadir_to(CARDINAL_DIRECTION p_cadir, unsigned char p
     {
         switch (p_cadir)
         {
-            case NORTH: return 1;
+            case NORTH: return -1;
             case EAST: return 0;
-            case SOUTH: return -1;
+            case SOUTH: return 1;
             case WEST: return 0;
             default: assert(0);
         }

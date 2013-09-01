@@ -1,6 +1,6 @@
 #include "yosei/yosei.h"
 
-Yosei::Yosei(std::string p_name, float p_compassion, float p_boldness, float p_anti_confirmism) : Component(p_name)
+Yosei::Yosei(std::string p_name, Tile* p_tile, float p_compassion, float p_boldness, float p_anti_confirmism) : TileObject(p_name, p_tile)
 {
     m_mental_state = MentalState(p_name + "'s mental state");
     m_compassion = p_compassion;
@@ -8,7 +8,7 @@ Yosei::Yosei(std::string p_name, float p_compassion, float p_boldness, float p_a
     m_anti_conformism = p_anti_confirmism;
 }
 
-Yosei::Yosei()
+Yosei::Yosei() : TileObject("Dummy", nullptr)
 {
     m_compassion = 1;
     m_boldness = 1;
@@ -29,6 +29,8 @@ void Yosei::start()
 
 void Yosei::update()
 {
+
+    /*
     Observer::getInstance().out_highlight(Observer::GAMEPLAY, to_string() + " is thinking");
     Observer::getInstance().out_say(Observer::GAMEPLAY, "My mental state is " + m_mental_state.to_string());
 
@@ -54,6 +56,7 @@ void Yosei::update()
     }
 
     Observer::getInstance().out_say(Observer::GAMEPLAY, "I am " + m_mental_state.to_string());
+    */
 }
 
 void Yosei::immediate_reflect_upon(Action* p_action, Yosei* p_yosei, float p_target_pre_score, float p_own_pre_score)
@@ -157,4 +160,9 @@ void Yosei::sadden(float p_sadden)
 std::string Yosei::to_string() const
 {
     return ("Yosei " + Component::to_string());
+}
+
+std::string Yosei::short_to_string() const
+{
+    return (Component::to_string());
 }

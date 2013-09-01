@@ -6,25 +6,25 @@
 #include <cstdlib>
 #include <time.h>
 
-#include "include/game/game.h"
+#include "gameplay/world.h"
 
 int main (void)
 {
     srand(time(NULL));
 
-    Observer::getInstance().set_log_type(Observer::VERBOSE);
+    Observer::getInstance().set_log_type(Observer::GAMEPLAY);
 
     int frame_count = 0;
 
-    Game game = Game();
-    game.start();
+    World world = World();
+    world.start();
 
     do
     {
-        Observer::getInstance().out_highlight(Observer::VERBOSE, "Frame " + SSTR(frame_count++));
-        std::cin.ignore( std::numeric_limits <std::streamsize> ::max(), '\n' );
+        Observer::getInstance().out_highlight(Observer::GAMEPLAY, "Frame " + SSTR(frame_count++));
+        std::cin.ignore(std::numeric_limits <std::streamsize>::max(), '\n');
 
-        game.update();
+        world.update();
     }
     while (true);
 

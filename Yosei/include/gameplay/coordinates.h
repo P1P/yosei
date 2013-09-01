@@ -6,7 +6,7 @@
 class Coordinates
 {
     public:
-        Coordinates(unsigned short*, unsigned short*, unsigned char);
+        Coordinates(unsigned short*, const unsigned short*, unsigned char);
         virtual ~Coordinates();
 
         enum CARDINAL_DIRECTION { NORTH, EAST, SOUTH, WEST, COUNT };
@@ -29,7 +29,7 @@ class Coordinates
         unsigned char m_nb_dimensions;
 
         unsigned short* m_dimensions;
-        unsigned short* m_lengths;
+        const unsigned short* m_lengths;
 
         friend class Map;
 };

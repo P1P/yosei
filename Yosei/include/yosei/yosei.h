@@ -4,15 +4,15 @@
 #include <map>
 #include <cstdlib>
 
-#include <game/component.h>
+#include <gameplay/TileObject.h>
 #include <gameplay/action.h>
 #include <gameplay/opinion.h>
 #include <gameplay/mentalstate.h>
 
-class Yosei : public Component
+class Yosei : public TileObject
 {
     public:
-        Yosei(std::string, float, float, float);
+        Yosei(std::string, Tile*, float, float, float);
         Yosei();
         virtual ~Yosei();
 
@@ -32,6 +32,7 @@ class Yosei : public Component
         void sadden(float);
 
         std::string to_string() const;
+        std::string short_to_string() const;
 
         Yosei* m_other;
     protected:

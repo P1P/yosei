@@ -19,3 +19,8 @@ bool Component::is_active()
 {
     return m_active;
 }
+
+std::string Component::to_string() const
+{
+    return m_name;
+}

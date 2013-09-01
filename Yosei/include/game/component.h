@@ -13,6 +13,8 @@ class Component : public Identifiable
         virtual void start()=0;
         virtual void update()=0;
         bool is_active();
+
+        std::string to_string() const;
     protected:
     private:
         bool m_active;
