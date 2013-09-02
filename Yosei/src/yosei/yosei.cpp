@@ -6,6 +6,8 @@ Yosei::Yosei(std::string p_name, Tile* p_tile, float p_compassion, float p_boldn
     m_compassion = p_compassion;
     m_boldness = p_boldness;
     m_anti_conformism = p_anti_confirmism;
+
+    m_perception = new Perception();
 }
 
 Yosei::Yosei() : TileObject("Dummy", nullptr)
@@ -29,6 +31,11 @@ void Yosei::start()
 
 void Yosei::update()
 {
+    while (VisionTile* stimulus_vision_tile = m_perception->perceive_stimulus_vision_tile())
+    {
+        Observer::getInstance().out(Observer::GAMEPLAY, "I saw " + stimulus_vision_tile->get_tile()->to_string() + " on " + SSTR(stimulus_vision_tile->get_cadir()));
+        delete stimulus_vision_tile;
+    }
 
     /*
     Observer::getInstance().out_highlight(Observer::GAMEPLAY, to_string() + " is thinking");
@@ -57,6 +64,11 @@ void Yosei::update()
 
     Observer::getInstance().out_say(Observer::GAMEPLAY, "I am " + m_mental_state.to_string());
     */
+}
+
+Perception* Yosei::get_perception()
+{
+    return m_perception;
 }
 
 void Yosei::immediate_reflect_upon(Action* p_action, Yosei* p_yosei, float p_target_pre_score, float p_own_pre_score)

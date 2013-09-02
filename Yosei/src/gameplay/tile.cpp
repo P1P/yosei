@@ -1,4 +1,4 @@
-#include "gameplay/tile.h"
+#include "gameplay/tile_tileobject.h"
 
 Tile::Tile(std::string p_name, Coordinates* p_coords) : Component(p_name)
 {

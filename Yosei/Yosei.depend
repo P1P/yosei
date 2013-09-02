@@ -3024,14 +3024,14 @@
 1378059069 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\src\gameplay\coordinates.cpp
 	"gameplay\coordinates.h"
 
-1377617162 source:c:\dev\yosei\yosei\yosei\main.cpp
+1378134507 source:c:\dev\yosei\yosei\yosei\main.cpp
 	<stdio.h>
 	<stdlib.h>
 	<iostream>
 	<limits>
 	<cstdlib>
 	<time.h>
-	"include/game/game.h"
+	"gameplay/world.h"
 
 1377595325 c:\dev\yosei\yosei\yosei\include\game\game.h
 	<list>
@@ -3039,7 +3039,7 @@
 	<yosei/yosei.h>
 	<gameplay/world.h>
 
-1377591859 c:\dev\yosei\yosei\yosei\include\game\component.h
+1378109420 c:\dev\yosei\yosei\yosei\include\game\component.h
 	<game/identifiable.h>
 
 1377596901 c:\dev\yosei\yosei\yosei\include\game\identifiable.h
@@ -3050,13 +3050,14 @@
 	<sstream>
 	<assert.h>
 
-1377617652 c:\dev\yosei\yosei\yosei\include\yosei\yosei.h
+1378135204 c:\dev\yosei\yosei\yosei\include\yosei\yosei.h
 	<map>
 	<cstdlib>
-	<game/component.h>
+	<gameplay/tile_tileobject.h>
 	<gameplay/action.h>
 	<gameplay/opinion.h>
 	<gameplay/mentalstate.h>
+	<perception/perception.h>
 
 1377603050 c:\dev\yosei\yosei\yosei\include\gameplay\action.h
 	<game/identifiable.h>
@@ -3067,13 +3068,15 @@
 1377614561 c:\dev\yosei\yosei\yosei\include\gameplay\mentalstate.h
 	<game/identifiable.h>
 
-1377788337 c:\dev\yosei\yosei\yosei\include\gameplay\world.h
+1378135078 c:\dev\yosei\yosei\yosei\include\gameplay\world.h
 	<map>
+	<list>
 	<utility>
-	<game/component.h>
-	<gameplay/coordinates.h>
+	<gameplay/map.h>
+	<yosei/yosei.h>
+	<perception/perception.h>
 
-1377591895 source:c:\dev\yosei\yosei\yosei\src\game\component.cpp
+1378109420 source:c:\dev\yosei\yosei\yosei\src\game\component.cpp
 	"game/component.h"
 
 1377788486 source:c:\dev\yosei\yosei\yosei\src\game\game.cpp
@@ -3091,7 +3094,7 @@
 1377612633 source:c:\dev\yosei\yosei\yosei\src\gameplay\opinion.cpp
 	"gameplay/opinion.h"
 
-1377790351 source:c:\dev\yosei\yosei\yosei\src\gameplay\world.cpp
+1378135242 source:c:\dev\yosei\yosei\yosei\src\gameplay\world.cpp
 	"gameplay/world.h"
 	<cstdlib>
 
@@ -3099,32 +3102,32 @@
 	"helpers/observer.h"
 	<iostream>
 
-1377449991 source:c:\dev\yosei\yosei\yosei\src\perception\stimulus.cpp
+1378133571 source:c:\dev\yosei\yosei\yosei\src\perception\stimulus.cpp
 	"perception/stimulus.h"
 
-1377449862 c:\dev\yosei\yosei\yosei\include\perception\stimulus.h
+1378133560 c:\dev\yosei\yosei\yosei\include\perception\stimulus.h
 
-1377617827 source:c:\dev\yosei\yosei\yosei\src\yosei\yosei.cpp
+1378135224 source:c:\dev\yosei\yosei\yosei\src\yosei\yosei.cpp
 	"yosei/yosei.h"
 
-1377858757 source:c:\dev\yosei\yosei\yosei\src\gameplay\map.cpp
+1378114948 source:c:\dev\yosei\yosei\yosei\src\gameplay\map.cpp
 	"gameplay/map.h"
 
-1377858162 c:\dev\yosei\yosei\yosei\include\gameplay\map.h
+1378114303 c:\dev\yosei\yosei\yosei\include\gameplay\map.h
+	<gameplay/tile_tileobject.h>
+
+1378111953 c:\dev\yosei\yosei\yosei\include\gameplay\tile.h
 	<game/component.h>
 	<gameplay/coordinates.h>
+	<gameplay/tileobject.h>
 
-1377858174 c:\dev\yosei\yosei\yosei\include\gameplay\tile.h
-	<game/component.h>
-	<gameplay/map.h>
-
-1377857857 c:\dev\yosei\yosei\yosei\include\gameplay\coordinates.h
+1378109420 c:\dev\yosei\yosei\yosei\include\gameplay\coordinates.h
 	<helpers/observer.h>
 
-1377858249 source:c:\dev\yosei\yosei\yosei\src\gameplay\tile.cpp
-	"gameplay/tile.h"
+1378112201 source:c:\dev\yosei\yosei\yosei\src\gameplay\tile.cpp
+	"gameplay/tile_tileobject.h"
 
-1377857874 source:c:\dev\yosei\yosei\yosei\src\gameplay\coordinates.cpp
+1378109420 source:c:\dev\yosei\yosei\yosei\src\gameplay\coordinates.cpp
 	"gameplay\coordinates.h"
 
 1378055187 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\src\gameplay\tileobject.cpp
@@ -3133,4 +3136,35 @@
 1378061301 d:\dev\pc\blocks workspace\yosei\yosei\yosei\include\gameplay\tileobject.h
 	<helpers/observer.h>
 	<game/component.h>
+
+1378111909 c:\dev\yosei\yosei\yosei\include\gameplay\tileobject.h
+	<helpers/observer.h>
+	<game/component.h>
+
+1378114025 source:c:\dev\yosei\yosei\yosei\src\gameplay\tileobject.cpp
+	"gameplay/tile_tileobject.h"
+
+1378127469 c:\dev\yosei\yosei\yosei\include\gameplay\tile_tileobject.h
+	<game/component.h>
+	<gameplay/coordinates.h>
+	<gameplay/tile_tileobject.h>
+
+1378135070 c:\dev\yosei\yosei\yosei\include\perception\perception.h
+	<queue>
+	<perception/visiontile.h>
+
+1378134928 source:c:\dev\yosei\yosei\yosei\src\perception\perception.cpp
+	"perception/perception.h"
+
+1378134879 source:c:\dev\yosei\yosei\yosei\src\perception\vision.cpp
+	"perception/vision.h"
+
+1378134837 c:\dev\yosei\yosei\yosei\include\perception\vision.h
+	<gameplay/tile_tileobject.h>
+
+1378134837 c:\dev\yosei\yosei\yosei\include\perception\visiontile.h
+	<gameplay/tile_tileobject.h>
+
+1378135058 source:c:\dev\yosei\yosei\yosei\src\perception\visiontile.cpp
+	"perception/visiontile.h"
 

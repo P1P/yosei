@@ -1,4 +1,4 @@
-#include "gameplay/tileobject.h"
+#include "gameplay/tile_tileobject.h"
 
 TileObject::TileObject(std::string p_name, Tile* p_tile) : Component(p_name)
 {

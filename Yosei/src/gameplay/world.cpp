@@ -34,12 +34,30 @@ void World::start()
 
     tile->place_tobject(m_tobject);
 
+
     Observer::getInstance().out(Observer::GAMEPLAY, m_map->to_string());
+
 }
 
 void World::update()
 {
     Observer::getInstance().out(Observer::SUPER_VERBOSE, "Update " + to_string());
+
+    Observer::getInstance().out(Observer::SUPER_VERBOSE, "Update " + to_string());
+
+    move_tobject(m_tobject, static_cast<Coordinates::CARDINAL_DIRECTION>(rand() % Coordinates::CARDINAL_DIRECTION::COUNT));
+
+    for (int i = 0; i < Coordinates::CARDINAL_DIRECTION::COUNT; ++i)
+    {
+        Coordinates::CARDINAL_DIRECTION cadir = static_cast<Coordinates::CARDINAL_DIRECTION>(i);
+
+        if (Tile* neigh_tile = m_map->get_tile_neighbor(*(m_tobject->get_tile()), cadir))
+        {
+            m_tobject->get_perception()->push_stimulus_vision_tile(new VisionTile(cadir, neigh_tile));
+        }
+    }
+
+    Observer::getInstance().out(Observer::GAMEPLAY, m_map->to_string());
 
     for (std::list<Component*>::iterator it = m_lst_components.begin(); it != m_lst_components.end(); it++)
     {
@@ -48,12 +66,6 @@ void World::update()
             (*it)->update();
         }
     }
-
-    Observer::getInstance().out(Observer::SUPER_VERBOSE, "Update " + to_string());
-
-    move_tobject(m_tobject, static_cast<Coordinates::CARDINAL_DIRECTION>(rand() % Coordinates::CARDINAL_DIRECTION::COUNT));
-
-    Observer::getInstance().out(Observer::GAMEPLAY, m_map->to_string());
 }
 
 bool World::move_tobject(TileObject* p_tobject, Coordinates::CARDINAL_DIRECTION p_cadir)
