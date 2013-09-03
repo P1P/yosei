@@ -1,7 +1,7 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include <gameplay/tile_tileobject.h>
+#include <world/tile_tileobject.h>
 
 class Map : Component
 {

@@ -1,4 +1,4 @@
-#include "gameplay/action.h"
+#include "yosei/determination/action.h"
 
 Action::Action(std::string p_name, void (*p_fct_action)(Yosei*, Yosei*)) : Identifiable(p_name)
 {

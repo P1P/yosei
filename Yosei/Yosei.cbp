@@ -38,21 +38,20 @@
 			<Add directory="include" />
 		</Compiler>
 		<Unit filename="include/game/component.h" />
-		<Unit filename="include/game/game.h" />
 		<Unit filename="include/game/identifiable.h" />
 		<Unit filename="include/gameplay/action.h" />
 		<Unit filename="include/gameplay/coordinates.h" />
 		<Unit filename="include/gameplay/map.h" />
 		<Unit filename="include/gameplay/mentalstate.h" />
 		<Unit filename="include/gameplay/opinion.h" />
-		<Unit filename="include/gameplay/tile.h" />
+		<Unit filename="include/gameplay/tile_tileobject.h" />
 		<Unit filename="include/gameplay/world.h" />
 		<Unit filename="include/helpers/observer.h" />
-		<Unit filename="include/perception/stimulus.h" />
+		<Unit filename="include/perception/perception.h" />
+		<Unit filename="include/perception/visiontile.h" />
 		<Unit filename="include/yosei/yosei.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/game/component.cpp" />
-		<Unit filename="src/game/game.cpp" />
 		<Unit filename="src/game/identifiable.cpp" />
 		<Unit filename="src/gameplay/action.cpp" />
 		<Unit filename="src/gameplay/coordinates.cpp" />
@@ -60,9 +59,11 @@
 		<Unit filename="src/gameplay/mentalstate.cpp" />
 		<Unit filename="src/gameplay/opinion.cpp" />
 		<Unit filename="src/gameplay/tile.cpp" />
+		<Unit filename="src/gameplay/tileobject.cpp" />
 		<Unit filename="src/gameplay/world.cpp" />
 		<Unit filename="src/helpers/observer.cpp" />
-		<Unit filename="src/perception/stimulus.cpp" />
+		<Unit filename="src/perception/perception.cpp" />
+		<Unit filename="src/perception/visiontile.cpp" />
 		<Unit filename="src/yosei/yosei.cpp" />
 		<Extensions>
 			<code_completion />

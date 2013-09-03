@@ -1,4 +1,4 @@
-#include "perception/visiontile.h"
+#include "yosei/perception/visiontile.h"
 
 VisionTile::VisionTile(Coordinates::CARDINAL_DIRECTION p_cadir, Tile* p_tile)
 {
@@ -8,14 +8,16 @@ VisionTile::VisionTile(Coordinates::CARDINAL_DIRECTION p_cadir, Tile* p_tile)
 
 VisionTile::~VisionTile()
 {
-    //dtor
+
 }
 
+// Returns the Tile perceived
 Tile* VisionTile::get_tile()
 {
     return m_tile;
 }
 
+// Returns the cadir where the Tile is perceived
 Coordinates::CARDINAL_DIRECTION VisionTile::get_cadir()
 {
     return m_cadir;

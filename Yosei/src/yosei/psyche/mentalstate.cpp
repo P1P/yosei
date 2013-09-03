@@ -1,4 +1,4 @@
-#include "gameplay/mentalstate.h"
+#include "yosei/psyche/mentalstate.h"
 
 MentalState::MentalState(std::string p_name) : Identifiable(p_name)
 {

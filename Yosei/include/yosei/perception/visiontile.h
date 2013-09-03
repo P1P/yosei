@@ -1,7 +1,7 @@
 #ifndef VISION_H
 #define VISION_H
 
-#include <gameplay/tile_tileobject.h>
+#include <world/tile_tileobject.h>
 
 class VisionTile
 {

@@ -1,4 +1,4 @@
-#include "gameplay/opinion.h"
+#include "yosei/determination/opinion.h"
 
 Opinion::Opinion(std::string p_name) : Identifiable(p_name)
 {

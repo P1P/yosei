@@ -1,4 +1,4 @@
-#include "gameplay\coordinates.h"
+#include "world/coordinates.h"
 
 Coordinates::Coordinates(unsigned short* p_dimensions, const unsigned short* p_lengths, unsigned char p_nb_dimensions)
 {

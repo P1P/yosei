@@ -4,11 +4,12 @@
 #include <map>
 #include <cstdlib>
 
-#include <gameplay/tile_tileobject.h>
-#include <gameplay/action.h>
-#include <gameplay/opinion.h>
-#include <gameplay/mentalstate.h>
-#include <perception/perception.h>
+#include <world/tile_tileobject.h>
+#include <yosei/determination/action.h>
+#include <yosei/determination/opinion.h>
+#include <yosei/psyche/mentalstate.h>
+#include <yosei/will/will.h>
+#include <yosei/perception/perception.h>
 
 class Yosei : public TileObject
 {
@@ -21,6 +22,7 @@ class Yosei : public TileObject
         void update();
 
         Perception* get_perception();
+        Will* get_will();
 
         void learn_action(const Action&);
 
@@ -42,6 +44,7 @@ class Yosei : public TileObject
     private:
         std::map<Action*, Opinion> m_knowledge;
         Perception* m_perception;
+        Will* m_will;
         float m_compassion;
         float m_boldness;
         float m_anti_conformism;

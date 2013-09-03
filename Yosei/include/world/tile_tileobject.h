@@ -2,8 +2,7 @@
 #define TILE_H
 
 #include <game/component.h>
-#include <gameplay/coordinates.h>
-#include <gameplay/tile_tileobject.h>
+#include <world/coordinates.h>
 
 class Tile;
 
@@ -19,10 +18,15 @@ class TileObject : public Component
         void set_tile(Tile*);
         Tile* get_tile() const;
 
+        void set_direction(Coordinates::CARDINAL_DIRECTION);
+        Coordinates::CARDINAL_DIRECTION get_direction() const;
+        Coordinates::CARDINAL_DIRECTION* get_ordered_directions() const;
+
         virtual std::string to_string() const=0;
         virtual std::string short_to_string() const=0;
     protected:
     private:
+        Coordinates::CARDINAL_DIRECTION m_direction;
         Tile* m_tile;
 };
 

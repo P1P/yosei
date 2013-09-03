@@ -1,4 +1,4 @@
-#include "gameplay/map.h"
+#include "world/map.h"
 
 Map::Map(unsigned short* p_lenghts) : Component("Map")
 {

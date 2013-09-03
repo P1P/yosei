@@ -5,9 +5,8 @@
 #include <list>
 #include <utility>
 
-#include <gameplay/map.h>
+#include <world/map.h>
 #include <yosei/yosei.h>
-#include <perception/perception.h>
 
 class World : public Component
 {
@@ -28,9 +27,10 @@ class World : public Component
         std::string to_string() const;
     private:
         Map* m_map;
-        Yosei* m_tobject;
-
+        std::list<Yosei*> m_yosei_population;
         std::list<Component*> m_lst_components;
+
+        bool simple_add_yosei(unsigned short, unsigned short, std::string p_name);
 };
 
 #endif // WORLD_H
