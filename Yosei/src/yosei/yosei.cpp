@@ -1,20 +1,16 @@
 #include "yosei/yosei.h"
 
-Yosei::Yosei(std::string p_name, Tile* p_tile, float p_compassion, float p_boldness, float p_anti_confirmism) : TileObject(p_name, p_tile)
+Yosei::Yosei(std::string p_name, Tile* p_tile, Personality* p_personality) : TileObject(p_name, p_tile)
 {
-    m_mental_state = MentalState(p_name + "'s mental state");
-    m_compassion = p_compassion;
-    m_boldness = p_boldness;
-    m_anti_conformism = p_anti_confirmism;
-
+    m_personality = p_personality;
+    m_mental_state = new MentalState(p_name + "'s mental state");
     m_perception = new Perception();
     m_will = new Will();
 }
 
 Yosei::Yosei() : TileObject("Dummy", nullptr)
 {
-    m_compassion = 1;
-    m_boldness = 1;
+
 }
 
 Yosei::~Yosei()
@@ -91,6 +87,11 @@ Will* Yosei::get_will()
     return m_will;
 }
 
+MentalState* Yosei::get_mental_state()
+{
+    return m_mental_state;
+}
+
 void Yosei::immediate_reflect_upon(Action* p_action, Yosei* p_yosei, float p_target_pre_score, float p_own_pre_score)
 {
     // Reflect upon the results for the target
@@ -110,7 +111,7 @@ void Yosei::learn_action(const Action& p_action)
 
 float Yosei::get_score() const
 {
-    return m_mental_state.get_value();
+    return m_mental_state->get_value();
 }
 
 float Yosei::judge(const Yosei* p_target, float p_pre_score) const
@@ -135,26 +136,26 @@ void Yosei::reflect_upon(const Action* p_action, const Yosei* p_target, float p_
         Observer::getInstance().out_say(Observer::GAMEPLAY, "I think doing " + p_action->to_string() + " was bad for " + (self_action ? "me" : "him") + " (" + SSTR(p_judgement) + ")");
     }
 
-    m_knowledge.at(const_cast<Action*>(p_action)).offset_value(self_action ? p_judgement : p_judgement * m_compassion);
+    m_knowledge.at(const_cast<Action*>(p_action)).offset_value(self_action ? p_judgement : p_judgement * m_personality->get_compassion());
 }
 
 bool Yosei::should_do(Opinion::INCLINATION p_inclination)
 {
     if (p_inclination == Opinion::YES_YES)
     {
-        if (rand() % 100 < 100 - m_anti_conformism) return true;
+        if (rand() % 100 < 100 - m_personality->get_anti_conformism()) return true;
     }
     if (p_inclination == Opinion::YES)
     {
-        if (rand() % 100 < 80 - m_anti_conformism) return true;
+        if (rand() % 100 < 80 - m_personality->get_anti_conformism()) return true;
     }
     if (p_inclination == Opinion::SHOULD)
     {
-        if (rand() % 100 < 70 - m_anti_conformism) return true;
+        if (rand() % 100 < 70 - m_personality->get_anti_conformism()) return true;
     }
     if (p_inclination == Opinion::TRY)
     {
-        if (rand() % 100 < 75 + m_anti_conformism) return true;
+        if (rand() % 100 < 75 + m_personality->get_anti_conformism()) return true;
     }
     if (p_inclination == Opinion::NEUTRAL)
     {
@@ -162,31 +163,17 @@ bool Yosei::should_do(Opinion::INCLINATION p_inclination)
     }
     if (p_inclination == Opinion::SHOULDNT)
     {
-        if (rand() % 100 < 5 + m_boldness) return true;
+        if (rand() % 100 < 5 + m_personality->get_boldness()) return true;
     }
     if (p_inclination == Opinion::NO)
     {
-        if (rand() % 100 < -5 + m_boldness) return true;
+        if (rand() % 100 < -5 + m_personality->get_boldness()) return true;
     }
     if (p_inclination == Opinion::NO_NO)
     {
-        if (rand() % 100 < -15 + m_boldness) return true;
+        if (rand() % 100 < -15 + m_personality->get_boldness()) return true;
     }
     return false;
-}
-
-void Yosei::please(float p_please)
-{
-    assert(p_please >= 0);
-
-    m_mental_state.offset_value(p_please);
-}
-
-void Yosei::sadden(float p_sadden)
-{
-    assert(p_sadden >= 0);
-
-    m_mental_state.offset_value(-p_sadden);
 }
 
 std::string Yosei::to_string() const

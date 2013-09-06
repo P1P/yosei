@@ -59,7 +59,6 @@ bool Map::remove_tile(const Coordinates& p_coords)
     Tile* slot = get_tile(p_coords);
     if (slot == nullptr)
     {
-        Observer::getInstance().out(Observer::VERBOSE, "Eh " + p_coords.to_string());
         return false;
     }
     delete slot;
@@ -122,7 +121,7 @@ std::string Map::to_string() const
     {
         for (int x = 0; x < m_lengths[0]; ++x)
         {
-            res += "[" + m_matrix[x][y]->short_to_string() + "]";
+            res += m_matrix[x][y]->left_bracket() + m_matrix[x][y]->short_to_string() + m_matrix[x][y]->right_bracket();
         }
         res += "\n";
     }

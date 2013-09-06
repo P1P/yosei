@@ -7,6 +7,9 @@
 
 #include <world/map.h>
 #include <yosei/yosei.h>
+#include <world/tileobjects/rock.h>
+#include <world/tiles/grass.h>
+#include <world/tiles/lava.h>
 
 class World : public Component
 {
@@ -31,6 +34,7 @@ class World : public Component
         std::list<Component*> m_lst_components;
 
         bool simple_add_yosei(unsigned short, unsigned short, std::string p_name);
+        bool simple_add_rock(unsigned short, unsigned short, std::string p_name);
 };
 
 #endif // WORLD_H

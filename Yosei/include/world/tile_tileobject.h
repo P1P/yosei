@@ -25,9 +25,9 @@ class TileObject : public Component
         virtual std::string to_string() const=0;
         virtual std::string short_to_string() const=0;
     protected:
-    private:
         Coordinates::CARDINAL_DIRECTION m_direction;
         Tile* m_tile;
+    private:
 };
 
 class Tile : public Component
@@ -36,20 +36,23 @@ class Tile : public Component
         Tile(std::string, Coordinates*);
         virtual ~Tile();
 
-        virtual void start();
-        virtual void update();
+        virtual void start()=0;
+        virtual void update()=0;
 
         const Coordinates& get_coordinates() const;
         TileObject* get_tobject() const;
         void place_tobject(TileObject*);
         void remove_tobject();
 
-        std::string to_string() const;
-        std::string short_to_string() const;
+        virtual std::string to_string() const=0;
+        virtual std::string short_to_string() const=0;
+        virtual std::string left_bracket() const=0;
+        virtual std::string base_decoration() const=0;
+        virtual std::string right_bracket() const=0;
     protected:
-    private:
         Coordinates* m_coordinates;
         TileObject* m_tobject;
+    private:
 };
 
 #endif // TILE_H

@@ -33,7 +33,10 @@ void World::start()
         {
             if (x % 2 == 0 && y % 2 == 0)
             {
-                simple_add_yosei(x, y, "X");
+                if (!((x == lengths[0] / 4 || y == lengths[1] / 4)))
+                {
+                    simple_add_rock(x, y, "R");
+                }
             }
         }
     }
@@ -138,9 +141,19 @@ void World::build_world(unsigned int p_seed)
             dimensions[0] = x;
             dimensions[1] = y;
             Coordinates* coords = new Coordinates(dimensions, lengths, 2);
-            Tile* tile = new Tile(SSTR(rand() % 10), coords);
-            m_map->insert_tile(*tile);
-            add_component(tile);
+
+            if (x == lengths[0] / 4 || y == lengths[1] / 4)
+            {
+                Lava* lava = new Lava(SSTR(rand() % 10), coords);
+                m_map->insert_tile(*lava);
+                add_component(lava);
+            }
+            else
+            {
+                Grass* grass = new Grass(SSTR(rand() % 10), coords);
+                m_map->insert_tile(*grass);
+                add_component(grass);
+            }
         }
     }
 }
@@ -156,11 +169,34 @@ bool World::simple_add_yosei(unsigned short p_x, unsigned short p_y, std::string
 
     if (tile->get_tobject() == nullptr)
     {
-        Yosei* yosei = new Yosei(p_name, tile, 0, 0, 0);
+        Yosei* yosei = new Yosei(p_name, tile, new Personality(0, 0, 0));
 
         add_component(yosei);
         tile->place_tobject(yosei);
         m_yosei_population.push_back(yosei);
+
+        return true;
+    }
+    delete coords;
+
+    return false;
+}
+
+// Macro function to add a dummy Rock at Coord(p_x, p_y) nammed p_name
+bool World::simple_add_rock(unsigned short p_x, unsigned short p_y, std::string p_name)
+{
+    unsigned short* dimensions = new unsigned short[2];
+    dimensions[0] = p_x;
+    dimensions[1] = p_y;
+    Coordinates* coords = new Coordinates(dimensions, m_map->get_lengths(), 2);
+    Tile* tile = m_map->get_tile(*coords);
+
+    if (tile->get_tobject() == nullptr)
+    {
+        Rock* rock = new Rock(p_name, tile);
+
+        add_component(rock);
+        tile->place_tobject(rock);
 
         return true;
     }

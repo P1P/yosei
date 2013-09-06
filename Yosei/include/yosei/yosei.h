@@ -8,13 +8,14 @@
 #include <yosei/determination/action.h>
 #include <yosei/determination/opinion.h>
 #include <yosei/psyche/mentalstate.h>
+#include <yosei/psyche/personality.h>
 #include <yosei/will/will.h>
 #include <yosei/perception/perception.h>
 
 class Yosei : public TileObject
 {
     public:
-        Yosei(std::string, Tile*, float, float, float);
+        Yosei(std::string, Tile*, Personality*);
         Yosei();
         virtual ~Yosei();
 
@@ -23,6 +24,7 @@ class Yosei : public TileObject
 
         Perception* get_perception();
         Will* get_will();
+        MentalState* get_mental_state();
 
         void learn_action(const Action&);
 
@@ -33,9 +35,6 @@ class Yosei : public TileObject
 
         bool should_do(Opinion::INCLINATION);
 
-        void please(float);
-        void sadden(float);
-
         std::string to_string() const;
         std::string short_to_string() const;
 
@@ -43,12 +42,10 @@ class Yosei : public TileObject
     protected:
     private:
         std::map<Action*, Opinion> m_knowledge;
+        Personality* m_personality;
         Perception* m_perception;
         Will* m_will;
-        float m_compassion;
-        float m_boldness;
-        float m_anti_conformism;
-        MentalState m_mental_state;
+        MentalState* m_mental_state;
 };
 
 #endif // YOSEI_H

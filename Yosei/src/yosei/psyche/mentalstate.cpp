@@ -46,6 +46,25 @@ MentalState::HAPPINESS MentalState::get_happiness() const
     return HAPPINESS::EUPHORIC;
 }
 
+float MentalState::get_value() const
+{
+    return m_value;
+}
+
+void MentalState::please(float p_please)
+{
+    assert(p_please >= 0);
+
+    offset_value(p_please);
+}
+
+void MentalState::sadden(float p_sadden)
+{
+    assert(p_sadden >= 0);
+
+    offset_value(-p_sadden);
+}
+
 void MentalState::offset_value(float p_offset_value)
 {
     m_value += p_offset_value;
@@ -53,11 +72,6 @@ void MentalState::offset_value(float p_offset_value)
     // Clamping
     m_value = m_value > MentalState::VALUE_LIMIT ? MentalState::VALUE_LIMIT : m_value;
     m_value = m_value < -MentalState::VALUE_LIMIT ? -MentalState::VALUE_LIMIT : m_value;
-}
-
-float MentalState::get_value() const
-{
-    return m_value;
 }
 
 std::string MentalState::to_string() const

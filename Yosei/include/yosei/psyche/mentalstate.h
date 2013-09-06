@@ -15,11 +15,14 @@ class MentalState : Identifiable
         HAPPINESS get_happiness() const;
         float get_value() const;
 
-        void offset_value(float);
+        void please(float);
+        void sadden(float);
 
         std::string to_string() const;
     protected:
     private:
+        void offset_value(float);
+
         float m_value;
 
         static const int VALUE_LIMIT = 10;

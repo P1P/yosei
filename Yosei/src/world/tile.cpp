@@ -11,16 +11,6 @@ Tile::~Tile()
     delete m_coordinates;
 }
 
-void Tile::start()
-{
-
-}
-
-void Tile::update()
-{
-
-}
-
 // Returns the coordinates of the Tile
 const Coordinates& Tile::get_coordinates() const
 {
@@ -52,14 +42,4 @@ void Tile::remove_tobject()
         m_tobject->set_tile(nullptr);
         m_tobject = nullptr;
     }
-}
-
-std::string Tile::to_string() const
-{
-    return m_coordinates->to_string() + " " + m_name + (m_tobject != nullptr ? " " + m_tobject->to_string() : "");
-}
-
-std::string Tile::short_to_string() const
-{
-    return m_tobject != nullptr ? m_tobject->short_to_string() : " ";
 }
