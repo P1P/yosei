@@ -14,9 +14,7 @@ class Lava : public Tile
 
         std::string to_string() const;
         std::string short_to_string() const;
-        std::string left_bracket() const;
         std::string base_decoration() const;
-        std::string right_bracket() const;
     protected:
     private:
 };

@@ -2917,14 +2917,14 @@
 1377615533 source:c:\dev\yosei\yosei\src\gameplay\mentalstate.cpp
 	"gameplay/mentalstate.h"
 
-1378061228 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\main.cpp
+1378544515 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\main.cpp
 	<stdio.h>
 	<stdlib.h>
 	<iostream>
 	<limits>
 	<cstdlib>
 	<time.h>
-	"gameplay/world.h"
+	"world/world.h"
 
 1378060713 d:\dev\pc\blocks workspace\yosei\yosei\yosei\include\game\game.h
 	<list>
@@ -2943,13 +2943,16 @@
 	<sstream>
 	<assert.h>
 
-1378053064 d:\dev\pc\blocks workspace\yosei\yosei\yosei\include\yosei\yosei.h
+1378544515 d:\dev\pc\blocks workspace\yosei\yosei\yosei\include\yosei\yosei.h
 	<map>
 	<cstdlib>
-	<gameplay/TileObject.h>
-	<gameplay/action.h>
-	<gameplay/opinion.h>
-	<gameplay/mentalstate.h>
+	<world/tile_tileobject.h>
+	<yosei/determination/action.h>
+	<yosei/determination/opinion.h>
+	<yosei/psyche/mentalstate.h>
+	<yosei/psyche/personality.h>
+	<yosei/will/will.h>
+	<yosei/perception/perception.h>
 
 1377706716 d:\dev\pc\blocks workspace\yosei\yosei\yosei\include\gameplay\action.h
 	<game/identifiable.h>
@@ -3001,7 +3004,7 @@
 
 1377706716 d:\dev\pc\blocks workspace\yosei\yosei\yosei\include\perception\stimulus.h
 
-1378053077 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\src\yosei\yosei.cpp
+1378544515 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\src\yosei\yosei.cpp
 	"yosei/yosei.h"
 
 1378058167 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\src\gameplay\map.cpp
@@ -3299,4 +3302,120 @@
 
 1378457867 source:c:\dev\yosei\yosei\yosei\src\yosei\psyche\personality.cpp
 	"yosei/psyche/personality.h"
+
+1378544515 d:\dev\pc\blocks workspace\yosei\yosei\yosei\include\world\world.h
+	<map>
+	<list>
+	<utility>
+	<world/map.h>
+	<yosei/yosei.h>
+	<world/tileobjects/rock.h>
+	<world/tiles/grass.h>
+	<world/tiles/lava.h>
+
+1378544515 d:\dev\pc\blocks workspace\yosei\yosei\yosei\include\world\map.h
+	<world/tile_tileobject.h>
+
+1378558528 d:\dev\pc\blocks workspace\yosei\yosei\yosei\include\world\tile_tileobject.h
+	<game/component.h>
+	<world/coordinates.h>
+
+1378544515 d:\dev\pc\blocks workspace\yosei\yosei\yosei\include\world\coordinates.h
+	<helpers/observer.h>
+
+1378544515 d:\dev\pc\blocks workspace\yosei\yosei\yosei\include\yosei\determination\action.h
+	<game/identifiable.h>
+
+1378544515 d:\dev\pc\blocks workspace\yosei\yosei\yosei\include\yosei\determination\opinion.h
+	<game/identifiable.h>
+
+1378544515 d:\dev\pc\blocks workspace\yosei\yosei\yosei\include\yosei\psyche\mentalstate.h
+	<game/identifiable.h>
+
+1378544515 d:\dev\pc\blocks workspace\yosei\yosei\yosei\include\yosei\psyche\personality.h
+
+1378544515 d:\dev\pc\blocks workspace\yosei\yosei\yosei\include\yosei\will\will.h
+	<queue>
+	<yosei/will/motoraction.h>
+
+1378544515 d:\dev\pc\blocks workspace\yosei\yosei\yosei\include\yosei\will\motoraction.h
+	<world/tile_tileobject.h>
+
+1378544515 d:\dev\pc\blocks workspace\yosei\yosei\yosei\include\yosei\perception\perception.h
+	<queue>
+	<yosei/perception/visiontile.h>
+
+1378544515 d:\dev\pc\blocks workspace\yosei\yosei\yosei\include\yosei\perception\visiontile.h
+	<world/tile_tileobject.h>
+
+1378544515 d:\dev\pc\blocks workspace\yosei\yosei\yosei\include\world\tileobjects\rock.h
+	<world/tile_tileobject.h>
+
+1378558523 d:\dev\pc\blocks workspace\yosei\yosei\yosei\include\world\tiles\grass.h
+	<world/tile_tileobject.h>
+
+1378558519 d:\dev\pc\blocks workspace\yosei\yosei\yosei\include\world\tiles\lava.h
+	<world/tile_tileobject.h>
+
+1378544515 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\src\helpers\containerhelper.cpp
+	"helpers/containerhelper.h"
+	<cstdlib>
+
+1378544515 d:\dev\pc\blocks workspace\yosei\yosei\yosei\include\helpers\containerhelper.h
+
+1378544515 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\src\world\coordinates.cpp
+	"world/coordinates.h"
+
+1378544515 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\src\world\tile.cpp
+	"world//tile_tileobject.h"
+
+1378558528 d:\dev\pc\blocks workspace\yosei\yosei\yosei\include\world\\tile_tileobject.h
+	<game/component.h>
+	<world/coordinates.h>
+
+1378544515 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\src\world\tileobject.cpp
+	"world/tile_tileobject.h"
+	"helpers/containerhelper.h"
+	<cstdlib>
+
+1378544515 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\src\world\tileobjects\rock.cpp
+	"world/tileobjects/rock.h"
+
+1378558515 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\src\world\tiles\grass.cpp
+	"world\tiles\grass.h"
+
+1378558505 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\src\world\tiles\lava.cpp
+	"world\tiles\lava.h"
+
+1378558589 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\src\world\world.cpp
+	"world/world.h"
+	<cstdlib>
+	<time.h>
+
+1378544515 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\src\yosei\determination\action.cpp
+	"yosei/determination/action.h"
+
+1378544515 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\src\yosei\determination\opinion.cpp
+	"yosei/determination/opinion.h"
+
+1378544515 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\src\yosei\perception\perception.cpp
+	"yosei/perception/perception.h"
+
+1378544515 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\src\yosei\perception\visiontile.cpp
+	"yosei/perception/visiontile.h"
+
+1378544515 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\src\yosei\psyche\mentalstate.cpp
+	"yosei/psyche/mentalstate.h"
+
+1378544515 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\src\yosei\psyche\personality.cpp
+	"yosei/psyche/personality.h"
+
+1378544515 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\src\yosei\will\motoraction.cpp
+	"yosei/will/motoraction.h"
+
+1378544515 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\src\yosei\will\will.cpp
+	"yosei/will/will.h"
+
+1378558489 source:d:\dev\pc\blocks workspace\yosei\yosei\yosei\src\world\map.cpp
+	"world/map.h"
 

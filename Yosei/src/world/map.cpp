@@ -119,11 +119,21 @@ std::string Map::to_string() const
 
     for (int y = 0; y < m_lengths[1]; ++y)
     {
-        for (int x = 0; x < m_lengths[0]; ++x)
+        for (int i = 0; i < 3; ++i)
         {
-            res += m_matrix[x][y]->left_bracket() + m_matrix[x][y]->short_to_string() + m_matrix[x][y]->right_bracket();
+            for (int x = 0; x < m_lengths[0]; ++x)
+            {
+                if (i == 1)
+                {
+                    res += m_matrix[x][y]->base_decoration() + m_matrix[x][y]->short_to_string() + m_matrix[x][y]->base_decoration();
+                }
+                else
+                {
+                    res += m_matrix[x][y]->base_decoration() + m_matrix[x][y]->base_decoration() + m_matrix[x][y]->base_decoration();
+                }
+            }
+            res += "\n";
         }
-        res += "\n";
     }
 
     return res;

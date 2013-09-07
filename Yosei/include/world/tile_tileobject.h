@@ -46,9 +46,7 @@ class Tile : public Component
 
         virtual std::string to_string() const=0;
         virtual std::string short_to_string() const=0;
-        virtual std::string left_bracket() const=0;
         virtual std::string base_decoration() const=0;
-        virtual std::string right_bracket() const=0;
     protected:
         Coordinates* m_coordinates;
         TileObject* m_tobject;

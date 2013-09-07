@@ -19,7 +19,7 @@ void World::start()
 
     unsigned short* lengths = new unsigned short[2];
     lengths[0] = 10;
-    lengths[1] = 10;
+    lengths[1] = 6;
 
     m_map = new Map(lengths);
 

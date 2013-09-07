@@ -30,17 +30,7 @@ std::string Grass::short_to_string() const
     return m_tobject != nullptr ? m_tobject->short_to_string() : base_decoration();
 }
 
-std::string Grass::left_bracket() const
-{
-    return "-";
-}
-
 std::string Grass::base_decoration() const
-{
-    return "-";
-}
-
-std::string Grass::right_bracket() const
 {
     return "-";
 }

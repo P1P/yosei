@@ -30,17 +30,7 @@ std::string Lava::short_to_string() const
     return m_tobject != nullptr ? m_tobject->short_to_string() : base_decoration();
 }
 
-std::string Lava::left_bracket() const
-{
-    return "~";
-}
-
 std::string Lava::base_decoration() const
-{
-    return "~";
-}
-
-std::string Lava::right_bracket() const
 {
     return "~";
 }
