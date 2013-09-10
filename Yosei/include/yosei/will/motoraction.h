@@ -6,15 +6,22 @@
 class MotorAction
 {
     public:
-        MotorAction(TileObject*, Coordinates::CARDINAL_DIRECTION);
+        MotorAction(Tile*, Tile*, Coordinates::CARDINAL_DIRECTION);
         virtual ~MotorAction();
 
-        TileObject* get_tobject();
+        Tile* get_from();
+        Tile* get_to();
         Coordinates::CARDINAL_DIRECTION get_cadir();
+
+        unsigned int age();
+        unsigned int get_age();
     protected:
     private:
-        TileObject* m_tobject;
+        Tile* m_from;
+        Tile* m_to;
         Coordinates::CARDINAL_DIRECTION m_cadir;
+
+        unsigned int m_age;
 };
 
 #endif // MOTORACTION_H

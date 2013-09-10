@@ -49,9 +49,11 @@
 		<Unit filename="include/world/tiles/lava.h" />
 		<Unit filename="include/world/world.h" />
 		<Unit filename="include/yosei/determination/action.h" />
+		<Unit filename="include/yosei/determination/memory.h" />
 		<Unit filename="include/yosei/determination/opinion.h" />
+		<Unit filename="include/yosei/perception/painperception.h" />
 		<Unit filename="include/yosei/perception/perception.h" />
-		<Unit filename="include/yosei/perception/visiontile.h" />
+		<Unit filename="include/yosei/perception/visiontileperception.h" />
 		<Unit filename="include/yosei/psyche/mentalstate.h" />
 		<Unit filename="include/yosei/psyche/personality.h" />
 		<Unit filename="include/yosei/will/motoraction.h" />
@@ -71,9 +73,11 @@
 		<Unit filename="src/world/tiles/lava.cpp" />
 		<Unit filename="src/world/world.cpp" />
 		<Unit filename="src/yosei/determination/action.cpp" />
+		<Unit filename="src/yosei/determination/memory.cpp" />
 		<Unit filename="src/yosei/determination/opinion.cpp" />
+		<Unit filename="src/yosei/perception/painperception.cpp" />
 		<Unit filename="src/yosei/perception/perception.cpp" />
-		<Unit filename="src/yosei/perception/visiontile.cpp" />
+		<Unit filename="src/yosei/perception/visiontileperception.cpp" />
 		<Unit filename="src/yosei/psyche/mentalstate.cpp" />
 		<Unit filename="src/yosei/psyche/personality.cpp" />
 		<Unit filename="src/yosei/will/motoraction.cpp" />

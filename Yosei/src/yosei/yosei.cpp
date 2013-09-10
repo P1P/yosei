@@ -6,6 +6,7 @@ Yosei::Yosei(std::string p_name, Tile* p_tile, Personality* p_personality) : Til
     m_mental_state = new MentalState(p_name + "'s mental state");
     m_perception = new Perception();
     m_will = new Will();
+    m_memory = new Memory();
 }
 
 Yosei::Yosei() : TileObject("Dummy", nullptr)
@@ -29,14 +30,14 @@ void Yosei::start()
 void Yosei::update()
 {
     MotorAction* motor_action_decision = nullptr;
-    while (VisionTile* stimulus_vision_tile = m_perception->perceive_stimulus_vision_tile())
+    while (VisionTilePerception* stimulus_vision_tile = m_perception->perceive_stimulus_vision_tile())
     {
         if (motor_action_decision == nullptr)
         {
             Tile* tile = stimulus_vision_tile->get_tile();
             if (tile->get_tobject() == nullptr)
             {
-                motor_action_decision = new MotorAction(this, stimulus_vision_tile->get_cadir());
+                motor_action_decision = new MotorAction(this->get_tile(), tile, stimulus_vision_tile->get_cadir());
             }
         }
         delete stimulus_vision_tile;
@@ -47,6 +48,15 @@ void Yosei::update()
         m_will->push_action_motor(motor_action_decision);
     }
 
+    while (PainPerception* stimulus_pain = m_perception->perceive_stimulus_pain())
+    {
+        Observer::getInstance().out(Observer::GAMEPLAY, "Ouch");
+        delete stimulus_pain;
+    }
+
+    Observer::getInstance().out_say(Observer::GAMEPLAY, m_memory->to_string());
+
+    get_memory()->age();
 
     /*
     Observer::getInstance().out_highlight(Observer::GAMEPLAY, to_string() + " is thinking");
@@ -92,13 +102,19 @@ MentalState* Yosei::get_mental_state()
     return m_mental_state;
 }
 
+Memory* Yosei::get_memory()
+{
+    return m_memory;
+}
+
 void Yosei::immediate_reflect_upon(Action* p_action, Yosei* p_yosei, float p_target_pre_score, float p_own_pre_score)
 {
     // Reflect upon the results for the target
     reflect_upon(p_action, p_yosei, judge(p_yosei, p_target_pre_score));
 
     // Reflect upon the results for myself, if I wasn't the target
-    if (p_yosei != this) {
+    if (p_yosei != this)
+    {
         reflect_upon(p_action, this, judge(this, p_own_pre_score));
     }
 }
@@ -139,41 +155,10 @@ void Yosei::reflect_upon(const Action* p_action, const Yosei* p_target, float p_
     m_knowledge.at(const_cast<Action*>(p_action)).offset_value(self_action ? p_judgement : p_judgement * m_personality->get_compassion());
 }
 
-bool Yosei::should_do(Opinion::INCLINATION p_inclination)
+
+void Yosei::burn()
 {
-    if (p_inclination == Opinion::YES_YES)
-    {
-        if (rand() % 100 < 100 - m_personality->get_anti_conformism()) return true;
-    }
-    if (p_inclination == Opinion::YES)
-    {
-        if (rand() % 100 < 80 - m_personality->get_anti_conformism()) return true;
-    }
-    if (p_inclination == Opinion::SHOULD)
-    {
-        if (rand() % 100 < 70 - m_personality->get_anti_conformism()) return true;
-    }
-    if (p_inclination == Opinion::TRY)
-    {
-        if (rand() % 100 < 75 + m_personality->get_anti_conformism()) return true;
-    }
-    if (p_inclination == Opinion::NEUTRAL)
-    {
-        if (rand() % 100 < 50) return true;
-    }
-    if (p_inclination == Opinion::SHOULDNT)
-    {
-        if (rand() % 100 < 5 + m_personality->get_boldness()) return true;
-    }
-    if (p_inclination == Opinion::NO)
-    {
-        if (rand() % 100 < -5 + m_personality->get_boldness()) return true;
-    }
-    if (p_inclination == Opinion::NO_NO)
-    {
-        if (rand() % 100 < -15 + m_personality->get_boldness()) return true;
-    }
-    return false;
+    //get_perception()->push_stimulus_pain(new PainPerception(1));
 }
 
 std::string Yosei::to_string() const

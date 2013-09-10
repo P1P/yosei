@@ -60,3 +60,8 @@ Coordinates::CARDINAL_DIRECTION* TileObject::get_ordered_directions() const
 
     return res;
 }
+
+void TileObject::burn()
+{
+
+}

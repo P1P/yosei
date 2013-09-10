@@ -53,6 +53,50 @@ Opinion::INCLINATION Opinion::get_inclination() const
     return INCLINATION::YES_YES;
 }
 
+bool Opinion::should_do(const Personality* p_personality) const
+{
+    INCLINATION inclination = get_inclination();
+
+    switch (inclination)
+    {
+        case (Opinion::YES_YES) :
+        {
+            if (rand() % 100 < 100 - p_personality->get_anti_conformism()) return true; break;
+        }
+        case (Opinion::YES) :
+        {
+            if (rand() % 100 < 80 - p_personality->get_anti_conformism()) return true; break;
+        }
+        case (Opinion::SHOULD) :
+        {
+            if (rand() % 100 < 70 - p_personality->get_anti_conformism()) return true; break;
+        }
+        case (Opinion::TRY) :
+        {
+            if (rand() % 100 < 75 + p_personality->get_anti_conformism()) return true; break;
+        }
+        case (Opinion::NEUTRAL) :
+        {
+            if (rand() % 100 < 50) return true; break;
+        }
+        case (Opinion::SHOULDNT) :
+        {
+            if (rand() % 100 < 5 + p_personality->get_boldness()) return true; break;
+        }
+        case (Opinion::NO) :
+        {
+            if (rand() % 100 < -5 + p_personality->get_boldness()) return true; break;
+        }
+        case (Opinion::NO_NO) :
+        {
+            if (rand() % 100 < -15 + p_personality->get_boldness()) return true; break;
+        }
+        return false;
+    }
+    assert(0);
+    return false;
+}
+
 void Opinion::offset_value(float p_offset)
 {
     m_value += p_offset;

@@ -1,13 +1,13 @@
-#ifndef VISION_H
-#define VISION_H
+#ifndef VISIONTILEPERCEPTION_H
+#define VISIONTILEPERCEPTION_H
 
 #include <world/tile_tileobject.h>
 
-class VisionTile
+class VisionTilePerception
 {
     public:
-        VisionTile(Coordinates::CARDINAL_DIRECTION, Tile*);
-        virtual ~VisionTile();
+        VisionTilePerception(Coordinates::CARDINAL_DIRECTION, Tile*);
+        virtual ~VisionTilePerception();
 
         Tile* get_tile();
         Coordinates::CARDINAL_DIRECTION get_cadir();
@@ -17,4 +17,4 @@ class VisionTile
         Coordinates::CARDINAL_DIRECTION m_cadir;
 };
 
-#endif // VISION_H
+#endif // VISIONTILEPERCEPTION_H

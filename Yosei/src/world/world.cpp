@@ -56,7 +56,7 @@ void World::update()
         while (MotorAction* motor_action = (*it)->get_will()->perceive_action_motor())
         {
             move_tobject((*it), motor_action->get_cadir());
-            delete motor_action;
+            (*it)->get_memory()->add_motor_action(motor_action);
         }
 
         // Provides a Yosei's perception with its neighboring tiles
@@ -67,7 +67,7 @@ void World::update()
 
             if (Tile* neigh_tile = m_map->get_tile_neighbor(*((*it)->get_tile()), cadir))
             {
-                (*it)->get_perception()->push_stimulus_vision_tile(new VisionTile(cadir, neigh_tile));
+                (*it)->get_perception()->push_stimulus_vision_tile(new VisionTilePerception(cadir, neigh_tile));
             }
         }
 

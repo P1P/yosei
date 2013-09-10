@@ -7,6 +7,7 @@
 #include <world/tile_tileobject.h>
 #include <yosei/determination/action.h>
 #include <yosei/determination/opinion.h>
+#include <yosei/determination/memory.h>
 #include <yosei/psyche/mentalstate.h>
 #include <yosei/psyche/personality.h>
 #include <yosei/will/will.h>
@@ -25,6 +26,7 @@ class Yosei : public TileObject
         Perception* get_perception();
         Will* get_will();
         MentalState* get_mental_state();
+        Memory* get_memory();
 
         void learn_action(const Action&);
 
@@ -33,7 +35,7 @@ class Yosei : public TileObject
         void reflect_upon(const Action*, const Yosei*, float);
         void immediate_reflect_upon(Action*, Yosei*, float, float);
 
-        bool should_do(Opinion::INCLINATION);
+        void burn();
 
         std::string to_string() const;
         std::string short_to_string() const;
@@ -46,6 +48,7 @@ class Yosei : public TileObject
         Perception* m_perception;
         Will* m_will;
         MentalState* m_mental_state;
+        Memory* m_memory;
 };
 
 #endif // YOSEI_H

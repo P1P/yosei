@@ -22,6 +22,8 @@ class TileObject : public Component
         Coordinates::CARDINAL_DIRECTION get_direction() const;
         Coordinates::CARDINAL_DIRECTION* get_ordered_directions() const;
 
+        virtual void burn();
+
         virtual std::string to_string() const=0;
         virtual std::string short_to_string() const=0;
     protected:

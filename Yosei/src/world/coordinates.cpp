@@ -171,9 +171,7 @@ std::string Coordinates::to_string() const
     {
         res += SSTR(m_lengths[i]) + ", ";
     }
-    res += SSTR(m_lengths[m_nb_dimensions - 1]) + " / ";
-
-    res += SSTR((int)m_nb_dimensions) + "D]";
+    res += SSTR(m_lengths[m_nb_dimensions - 1]) + "]";
 
     return res;
 }
