@@ -1,29 +1,36 @@
 #include "yosei/determination/opinion.h"
 
-Opinion::Opinion(std::string p_name) : Identifiable(p_name)
+Opinion::Opinion(std::string p_name, float p_value) : Identifiable(p_name)
 {
-    m_value = 0;
-    m_known = false;
+    m_value = p_value;
 }
 
 Opinion::Opinion()
 {
     m_value = 0;
-    m_known = false;
 }
 
 Opinion::~Opinion()
 {
-    //dtor
+
+}
+
+void Opinion::offset_value(float p_offset)
+{
+    m_value += p_offset;
+
+    // Clamping
+    m_value = m_value > Opinion::VALUE_LIMIT ? Opinion::VALUE_LIMIT : m_value;
+    m_value = m_value < -Opinion::VALUE_LIMIT ? -Opinion::VALUE_LIMIT : m_value;
+}
+
+void Opinion::absorb(Opinion* p_other)
+{
+    this->offset_value(p_other->m_value);
 }
 
 Opinion::INCLINATION Opinion::get_inclination() const
 {
-    if (!m_known)
-    {
-        return INCLINATION::TRY;
-    }
-
     if (m_value <= -Opinion::DETERMINED_VALUE)
     {
         return INCLINATION::NO_NO;
@@ -36,7 +43,6 @@ Opinion::INCLINATION Opinion::get_inclination() const
     {
         return INCLINATION::SHOULDNT;
     }
-
     if (m_value <= Opinion::SHOULD_VALUE)
     {
         return INCLINATION::NEUTRAL;
@@ -71,10 +77,6 @@ bool Opinion::should_do(const Personality* p_personality) const
         {
             if (rand() % 100 < 70 - p_personality->get_anti_conformism()) return true; break;
         }
-        case (Opinion::TRY) :
-        {
-            if (rand() % 100 < 75 + p_personality->get_anti_conformism()) return true; break;
-        }
         case (Opinion::NEUTRAL) :
         {
             if (rand() % 100 < 50) return true; break;
@@ -93,19 +95,18 @@ bool Opinion::should_do(const Personality* p_personality) const
         }
         return false;
     }
-    assert(0);
+    //assert(0)
     return false;
 }
 
-void Opinion::offset_value(float p_offset)
+bool Opinion::operator>(const Opinion& p_other) const
 {
-    m_value += p_offset;
+    return this->m_value > p_other.m_value;
+}
 
-    // Clamping
-    m_value = m_value > Opinion::VALUE_LIMIT ? Opinion::VALUE_LIMIT : m_value;
-    m_value = m_value < -Opinion::VALUE_LIMIT ? -Opinion::VALUE_LIMIT : m_value;
-
-    m_known = true;
+bool Opinion::operator<(const Opinion& p_other) const
+{
+    return this->m_value < p_other.m_value;
 }
 
 std::string Opinion::to_string() const
@@ -114,9 +115,6 @@ std::string Opinion::to_string() const
 
     switch (get_inclination())
     {
-        case INCLINATION::TRY:
-            label = "Let's try";
-            break;
         case INCLINATION::NO_NO:
             label = "No-no";
             break;

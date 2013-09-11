@@ -28,12 +28,12 @@ class Yosei : public TileObject
         MentalState* get_mental_state();
         Memory* get_memory();
 
-        void learn_action(const Action&);
+        //void learn_action(const Action&);
 
         float get_score() const;
         float judge(const Yosei*, float) const;
-        void reflect_upon(const Action*, const Yosei*, float);
-        void immediate_reflect_upon(Action*, Yosei*, float, float);
+        //void reflect_upon(const Action*, const Yosei*, float);
+        //void immediate_reflect_upon(Action*, Yosei*, float, float);
 
         void burn();
 

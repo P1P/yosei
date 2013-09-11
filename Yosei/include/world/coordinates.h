@@ -9,13 +9,14 @@ class Coordinates
         Coordinates(unsigned short*, const unsigned short*, unsigned char);
         virtual ~Coordinates();
 
-        enum CARDINAL_DIRECTION { NORTH, EAST, SOUTH, WEST, COUNT };
+        enum CARDINAL_DIRECTION { NORTH, EAST, SOUTH, WEST, COUNT, NONE };
 
         Coordinates* operator+=(CARDINAL_DIRECTION p_cadir);
         Coordinates* operator+(CARDINAL_DIRECTION p_cadir) const;
         bool operator==(const Coordinates& p_other) const;
 
         std::string to_string() const;
+        std::string short_to_string() const;
     protected:
     private:
         bool go(CARDINAL_DIRECTION);

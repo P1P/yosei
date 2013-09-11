@@ -1,6 +1,6 @@
 #include "game/identifiable.h"
 
-int Identifiable::m_static_id_increment = 0;
+unsigned int Identifiable::m_static_id_increment = 0;
 
 Identifiable::Identifiable(std::string p_name)
 {
@@ -18,7 +18,12 @@ Identifiable::Identifiable()
 
 Identifiable::~Identifiable()
 {
-    //dtor
+
+}
+
+unsigned int Identifiable::get_id() const
+{
+    return m_unique_id;
 }
 
 std::string Identifiable::to_string() const

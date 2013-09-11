@@ -138,6 +138,7 @@ unsigned short Coordinates::cadir_to(CARDINAL_DIRECTION p_cadir, unsigned char p
             case EAST: return 1;
             case SOUTH: return 0;
             case WEST: return -1;
+            case NONE: return 0;
             default: assert(0);
         }
     }
@@ -149,6 +150,7 @@ unsigned short Coordinates::cadir_to(CARDINAL_DIRECTION p_cadir, unsigned char p
             case EAST: return 0;
             case SOUTH: return 1;
             case WEST: return 0;
+            case NONE: return 0;
             default: assert(0);
         }
     }
@@ -172,6 +174,19 @@ std::string Coordinates::to_string() const
         res += SSTR(m_lengths[i]) + ", ";
     }
     res += SSTR(m_lengths[m_nb_dimensions - 1]) + "]";
+
+    return res;
+}
+
+std::string Coordinates::short_to_string() const
+{
+    std::string res = "[";
+
+    for (int i = 0; i < m_nb_dimensions - 1; ++i)
+    {
+        res += SSTR(m_dimensions[i]) + ", ";
+    }
+    res += SSTR(m_dimensions[m_nb_dimensions - 1]) + "]";
 
     return res;
 }

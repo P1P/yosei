@@ -2,8 +2,18 @@
 #define MEMORY_H
 
 #include <list>
+#include <map>
 
-#include <yosei/will/motoraction.h>
+#include <yosei/determination/opinion.h>
+#include <yosei/determination/action.h>
+
+struct LessComparer
+{
+    bool operator()(Action* p_left, Action* p_right) const
+    {
+        return p_left->less_comparer(p_right);
+    }
+};
 
 class Memory
 {
@@ -11,13 +21,20 @@ class Memory
         Memory();
         virtual ~Memory();
 
-        void add_motor_action(MotorAction*);
+        void historize_action(Action*);
+        void remember_actions(float);
         void age();
+
+        bool should_do(Action*, const Personality*);
+        bool should_do_over(Action*, Action*, const Personality*);
 
         std::string to_string();
     protected:
     private:
-        std::list<MotorAction*> m_history_motor_actions;
+        std::list<Action*> m_history_actions;
+        std::map<Action*, Opinion*, LessComparer> m_knowledge;
+
+        void remember_action(Action*, float);
 };
 
 #endif // MEMORY_H

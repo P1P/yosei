@@ -13,7 +13,6 @@ class Grass : public Tile
         void update();
 
         std::string to_string() const;
-        std::string short_to_string() const;
         std::string base_decoration() const;
     protected:
     private:

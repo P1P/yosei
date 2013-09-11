@@ -16,10 +16,12 @@ Yosei::Yosei() : TileObject("Dummy", nullptr)
 
 Yosei::~Yosei()
 {
+    /*
     for (std::map<Action*, Opinion>::iterator it = m_knowledge.begin(); it != m_knowledge.end(); ++it)
     {
         delete it->first;
     }
+    */
 }
 
 void Yosei::start()
@@ -38,6 +40,11 @@ void Yosei::update()
             if (tile->get_tobject() == nullptr)
             {
                 motor_action_decision = new MotorAction(this->get_tile(), tile, stimulus_vision_tile->get_cadir());
+                if (!m_memory->should_do(motor_action_decision, m_personality))
+                {
+                    delete motor_action_decision;
+                    motor_action_decision = nullptr;
+                }
             }
         }
         delete stimulus_vision_tile;
@@ -51,6 +58,8 @@ void Yosei::update()
     while (PainPerception* stimulus_pain = m_perception->perceive_stimulus_pain())
     {
         Observer::getInstance().out(Observer::GAMEPLAY, "Ouch");
+        m_memory->remember_actions(-stimulus_pain->get_pain());
+
         delete stimulus_pain;
     }
 
@@ -106,7 +115,7 @@ Memory* Yosei::get_memory()
 {
     return m_memory;
 }
-
+/*
 void Yosei::immediate_reflect_upon(Action* p_action, Yosei* p_yosei, float p_target_pre_score, float p_own_pre_score)
 {
     // Reflect upon the results for the target
@@ -124,7 +133,7 @@ void Yosei::learn_action(const Action& p_action)
     m_knowledge.insert(std::pair<Action*, Opinion>(new Action(p_action), Opinion("Opinion of " + p_action.to_string())));
     Observer::getInstance().out(Observer::VERBOSE, to_string() + " has learned to " + p_action.to_string());
 }
-
+*/
 float Yosei::get_score() const
 {
     return m_mental_state->get_value();
@@ -134,7 +143,7 @@ float Yosei::judge(const Yosei* p_target, float p_pre_score) const
 {
     return (p_target->get_score() - p_pre_score);
 }
-
+/*
 void Yosei::reflect_upon(const Action* p_action, const Yosei* p_target, float p_judgement)
 {
     bool self_action = p_target == this;
@@ -154,11 +163,11 @@ void Yosei::reflect_upon(const Action* p_action, const Yosei* p_target, float p_
 
     m_knowledge.at(const_cast<Action*>(p_action)).offset_value(self_action ? p_judgement : p_judgement * m_personality->get_compassion());
 }
-
+*/
 
 void Yosei::burn()
 {
-    //get_perception()->push_stimulus_pain(new PainPerception(1));
+    get_perception()->push_stimulus_pain(new PainPerception(1));
 }
 
 std::string Yosei::to_string() const

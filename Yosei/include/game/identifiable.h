@@ -10,16 +10,18 @@ class Identifiable
         Identifiable();
         virtual ~Identifiable();
 
+        unsigned int get_id() const;
+
         virtual std::string to_string() const;
 
         bool operator==(const Identifiable&);
     protected:
         std::string m_name;
-        int m_unique_id;
+        unsigned int m_unique_id;
     private:
         bool m_active;
 
-        static int m_static_id_increment;
+        static unsigned int m_static_id_increment;
 };
 
 #endif // IDENTIFIABLE_H

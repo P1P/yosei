@@ -43,3 +43,13 @@ void Tile::remove_tobject()
         m_tobject = nullptr;
     }
 }
+
+std::string Tile::to_string() const
+{
+    return m_coordinates->short_to_string() + " " + base_decoration() + (m_tobject != nullptr ? m_tobject->short_to_string(): base_decoration()) + base_decoration();
+}
+
+std::string Tile::short_to_string() const
+{
+    return m_tobject != nullptr ? m_tobject->short_to_string() : base_decoration();
+}

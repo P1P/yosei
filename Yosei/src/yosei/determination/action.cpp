@@ -1,26 +1,43 @@
 #include "yosei/determination/action.h"
 
-Action::Action(std::string p_name, void (*p_fct_action)(Yosei*, Yosei*)) : Identifiable(p_name)
-{
-    m_fct_action = p_fct_action;
-}
-
 Action::Action()
 {
-
+    m_age = 0;
+    m_memorize = false;
 }
 
-Action::Action(const Action& p_other) : Identifiable(p_other.m_name)
+// Add one unit of time to the duration since the Action was executed
+// Returns the current age after incrementation
+unsigned int Action::age()
 {
-    m_fct_action = p_other.m_fct_action;
+    return ++m_age;
 }
 
-Action::~Action()
+// Gets the duration since the Action was executed
+unsigned int Action::get_age() const
 {
-    //dtor
+    return m_age;
 }
 
-void Action::Do(Yosei* doing, Yosei* target)
+// Returns whether the Action is used in one's knowledge and is protected
+bool Action::is_memorized() const
 {
-    m_fct_action(doing, target);
+    return m_memorize;
+}
+
+// Returns true if the p_action has expired
+bool Action::is_old(const Action* p_action)
+{
+    return (p_action->get_age() > 3);
+}
+
+// States the Action as used in one's knowledge, and as such it musn't be deleted
+void Action::memorize()
+{
+    m_memorize = true;
+}
+
+std::string Action::to_string() const
+{
+    return "";
 }

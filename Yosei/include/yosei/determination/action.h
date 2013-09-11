@@ -8,16 +8,20 @@ class Yosei;
 class Action : public Identifiable
 {
     public:
-        Action(std::string, void (Yosei*, Yosei*));
         Action();
-        Action(const Action&);
 
-        virtual ~Action();
+        unsigned int age();
+        void memorize();
+        unsigned int get_age() const;
+        bool is_memorized() const;
+        virtual bool less_comparer(Action*)=0;
+        static bool is_old(const Action*);
 
-        void Do(Yosei*, Yosei*);
+        virtual std::string to_string() const;
     protected:
     private:
-        void (*m_fct_action) (Yosei*, Yosei*);
+        unsigned int m_age;
+        bool m_memorize;
 };
 
 #endif // ACTION_H

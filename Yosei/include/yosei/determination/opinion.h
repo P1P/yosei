@@ -9,21 +9,25 @@
 class Opinion : Identifiable
 {
     public:
-        Opinion(std::string);
+        Opinion(std::string, float);
         Opinion();
         virtual ~Opinion();
 
-        enum INCLINATION { NO_NO = 0, NO = 1, SHOULDNT = 2, NEUTRAL = 3, TRY = 4, SHOULD = 5, YES = 6, YES_YES = 7};
+        enum INCLINATION { NO_NO = 0, NO = 1, SHOULDNT = 2, NEUTRAL = 3, SHOULD = 4, YES = 5, YES_YES = 6};
 
         INCLINATION get_inclination() const;
         bool should_do(const Personality*) const;
+        bool operator>(const Opinion& p_other) const;
+        bool operator<(const Opinion& p_other) const;
+
         void offset_value(float);
+        void absorb(Opinion*);
+        void memorize();
 
         std::string to_string() const;
     protected:
     private:
         float m_value;
-        bool m_known;
 
         static const int VALUE_LIMIT = 10;
 

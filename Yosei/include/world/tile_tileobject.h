@@ -46,8 +46,8 @@ class Tile : public Component
         void place_tobject(TileObject*);
         void remove_tobject();
 
-        virtual std::string to_string() const=0;
-        virtual std::string short_to_string() const=0;
+        virtual std::string to_string() const;
+        virtual std::string short_to_string() const;
         virtual std::string base_decoration() const=0;
     protected:
         Coordinates* m_coordinates;

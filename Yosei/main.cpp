@@ -22,7 +22,7 @@ int main (void)
     do
     {
         Observer::getInstance().out_highlight(Observer::GAMEPLAY, "Frame " + SSTR(frame_count++));
-        //std::cin.ignore(std::numeric_limits <std::streamsize>::max(), '\n');
+        std::cin.ignore(std::numeric_limits <std::streamsize>::max(), '\n');
 
         world.update();
     }
