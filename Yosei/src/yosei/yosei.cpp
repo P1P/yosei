@@ -31,20 +31,31 @@ void Yosei::start()
 
 void Yosei::update()
 {
+    MotorAction* best_motor_action_decision = nullptr;
     MotorAction* motor_action_decision = nullptr;
+
+    // Let's try and see which direction is the best
+
+    // The first option is standing still
+    best_motor_action_decision = new MotorAction(this->get_tile(), this->get_tile(), Coordinates::STILL);
+
+    // Parse the neighboring tiles we can see
     while (VisionTilePerception* stimulus_vision_tile = m_perception->perceive_stimulus_vision_tile())
     {
-        if (motor_action_decision == nullptr)
+        // Make sure we can get there
+        Tile* tile = stimulus_vision_tile->get_tile();
+        if (tile->get_tobject() == nullptr)
         {
-            Tile* tile = stimulus_vision_tile->get_tile();
-            if (tile->get_tobject() == nullptr)
+            motor_action_decision = new MotorAction(this->get_tile(), tile, stimulus_vision_tile->get_cadir());
+            // See whether this action is better than the previous best
+            if (m_memory->should_do_over(motor_action_decision, best_motor_action_decision, m_personality))
             {
-                motor_action_decision = new MotorAction(this->get_tile(), tile, stimulus_vision_tile->get_cadir());
-                if (!m_memory->should_do(motor_action_decision, m_personality))
-                {
-                    delete motor_action_decision;
-                    motor_action_decision = nullptr;
-                }
+                best_motor_action_decision = motor_action_decision;
+            }
+            else
+            {
+                delete motor_action_decision;
+                motor_action_decision = nullptr;
             }
         }
         delete stimulus_vision_tile;

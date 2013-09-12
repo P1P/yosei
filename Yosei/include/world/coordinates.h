@@ -9,7 +9,7 @@ class Coordinates
         Coordinates(unsigned short*, const unsigned short*, unsigned char);
         virtual ~Coordinates();
 
-        enum CARDINAL_DIRECTION { NORTH, EAST, SOUTH, WEST, COUNT, NONE };
+        enum CARDINAL_DIRECTION { NORTH, EAST, SOUTH, WEST, COUNT, STILL };
 
         Coordinates* operator+=(CARDINAL_DIRECTION p_cadir);
         Coordinates* operator+(CARDINAL_DIRECTION p_cadir) const;
