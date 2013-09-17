@@ -39,14 +39,14 @@ Coordinates::CARDINAL_DIRECTION TileObject::get_direction() const
 }
 
 // Returns an array of Directions ordered depending on the direction faced by the TileObject
-// e.g. when facing NORTH, SOUTH always comes last. The rest is random
+// The faced direction always comes first
 Coordinates::CARDINAL_DIRECTION* TileObject::get_ordered_directions() const
 {
     Coordinates::CARDINAL_DIRECTION* res = new Coordinates::CARDINAL_DIRECTION[Coordinates::CARDINAL_DIRECTION::COUNT];
-    res[0] = static_cast<Coordinates::CARDINAL_DIRECTION>(((int)m_direction + 0) % Coordinates::CARDINAL_DIRECTION::COUNT);
-    res[1] = static_cast<Coordinates::CARDINAL_DIRECTION>(((int)m_direction + 1) % Coordinates::CARDINAL_DIRECTION::COUNT);
-    res[2] = static_cast<Coordinates::CARDINAL_DIRECTION>(((int)m_direction - 1) % Coordinates::CARDINAL_DIRECTION::COUNT);
-    res[3] = static_cast<Coordinates::CARDINAL_DIRECTION>(((int)m_direction + 2) % Coordinates::CARDINAL_DIRECTION::COUNT);
+    res[0] = static_cast<Coordinates::CARDINAL_DIRECTION>(((int)m_direction + 0 + Coordinates::CARDINAL_DIRECTION::COUNT) % Coordinates::CARDINAL_DIRECTION::COUNT);
+    res[1] = static_cast<Coordinates::CARDINAL_DIRECTION>(((int)m_direction + 1 + Coordinates::CARDINAL_DIRECTION::COUNT) % Coordinates::CARDINAL_DIRECTION::COUNT);
+    res[2] = static_cast<Coordinates::CARDINAL_DIRECTION>(((int)m_direction - 1 + Coordinates::CARDINAL_DIRECTION::COUNT) % Coordinates::CARDINAL_DIRECTION::COUNT);
+    res[3] = static_cast<Coordinates::CARDINAL_DIRECTION>(((int)m_direction + 2 + Coordinates::CARDINAL_DIRECTION::COUNT) % Coordinates::CARDINAL_DIRECTION::COUNT);
 
     return res;
     /*

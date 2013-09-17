@@ -12,7 +12,7 @@ int main (void)
 {
     srand(time(NULL));
 
-    Observer::getInstance().set_log_type(Observer::GAMEPLAY);
+    Observer::getInstance().set_log_type(Observer::VERBOSE);
 
     int frame_count = 0;
 

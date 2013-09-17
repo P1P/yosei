@@ -6,14 +6,14 @@ Identifiable::Identifiable(std::string p_name)
 {
     m_name = p_name;
     m_unique_id = Identifiable::m_static_id_increment++;
-    Observer::getInstance().out(Observer::VERBOSE, "Constructing " + to_string());
+    Observer::getInstance().out(Observer::SUPER_VERBOSE, "Constructing " + to_string());
 }
 
 Identifiable::Identifiable()
 {
     m_name = "Dummy Identifiable";
     m_unique_id = Identifiable::m_static_id_increment++;
-    Observer::getInstance().out(Observer::VERBOSE, "Constructing " + to_string());
+    Observer::getInstance().out(Observer::SUPER_VERBOSE, "Constructing " + to_string());
 }
 
 Identifiable::~Identifiable()

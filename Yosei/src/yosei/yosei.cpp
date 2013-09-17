@@ -31,6 +31,8 @@ void Yosei::start()
 
 void Yosei::update()
 {
+    Observer::getInstance().out(Observer::GAMEPLAY, "I am at " + get_tile()->to_string());
+
     MotorAction* best_motor_action_decision = nullptr;
     MotorAction* motor_action_decision = nullptr;
 
@@ -39,31 +41,56 @@ void Yosei::update()
     // The first option is standing still
     best_motor_action_decision = new MotorAction(this->get_tile(), this->get_tile(), Coordinates::STILL);
 
+    std::vector<VisionTilePerception*> lst_stimuli_vision_tile;
+
     // Parse the neighboring tiles we can see
     while (VisionTilePerception* stimulus_vision_tile = m_perception->perceive_stimulus_vision_tile())
     {
+        lst_stimuli_vision_tile.push_back(stimulus_vision_tile);
+    }
+
+    Observer::getInstance().out(Observer::GAMEPLAY, "Around me I can see");
+    for (std::vector<VisionTilePerception*>::iterator it = lst_stimuli_vision_tile.begin(); it != lst_stimuli_vision_tile.end(); ++it)
+    {
+        Observer::getInstance().out(Observer::GAMEPLAY, (*it)->get_tile()->to_string());
+    }
+
+    for (std::vector<VisionTilePerception*>::iterator it = lst_stimuli_vision_tile.begin(); it != lst_stimuli_vision_tile.end(); ++it)
+    {
         // Make sure we can get there
-        Tile* tile = stimulus_vision_tile->get_tile();
+        Tile* tile = (*it)->get_tile();
         if (tile->get_tobject() == nullptr)
         {
-            motor_action_decision = new MotorAction(this->get_tile(), tile, stimulus_vision_tile->get_cadir());
+            motor_action_decision = new MotorAction(this->get_tile(), tile, (*it)->get_cadir());
             // See whether this action is better than the previous best
             if (m_memory->should_do_over(motor_action_decision, best_motor_action_decision, m_personality))
             {
+                Observer::getInstance().out(Observer::GAMEPLAY, "I prefer the new " + motor_action_decision->to_string() + " over " + best_motor_action_decision->to_string());
                 best_motor_action_decision = motor_action_decision;
             }
             else
             {
+                Observer::getInstance().out(Observer::GAMEPLAY, "I prefer the old " + best_motor_action_decision->to_string() + " over " + motor_action_decision->to_string());
                 delete motor_action_decision;
                 motor_action_decision = nullptr;
             }
         }
-        delete stimulus_vision_tile;
+        delete (*it);
     }
 
-    if (motor_action_decision)
+
+
+    lst_stimuli_vision_tile.clear();
+
+    if (best_motor_action_decision->get_cadir() == Coordinates::STILL)
     {
-        m_will->push_action_motor(motor_action_decision);
+        Observer::getInstance().out(Observer::GAMEPLAY, "I chose standing still");
+        delete best_motor_action_decision;
+    }
+    else
+    {
+        Observer::getInstance().out(Observer::GAMEPLAY, "I chose " + best_motor_action_decision->to_string());
+        m_will->push_action_motor(best_motor_action_decision);
     }
 
     while (PainPerception* stimulus_pain = m_perception->perceive_stimulus_pain())

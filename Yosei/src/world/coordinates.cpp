@@ -139,6 +139,7 @@ unsigned short Coordinates::cadir_to(CARDINAL_DIRECTION p_cadir, unsigned char p
             case SOUTH: return 0;
             case WEST: return -1;
             case STILL: return 0;
+
             default: assert(0);
         }
     }
@@ -151,6 +152,7 @@ unsigned short Coordinates::cadir_to(CARDINAL_DIRECTION p_cadir, unsigned char p
             case SOUTH: return 1;
             case WEST: return 0;
             case STILL: return 0;
+
             default: assert(0);
         }
     }

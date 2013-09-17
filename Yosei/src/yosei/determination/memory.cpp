@@ -66,7 +66,6 @@ bool Memory::should_do_over(Action* p_first, Action* p_second, const Personality
         if (it_second == m_knowledge.end())
         {
             // Coin toss, both are unknown
-            Observer::getInstance().out(Observer::GAMEPLAY, "Both unknown");
             return (rand() < (RAND_MAX / 2));
         }
         else

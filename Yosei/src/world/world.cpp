@@ -55,11 +55,11 @@ void World::update()
         // Realizes a Yosei's will for Motor Actions
         while (MotorAction* motor_action = (*it)->get_will()->perceive_action_motor())
         {
+            (*it)->get_memory()->historize_action(motor_action);
             if (motor_action->get_cadir() != Coordinates::STILL)
             {
-                (*it)->get_memory()->historize_action(motor_action);
+                move_tobject((*it), motor_action->get_cadir());
             }
-            move_tobject((*it), motor_action->get_cadir());
         }
 
         // Provides a Yosei's perception with its neighboring tiles
