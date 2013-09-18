@@ -34,63 +34,64 @@ void Yosei::update()
     Observer::getInstance().out(Observer::GAMEPLAY, "I am at " + get_tile()->to_string());
 
     MotorAction* best_motor_action_decision = nullptr;
-    MotorAction* motor_action_decision = nullptr;
 
     // Let's try and see which direction is the best
 
-    // The first option is standing still
-    best_motor_action_decision = new MotorAction(this->get_tile(), this->get_tile(), Coordinates::STILL);
-
     std::vector<VisionTilePerception*> lst_stimuli_vision_tile;
+    std::vector<MotorAction*> lst_motor_actions;
 
     // Parse the neighboring tiles we can see
     while (VisionTilePerception* stimulus_vision_tile = m_perception->perceive_stimulus_vision_tile())
     {
         lst_stimuli_vision_tile.push_back(stimulus_vision_tile);
-    }
-
-    Observer::getInstance().out(Observer::GAMEPLAY, "Around me I can see");
-    for (std::vector<VisionTilePerception*>::iterator it = lst_stimuli_vision_tile.begin(); it != lst_stimuli_vision_tile.end(); ++it)
-    {
-        Observer::getInstance().out(Observer::GAMEPLAY, (*it)->get_tile()->to_string());
-    }
-
-    for (std::vector<VisionTilePerception*>::iterator it = lst_stimuli_vision_tile.begin(); it != lst_stimuli_vision_tile.end(); ++it)
-    {
-        // Make sure we can get there
-        Tile* tile = (*it)->get_tile();
-        if (tile->get_tobject() == nullptr)
+        if ((stimulus_vision_tile->get_tile()->get_tobject() == nullptr) || (stimulus_vision_tile->get_cadir() == Coordinates::STILL))
         {
-            motor_action_decision = new MotorAction(this->get_tile(), tile, (*it)->get_cadir());
-            // See whether this action is better than the previous best
-            if (m_memory->should_do_over(motor_action_decision, best_motor_action_decision, m_personality))
-            {
-                Observer::getInstance().out(Observer::GAMEPLAY, "I prefer the new " + motor_action_decision->to_string() + " over " + best_motor_action_decision->to_string());
-                best_motor_action_decision = motor_action_decision;
-            }
-            else
-            {
-                Observer::getInstance().out(Observer::GAMEPLAY, "I prefer the old " + best_motor_action_decision->to_string() + " over " + motor_action_decision->to_string());
-                delete motor_action_decision;
-                motor_action_decision = nullptr;
-            }
+            lst_motor_actions.push_back(new MotorAction(this->get_tile(), stimulus_vision_tile->get_tile(), stimulus_vision_tile->get_cadir()));
         }
-        delete (*it);
     }
 
-
-
-    lst_stimuli_vision_tile.clear();
-
-    if (best_motor_action_decision->get_cadir() == Coordinates::STILL)
+    for (std::vector<VisionTilePerception*>::iterator it_vision = lst_stimuli_vision_tile.begin(); it_vision != lst_stimuli_vision_tile.end(); ++it_vision)
     {
-        Observer::getInstance().out(Observer::GAMEPLAY, "I chose standing still");
-        delete best_motor_action_decision;
+        display_vision((*it_vision), lst_motor_actions);
     }
-    else
+
+    // The first option is standing still
+    best_motor_action_decision = new MotorAction(this->get_tile(), this->get_tile(), Coordinates::STILL);
+
+    for (std::vector<MotorAction*>::iterator it = lst_motor_actions.begin(); it != lst_motor_actions.end(); ++it)
+    {
+        // See whether this action is better than the previous best
+        if (m_memory->should_do_over((*it), best_motor_action_decision, m_personality))
+        {
+            Observer::getInstance().out(Observer::GAMEPLAY, "I prefer the new " + (*it)->to_string() + " over " + best_motor_action_decision->to_string());
+            delete(best_motor_action_decision);
+            best_motor_action_decision = (*it);
+        }
+        else
+        {
+            Observer::getInstance().out(Observer::GAMEPLAY, "I prefer the old " + best_motor_action_decision->to_string() + " over " + (*it)->to_string());
+            delete(*it);
+        }
+    }
+
+    for (std::vector<VisionTilePerception*>::iterator it = lst_stimuli_vision_tile.begin(); it != lst_stimuli_vision_tile.end(); ++it)
+    {
+        delete(*it);
+    }
+    lst_stimuli_vision_tile.clear();
+    lst_motor_actions.clear();
+
+    if (best_motor_action_decision)
     {
         Observer::getInstance().out(Observer::GAMEPLAY, "I chose " + best_motor_action_decision->to_string());
-        m_will->push_action_motor(best_motor_action_decision);
+        if (best_motor_action_decision->get_cadir() == Coordinates::STILL)
+        {
+            delete best_motor_action_decision;
+        }
+        else
+        {
+            m_will->push_action_motor(best_motor_action_decision);
+        }
     }
 
     while (PainPerception* stimulus_pain = m_perception->perceive_stimulus_pain())
@@ -206,6 +207,31 @@ void Yosei::reflect_upon(const Action* p_action, const Yosei* p_target, float p_
 void Yosei::burn()
 {
     get_perception()->push_stimulus_pain(new PainPerception(1));
+}
+
+void Yosei::display_vision(VisionTilePerception* p_vision, std::vector<MotorAction*> p_actions) const
+{
+    bool found = false;
+    Observer::getInstance().out_continued(Observer::GAMEPLAY, Coordinates::cadir_short_to_string(p_vision->get_cadir()) + " " + p_vision->get_tile()->to_string() + " ");
+    for (std::vector<MotorAction*>::iterator it_motor = p_actions.begin(); it_motor != p_actions.end(); ++it_motor)
+    {
+        if ((*it_motor)->get_cadir() == (p_vision)->get_cadir())
+        {
+            found = true;
+            if (Opinion* opinion = m_memory->get_opinion((*it_motor)))
+            {
+                Observer::getInstance().out(Observer::GAMEPLAY, opinion->to_string());
+            }
+            else
+            {
+                Observer::getInstance().out(Observer::GAMEPLAY, "No opinion");
+            }
+        }
+    }
+    if (!found)
+    {
+        Observer::getInstance().out(Observer::GAMEPLAY, "Unable to go");
+    }
 }
 
 std::string Yosei::to_string() const

@@ -63,18 +63,15 @@ void World::update()
         }
 
         // Provides a Yosei's perception with its neighboring tiles
-        Coordinates::CARDINAL_DIRECTION* directions = (*it)->get_ordered_directions();
         for (int i = 0; i < Coordinates::CARDINAL_DIRECTION::COUNT; ++i)
         {
-            Coordinates::CARDINAL_DIRECTION cadir = directions[i];//static_cast<Coordinates::CARDINAL_DIRECTION>(i);
+            Coordinates::CARDINAL_DIRECTION cadir = static_cast<Coordinates::CARDINAL_DIRECTION>(i);
 
             if (Tile* neigh_tile = m_map->get_tile_neighbor(*((*it)->get_tile()), cadir))
             {
                 (*it)->get_perception()->push_stimulus_vision_tile(new VisionTilePerception(cadir, neigh_tile));
             }
         }
-
-        delete directions;
     }
 
     // Updates every component

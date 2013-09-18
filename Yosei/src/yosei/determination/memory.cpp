@@ -71,7 +71,7 @@ bool Memory::should_do_over(Action* p_first, Action* p_second, const Personality
         else
         {
             // Do second if we want to, otherwise try first
-            return should_do(p_second, p_personality);
+            return !should_do(p_second, p_personality);
         }
     }
     else
@@ -84,6 +84,7 @@ bool Memory::should_do_over(Action* p_first, Action* p_second, const Personality
         else
         {
             // We know both, let's see which one is better
+            Observer::getInstance().out(Observer::GAMEPLAY, "Comparing " + it_first->second->to_string() + " to " + it_second->second->to_string() + " is " + SSTR((it_first->second > it_second->second)));
             return (it_first->second > it_second->second);
         }
     }
@@ -127,6 +128,15 @@ void Memory::age()
         }
     } while (relaunch);
     */
+}
+
+Opinion* Memory::get_opinion(Action* p_action) const
+{
+    if (m_knowledge.count(p_action) == 0)
+    {
+        return nullptr;
+    }
+    return m_knowledge.at(p_action);
 }
 
 std::string Memory::to_string()

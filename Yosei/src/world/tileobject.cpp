@@ -38,38 +38,6 @@ Coordinates::CARDINAL_DIRECTION TileObject::get_direction() const
     return m_direction;
 }
 
-// Returns an array of Directions ordered depending on the direction faced by the TileObject
-// The faced direction always comes first
-Coordinates::CARDINAL_DIRECTION* TileObject::get_ordered_directions() const
-{
-    Coordinates::CARDINAL_DIRECTION* res = new Coordinates::CARDINAL_DIRECTION[Coordinates::CARDINAL_DIRECTION::COUNT];
-    res[0] = static_cast<Coordinates::CARDINAL_DIRECTION>(((int)m_direction + 0 + Coordinates::CARDINAL_DIRECTION::COUNT) % Coordinates::CARDINAL_DIRECTION::COUNT);
-    res[1] = static_cast<Coordinates::CARDINAL_DIRECTION>(((int)m_direction + 1 + Coordinates::CARDINAL_DIRECTION::COUNT) % Coordinates::CARDINAL_DIRECTION::COUNT);
-    res[2] = static_cast<Coordinates::CARDINAL_DIRECTION>(((int)m_direction - 1 + Coordinates::CARDINAL_DIRECTION::COUNT) % Coordinates::CARDINAL_DIRECTION::COUNT);
-    res[3] = static_cast<Coordinates::CARDINAL_DIRECTION>(((int)m_direction + 2 + Coordinates::CARDINAL_DIRECTION::COUNT) % Coordinates::CARDINAL_DIRECTION::COUNT);
-
-    return res;
-    /*
-    int* res_shuffle = new int[Coordinates::CARDINAL_DIRECTION::COUNT - 1];
-    res_shuffle[0] = ((int)m_direction + 0 + Coordinates::CARDINAL_DIRECTION::COUNT) % Coordinates::CARDINAL_DIRECTION::COUNT;
-    res_shuffle[1] = ((int)m_direction + 1 + Coordinates::CARDINAL_DIRECTION::COUNT) % Coordinates::CARDINAL_DIRECTION::COUNT;
-    res_shuffle[2] = ((int)m_direction - 1 + Coordinates::CARDINAL_DIRECTION::COUNT) % Coordinates::CARDINAL_DIRECTION::COUNT;
-
-    ContainerHelper::shuffle(res_shuffle, Coordinates::CARDINAL_DIRECTION::COUNT - 1);
-
-    Coordinates::CARDINAL_DIRECTION* res = new Coordinates::CARDINAL_DIRECTION[Coordinates::CARDINAL_DIRECTION::COUNT];
-
-    res[0] = static_cast<Coordinates::CARDINAL_DIRECTION>(res_shuffle[0]);
-    res[1] = static_cast<Coordinates::CARDINAL_DIRECTION>(res_shuffle[1]);
-    res[2] = static_cast<Coordinates::CARDINAL_DIRECTION>(res_shuffle[2]);
-    res[3] = static_cast<Coordinates::CARDINAL_DIRECTION>(((int)m_direction + 2) % Coordinates::CARDINAL_DIRECTION::COUNT);
-
-    delete res_shuffle;
-
-    return res;
-    */
-}
-
 void TileObject::burn()
 {
 

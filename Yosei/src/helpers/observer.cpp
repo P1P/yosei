@@ -10,6 +10,14 @@ void Observer::out(LOG_TYPE p_log_type, std::string p_message)
     }
 }
 
+void Observer::out_continued(LOG_TYPE p_log_type, std::string p_message)
+{
+    if (m_current_log_type >= p_log_type)
+    {
+        std::cout << p_message;
+    }
+}
+
 void Observer::out_highlight(LOG_TYPE p_log_type, std::string p_message)
 {
     if (m_current_log_type >= p_log_type)

@@ -28,6 +28,8 @@ class Memory
         bool should_do(Action*, const Personality*);
         bool should_do_over(Action*, Action*, const Personality*);
 
+        Opinion* get_opinion(Action*) const;
+
         std::string to_string();
     protected:
     private:

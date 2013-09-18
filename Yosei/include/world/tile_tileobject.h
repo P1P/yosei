@@ -20,7 +20,6 @@ class TileObject : public Component
 
         void set_direction(Coordinates::CARDINAL_DIRECTION);
         Coordinates::CARDINAL_DIRECTION get_direction() const;
-        Coordinates::CARDINAL_DIRECTION* get_ordered_directions() const;
 
         virtual void burn();
 

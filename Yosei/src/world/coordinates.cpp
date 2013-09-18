@@ -161,6 +161,34 @@ unsigned short Coordinates::cadir_to(CARDINAL_DIRECTION p_cadir, unsigned char p
     return 0;
 }
 
+std::string Coordinates::cadir_to_string(CARDINAL_DIRECTION p_cadir)
+{
+    switch (p_cadir)
+    {
+        case NORTH: return "NORTH";
+        case EAST: return "EAST";
+        case SOUTH: return "SOUTH";
+        case WEST: return "WEST";
+        case STILL: return "STILL";
+
+        default: assert (0);
+    }
+}
+
+std::string Coordinates::cadir_short_to_string(CARDINAL_DIRECTION p_cadir)
+{
+    switch (p_cadir)
+    {
+        case NORTH: return "N";
+        case EAST: return "E";
+        case SOUTH: return "S";
+        case WEST: return "W";
+        case STILL: return "X";
+
+        default: assert (0);
+    }
+}
+
 std::string Coordinates::to_string() const
 {
     std::string res = "[";

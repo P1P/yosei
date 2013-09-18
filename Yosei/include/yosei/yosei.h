@@ -43,6 +43,8 @@ class Yosei : public TileObject
         Yosei* m_other;
     protected:
     private:
+        void display_vision(VisionTilePerception*, std::vector<MotorAction*>) const;
+
         std::map<Action*, Opinion> m_knowledge;
         Personality* m_personality;
         Perception* m_perception;

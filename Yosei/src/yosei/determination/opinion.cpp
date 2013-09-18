@@ -138,5 +138,5 @@ std::string Opinion::to_string() const
             break;
     }
 
-    return (m_name + ": " + label + " (" + SSTR(m_value) + ")");
+    return (label + " (" + SSTR(m_value) + ")");
 }
