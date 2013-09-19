@@ -141,14 +141,22 @@ Opinion* Memory::get_opinion(Action* p_action) const
 
 std::string Memory::to_string()
 {
-    std::string str = "I remember:\n";
+    return knowledge_to_string() + "\n" + opinions_to_string();
+}
+
+std::string Memory::knowledge_to_string()
+{
+    std::string str = "";
     for (std::list<Action*>::iterator it = m_history_actions.begin(); it != m_history_actions.end(); ++it)
     {
-        str += (*it)->to_string() + "\n";
+        str += (*it)->to_string() + ((std::next(it) == m_history_actions.end()) ? "" : "\n");
     }
+    return str;
+}
 
-    str += "My opinions are:" + SSTR("") + ((m_knowledge.size() != 0) ? "\n" : "");
-
+std::string Memory::opinions_to_string()
+{
+    std::string str = "";
     for (std::map<Action*, Opinion*>::iterator it = m_knowledge.begin(); it != m_knowledge.end(); ++it)
     {
         str += it->first->to_string() + " is " + it->second->to_string() + ((std::next(it) == m_knowledge.end()) ? "" : "\n");

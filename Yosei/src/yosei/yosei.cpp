@@ -31,7 +31,7 @@ void Yosei::start()
 
 void Yosei::update()
 {
-    Observer::getInstance().out(Observer::GAMEPLAY, "I am at " + get_tile()->to_string());
+    Observer::getInstance().out_highlight(Observer::GAMEPLAY, "I am at " + get_tile()->to_string());
 
     MotorAction* best_motor_action_decision = nullptr;
 
@@ -50,6 +50,7 @@ void Yosei::update()
         }
     }
 
+    Observer::getInstance().out_highlight(Observer::GAMEPLAY, "I can see");
     for (std::vector<VisionTilePerception*>::iterator it_vision = lst_stimuli_vision_tile.begin(); it_vision != lst_stimuli_vision_tile.end(); ++it_vision)
     {
         display_vision((*it_vision), lst_motor_actions);
@@ -58,18 +59,19 @@ void Yosei::update()
     // The first option is standing still
     best_motor_action_decision = new MotorAction(this->get_tile(), this->get_tile(), Coordinates::STILL);
 
+    Observer::getInstance().out_highlight(Observer::GAMEPLAY, "I think that");
     for (std::vector<MotorAction*>::iterator it = lst_motor_actions.begin(); it != lst_motor_actions.end(); ++it)
     {
         // See whether this action is better than the previous best
         if (m_memory->should_do_over((*it), best_motor_action_decision, m_personality))
         {
-            Observer::getInstance().out(Observer::GAMEPLAY, "I prefer the new " + (*it)->to_string() + " over " + best_motor_action_decision->to_string());
+            Observer::getInstance().out(Observer::GAMEPLAY,(*it)->to_string() + " > " + best_motor_action_decision->to_string());
             delete(best_motor_action_decision);
             best_motor_action_decision = (*it);
         }
         else
         {
-            Observer::getInstance().out(Observer::GAMEPLAY, "I prefer the old " + best_motor_action_decision->to_string() + " over " + (*it)->to_string());
+            Observer::getInstance().out(Observer::GAMEPLAY,(*it)->to_string() + " < " + best_motor_action_decision->to_string());
             delete(*it);
         }
     }
@@ -83,7 +85,8 @@ void Yosei::update()
 
     if (best_motor_action_decision)
     {
-        Observer::getInstance().out(Observer::GAMEPLAY, "I chose " + best_motor_action_decision->to_string());
+        Observer::getInstance().out_highlight(Observer::GAMEPLAY, "I choose to");
+        Observer::getInstance().out_highlight(Observer::GAMEPLAY, best_motor_action_decision->to_string());
         if (best_motor_action_decision->get_cadir() == Coordinates::STILL)
         {
             delete best_motor_action_decision;
@@ -102,7 +105,11 @@ void Yosei::update()
         delete stimulus_pain;
     }
 
-    Observer::getInstance().out_say(Observer::GAMEPLAY, m_memory->to_string());
+    Observer::getInstance().out_highlight(Observer::GAMEPLAY, "I did");
+    Observer::getInstance().out(Observer::GAMEPLAY, m_memory->knowledge_to_string());
+
+    Observer::getInstance().out_highlight(Observer::GAMEPLAY, "I think that");
+    Observer::getInstance().out(Observer::GAMEPLAY, m_memory->opinions_to_string());
 
     get_memory()->age();
 

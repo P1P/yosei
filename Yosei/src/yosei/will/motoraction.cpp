@@ -38,5 +38,5 @@ bool MotorAction::less_comparer(Action* p_other)
 
 std::string MotorAction::to_string() const
 {
-    return Action::to_string() + "Going to " + get_to()->to_string();
+    return Action::to_string() + (m_cadir == Coordinates::STILL ? "Stay at " : "Go to   ") + get_to()->to_string();
 }

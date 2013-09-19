@@ -31,6 +31,8 @@ class Memory
         Opinion* get_opinion(Action*) const;
 
         std::string to_string();
+        std::string knowledge_to_string();
+        std::string opinions_to_string();
     protected:
     private:
         std::list<Action*> m_history_actions;
