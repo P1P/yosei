@@ -22,7 +22,7 @@ class Memory
         virtual ~Memory();
 
         void historize_action(Action*);
-        void remember_actions(float);
+        void remember_actions(float, int);
         void age();
 
         bool should_do(Action*, const Personality*);

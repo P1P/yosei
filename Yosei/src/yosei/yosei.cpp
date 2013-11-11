@@ -83,24 +83,21 @@ void Yosei::update()
     lst_stimuli_vision_tile.clear();
     lst_motor_actions.clear();
 
+    // If applicable, put the Motor Action in Will
     if (best_motor_action_decision)
     {
         Observer::getInstance().out_highlight(Observer::GAMEPLAY, "I choose to");
         Observer::getInstance().out_highlight(Observer::GAMEPLAY, best_motor_action_decision->to_string());
-        if (best_motor_action_decision->get_cadir() == Coordinates::STILL)
-        {
-            delete best_motor_action_decision;
-        }
-        else
-        {
-            m_will->push_action_motor(best_motor_action_decision);
-        }
+
+        // NB: standing still is an action, because it needs to be feedbacked too
+        m_will->push_action_motor(best_motor_action_decision);
     }
 
+    // Add feedback to last actions
     while (PainPerception* stimulus_pain = m_perception->perceive_stimulus_pain())
     {
         Observer::getInstance().out(Observer::GAMEPLAY, "Ouch");
-        m_memory->remember_actions(-stimulus_pain->get_pain());
+        m_memory->remember_actions(-stimulus_pain->get_pain(), 1);
 
         delete stimulus_pain;
     }

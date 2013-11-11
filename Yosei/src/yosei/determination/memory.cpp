@@ -15,6 +15,7 @@ void Memory::historize_action(Action* p_action)
     m_history_actions.push_front(p_action);
 }
 
+// Add feedback for the Action
 void Memory::remember_action(Action* p_action, float p_feedback)
 {
     std::map<Action*, Opinion*>::iterator it = m_knowledge.find(p_action);
@@ -34,13 +35,15 @@ void Memory::remember_action(Action* p_action, float p_feedback)
     //m_knowledge.insert(std::pair<Action*, Opinion*>(new Action(p_action), Opinion("Opinion of " + p_action.to_string())));
 }
 
-void Memory::remember_actions(float p_feedback)
+// Adds feedback to the some last actions
+void Memory::remember_actions(float p_feedback, int p_nb_actions_to_feedback)
 {
-    int i = 2;
-    for (std::list<Action*>::iterator it = m_history_actions.begin(); it != m_history_actions.end(); ++it, --i)
+    for (std::list<Action*>::iterator it = m_history_actions.begin(); it != m_history_actions.end() && p_nb_actions_to_feedback > 0; ++it, --p_nb_actions_to_feedback)
     {
-        //Observer::getInstance().out(Observer::GAMEPLAY, "Adding feedback " + SSTR(p_feedback) + " on " + (*it)->get_to()->to_string());
-        remember_action((*it), p_feedback * i * i);
+        Observer::getInstance().out(Observer::GAMEPLAY, "Adding feedback " + SSTR(p_feedback) + " on history number " + SSTR(p_nb_actions_to_feedback));
+        Observer::getInstance().out(Observer::GAMEPLAY, "History is " + SSTR(m_history_actions.size()));
+        Observer::getInstance().out(Observer::GAMEPLAY, "Adding feedback " + SSTR(p_feedback) + " on " + (*it)->to_string());
+        remember_action((*it), p_feedback * p_nb_actions_to_feedback * p_nb_actions_to_feedback);
     }
 }
 
@@ -84,8 +87,8 @@ bool Memory::should_do_over(Action* p_first, Action* p_second, const Personality
         else
         {
             // We know both, let's see which one is better
-            Observer::getInstance().out(Observer::GAMEPLAY, "Comparing " + it_first->second->to_string() + " to " + it_second->second->to_string() + " is " + SSTR((it_first->second > it_second->second)));
-            return (it_first->second > it_second->second);
+            Observer::getInstance().out(Observer::GAMEPLAY, "Is " + it_first->second->to_string() + " better than " + it_second->second->to_string() + "? " + SSTR((*(it_first->second) > *(it_second->second))));
+            return (*(it_first->second) > *(it_second->second));
         }
     }
 }
