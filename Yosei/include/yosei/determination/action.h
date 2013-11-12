@@ -1,11 +1,11 @@
 #ifndef ACTION_H
 #define ACTION_H
 
-#include <game/identifiable.h>
+#include <world/judicable.h>
 
 class Yosei;
 
-class Action : public Identifiable
+class Action : public Judicable
 {
     public:
         Action();

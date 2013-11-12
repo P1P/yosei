@@ -26,6 +26,9 @@ void World::start()
     build_world(time(NULL));
 
     simple_add_yosei(5, 5, "A");
+    simple_add_yosei(6, 5, "B");
+    simple_add_yosei(7, 5, "C");
+    simple_add_yosei(8, 5, "D");
 
     for (int y = 0; y < m_map->get_lengths()[1]; ++y)
     {

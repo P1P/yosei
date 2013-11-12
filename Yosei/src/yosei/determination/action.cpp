@@ -1,6 +1,6 @@
 #include "yosei/determination/action.h"
 
-Action::Action()
+Action::Action() : Judicable()
 {
     m_age = 0;
     m_memorize = false;

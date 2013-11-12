@@ -36,6 +36,19 @@ bool MotorAction::less_comparer(Action* p_other)
     return this->get_to()->get_id() < ((static_cast<MotorAction*>(p_other))->get_to()->get_id());
 }
 
+// Returns the ressemblance of this and another MotorAction
+float MotorAction::like(void* p_other) const
+{
+    MotorAction* other_motor_action = static_cast<MotorAction*>(p_other);
+
+    if (other_motor_action->get_to()/*->get_type()*/ == this->get_to())
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
 std::string MotorAction::to_string() const
 {
     return Action::to_string() + (m_cadir == Coordinates::STILL ? "Stay at " : "Go to   ") + get_to()->to_string();

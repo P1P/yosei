@@ -63,6 +63,7 @@ void Yosei::update()
     for (std::vector<MotorAction*>::iterator it = lst_motor_actions.begin(); it != lst_motor_actions.end(); ++it)
     {
         // See whether this action is better than the previous best
+        // TODO: Implementation of likeliness. That is, parse knowledge to find what's similar and forge opinion
         if (m_memory->should_do_over((*it), best_motor_action_decision, m_personality))
         {
             Observer::getInstance().out(Observer::GAMEPLAY,(*it)->to_string() + " > " + best_motor_action_decision->to_string());

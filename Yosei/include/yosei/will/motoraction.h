@@ -15,6 +15,8 @@ class MotorAction : public Action
         Coordinates::CARDINAL_DIRECTION get_cadir() const;
         bool less_comparer(Action*);
 
+        float like(void*) const;
+
         std::string to_string() const;
     protected:
     private:

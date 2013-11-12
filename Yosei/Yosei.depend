@@ -3444,7 +3444,7 @@
 	<yosei/determination/opinion.h>
 	<yosei/determination/action.h>
 
-1384168735 source:d:\dev\yosei\yosei\yosei\main.cpp
+1384169541 source:d:\dev\yosei\yosei\yosei\main.cpp
 	<stdio.h>
 	<stdlib.h>
 	<iostream>
@@ -3466,7 +3466,7 @@
 1380009730 d:\dev\yosei\yosei\yosei\include\world\map.h
 	<world/tile_tileobject.h>
 
-1380009730 d:\dev\yosei\yosei\yosei\include\world\tile_tileobject.h
+1384280330 d:\dev\yosei\yosei\yosei\include\world\tile_tileobject.h
 	<game/component.h>
 	<world/coordinates.h>
 
@@ -3496,8 +3496,8 @@
 	<yosei/will/will.h>
 	<yosei/perception/perception.h>
 
-1380009730 d:\dev\yosei\yosei\yosei\include\yosei\determination\action.h
-	<game/identifiable.h>
+1384280649 d:\dev\yosei\yosei\yosei\include\yosei\determination\action.h
+	<world/judicable.h>
 
 1380009730 d:\dev\yosei\yosei\yosei\include\yosei\determination\opinion.h
 	<cstdlib>
@@ -3519,7 +3519,7 @@
 	<queue>
 	<yosei/will/motoraction.h>
 
-1380009730 d:\dev\yosei\yosei\yosei\include\yosei\will\motoraction.h
+1384281337 d:\dev\yosei\yosei\yosei\include\yosei\will\motoraction.h
 	<world/tile_tileobject.h>
 	<yosei/determination/action.h>
 
@@ -3564,14 +3564,14 @@
 1380009730 source:d:\dev\yosei\yosei\yosei\src\world\map.cpp
 	"world/map.h"
 
-1380009730 source:d:\dev\yosei\yosei\yosei\src\world\tile.cpp
+1384280323 source:d:\dev\yosei\yosei\yosei\src\world\tile.cpp
 	"world//tile_tileobject.h"
 
-1380009730 d:\dev\yosei\yosei\yosei\include\world\\tile_tileobject.h
+1384280330 d:\dev\yosei\yosei\yosei\include\world\\tile_tileobject.h
 	<game/component.h>
 	<world/coordinates.h>
 
-1380009730 source:d:\dev\yosei\yosei\yosei\src\world\tileobject.cpp
+1384280319 source:d:\dev\yosei\yosei\yosei\src\world\tileobject.cpp
 	"world/tile_tileobject.h"
 	"helpers/containerhelper.h"
 	<cstdlib>
@@ -3585,15 +3585,15 @@
 1380009730 source:d:\dev\yosei\yosei\yosei\src\world\tiles\lava.cpp
 	"world\tiles\lava.h"
 
-1380009730 source:d:\dev\yosei\yosei\yosei\src\world\world.cpp
+1384169534 source:d:\dev\yosei\yosei\yosei\src\world\world.cpp
 	"world/world.h"
 	<cstdlib>
 	<time.h>
 
-1380009730 source:d:\dev\yosei\yosei\yosei\src\yosei\determination\action.cpp
+1384280535 source:d:\dev\yosei\yosei\yosei\src\yosei\determination\action.cpp
 	"yosei/determination/action.h"
 
-1384168384 source:d:\dev\yosei\yosei\yosei\src\yosei\determination\opinion.cpp
+1384169382 source:d:\dev\yosei\yosei\yosei\src\yosei\determination\opinion.cpp
 	"yosei/determination/opinion.h"
 
 1380009730 source:d:\dev\yosei\yosei\yosei\src\yosei\perception\painperception.cpp
@@ -3611,15 +3611,21 @@
 1380009730 source:d:\dev\yosei\yosei\yosei\src\yosei\psyche\personality.cpp
 	"yosei/psyche/personality.h"
 
-1380009730 source:d:\dev\yosei\yosei\yosei\src\yosei\will\motoraction.cpp
+1384281399 source:d:\dev\yosei\yosei\yosei\src\yosei\will\motoraction.cpp
 	"yosei/will/motoraction.h"
 
 1380009730 source:d:\dev\yosei\yosei\yosei\src\yosei\will\will.cpp
 	"yosei/will/will.h"
 
-1384167684 source:d:\dev\yosei\yosei\yosei\src\yosei\yosei.cpp
+1384174135 source:d:\dev\yosei\yosei\yosei\src\yosei\yosei.cpp
 	"yosei/yosei.h"
 
 1384168572 source:d:\dev\yosei\yosei\yosei\src\yosei\determination\memory.cpp
 	"yosei/determination/memory.h"
+
+1384281318 d:\dev\yosei\yosei\yosei\include\world\judicable.h
+	<game/identifiable.h>
+
+1384280366 source:d:\dev\yosei\yosei\yosei\src\world\judicable.cpp
+	"world/Judicable.h"
 
