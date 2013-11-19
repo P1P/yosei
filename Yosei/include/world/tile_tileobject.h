@@ -42,6 +42,7 @@ class Tile : public Component
 
         const Coordinates& get_coordinates() const;
         TileObject* get_tobject() const;
+        std::string get_appearance() const;
         void place_tobject(TileObject*);
         void remove_tobject();
 
@@ -51,6 +52,7 @@ class Tile : public Component
     protected:
         Coordinates* m_coordinates;
         TileObject* m_tobject;
+        std::string m_appearance;
     private:
 };
 

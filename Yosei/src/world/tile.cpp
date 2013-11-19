@@ -24,6 +24,13 @@ TileObject* Tile::get_tobject() const
     return m_tobject;
 }
 
+// Returns the appearance of the Tile
+// An appaearance may be shared by different Tiles
+std::string Tile::get_appearance() const
+{
+    return m_appearance;
+}
+
 // Places a TileObject on the Tile
 // Requires the Tile not to have a TileObject on it
 void Tile::place_tobject(TileObject* p_tobject)

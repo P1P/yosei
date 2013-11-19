@@ -2,7 +2,7 @@
 
 Lava::Lava(std::string p_name, Coordinates* p_coords) : Tile(p_name, p_coords)
 {
-
+    this->m_appearance = "lava";
 }
 
 Lava::~Lava()

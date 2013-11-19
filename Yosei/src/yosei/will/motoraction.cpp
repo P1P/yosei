@@ -41,7 +41,8 @@ float MotorAction::like(void* p_other) const
 {
     MotorAction* other_motor_action = static_cast<MotorAction*>(p_other);
 
-    if (other_motor_action->get_to()/*->get_type()*/ == this->get_to())
+    // Both objects have the same appearance
+    if (other_motor_action->get_to()->get_appearance().compare(this->get_to()->get_appearance()) == 0)
     {
         return 1;
     }
