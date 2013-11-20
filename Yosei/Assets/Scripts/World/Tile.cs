@@ -5,7 +5,7 @@ using System;
 [RequireComponent(typeof(Lookable))]
 [RequireComponent(typeof(Gaugeable))]
 
-public class Tile : MonoBehaviour
+public abstract class Tile : MonoBehaviour
 {
 	protected Lookable m_lookable;
 	protected Gaugeable m_gaugeable;

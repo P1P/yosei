@@ -11,3 +11,7 @@
 *.lai
 *.la
 *.a
+
+# Unity temp files
+Temp/
+Obj/

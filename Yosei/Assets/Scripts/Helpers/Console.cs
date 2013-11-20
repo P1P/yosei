@@ -21,6 +21,7 @@ public class Console : MonoBehaviour
 	public GUIStyle m_label_style;
 
 	public List<Color> m_lst_colors;
+	public int m_nb_colors;
 
     private List<Line> m_lst_lines = new List<Line>();
     private List<Line> m_lst_fixed_lines = new List<Line>();
@@ -51,6 +52,11 @@ public class Console : MonoBehaviour
             m_lst_fixed_lines.Add(new Line(""));
             m_lst_fixed_lines_time.Add(0);
         }
+
+		for (int i = 0; i < m_nb_colors; ++i)
+		{
+			m_lst_colors.Add(UnityEditor.EditorGUIUtility.HSVToRGB((1f / (m_nb_colors + 1)) * i, 0.35f, 1.00f));
+		}
     }
 
     // Timing out the fixed console lines
@@ -68,11 +74,6 @@ public class Console : MonoBehaviour
                 }
             }
         }
-
-		for (int i = 0; i < 5; ++i)
-		{
-			WriteLine(Random.value, i);
-		}
     }
 
     void OnGUI()
@@ -175,17 +176,17 @@ public class Console : MonoBehaviour
 
 	public void WriteLine(int line, int color)
 	{
-		WriteLine(line.ToString(), m_lst_colors[color]);
+		WriteLine(line.ToString(), m_lst_colors[color % m_nb_colors]);
 	}
 
 	public void WriteLine(float line, int color)
 	{
-		WriteLine(line.ToString(), m_lst_colors[color]);
+		WriteLine(line.ToString(), m_lst_colors[color % m_nb_colors]);
 	}
 
 	public void WriteLine(string line, int color)
 	{
-		WriteLine(line, m_lst_colors[color]);
+		WriteLine(line, m_lst_colors[color % m_nb_colors]);
 	}
 	
     public void WriteFixedLine(int line, int id, bool time_limit = true)
@@ -222,16 +223,16 @@ public class Console : MonoBehaviour
 
 	public void WriteFixedLine(int line, int id, int color, bool time_limit = true)
 	{
-		WriteFixedLine(line.ToString(), id, m_lst_colors[color], time_limit);
+		WriteFixedLine(line.ToString(), id, m_lst_colors[color % m_nb_colors], time_limit);
 	}
 
 	public void WriteFixedLine(float line, int id, int color, bool time_limit = true)
 	{
-		WriteFixedLine(line.ToString(), id, m_lst_colors[color], time_limit);
+		WriteFixedLine(line.ToString(), id, m_lst_colors[color % m_nb_colors], time_limit);
 	}
 
 	public void WriteFixedLine(string line, int id, int color, bool time_limit = true)
 	{
-		WriteFixedLine(line, id, m_lst_colors[color], time_limit);
+		WriteFixedLine(line, id, m_lst_colors[color % m_nb_colors], time_limit);
 	}
 }
