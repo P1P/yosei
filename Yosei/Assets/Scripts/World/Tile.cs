@@ -30,15 +30,38 @@ public abstract class Tile : MonoBehaviour
 	}
 
 	// Places the TileObject on this Tile
-	// Returns true if TileObject has been placed, otherwise returns false
-	public bool Place_TileObject(TileObject p_tileobject)
+	// Requires the Tile to be Empty
+	public void Set_TileObject(TileObject p_tileobject, bool p_repercute = true)
+	{
+		if (m_tile_object == null)
+		{
+			if (p_repercute)
+			{
+				p_tileobject.Set_Tile(this, false);
+			}
+
+			m_tile_object = p_tileobject;
+		}
+	}
+
+	// Empties this Tile of its Tile Object
+	public void Empty_TileObject(bool p_repercute = true)
 	{
 		if (m_tile_object != null)
 		{
-			m_tile_object = p_tileobject;
-			return true;
-		}
+			if (p_repercute)
+			{
+				m_tile_object.Leave_Tile(false);
+			}
 
-		return false;
+			m_tile_object = null;
+		}
+	}
+
+	// Gets the current TileObject out of this Tile, and replaces it with a new one
+	public void Replace_TileObject(TileObject p_tileobject)
+	{
+		Empty_TileObject();
+		Set_TileObject(p_tileobject);
 	}
 }
