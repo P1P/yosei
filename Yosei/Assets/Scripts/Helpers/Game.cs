@@ -7,6 +7,8 @@ public class Game : MonoBehaviour
     public GameObject m_object_helpers;
 
     public Console m_console;
+    public Colors m_colors;
+    public Textures m_textures;
 	public TimeHelper m_time_helper;
 	public ScreenHelper m_screen_helper;
 
@@ -43,6 +45,8 @@ public class Game : MonoBehaviour
         // Finding Components
         m_console = m_object_helpers.GetComponent<Console>();
 		m_time_helper = m_object_helpers.GetComponent<TimeHelper>();
-		m_screen_helper = m_object_helpers.GetComponent<ScreenHelper>();
+        m_screen_helper = m_object_helpers.GetComponent<ScreenHelper>();
+        m_colors = m_object_helpers.GetComponent<Colors>();
+        m_textures = m_object_helpers.GetComponent<Textures>();
     }
 }

@@ -4,18 +4,23 @@ using System;
 
 [RequireComponent(typeof(Lookable))]
 [RequireComponent(typeof(Gaugeable))]
+[RequireComponent(typeof(BoxCollider))]
 
 public abstract class Tile : MonoBehaviour
 {
-	protected Lookable m_lookable;
-	protected Gaugeable m_gaugeable;
+    public Lookable m_lookable { get; protected set; }
+    public Gaugeable m_gaugeable { get; protected set; }
+
+    protected MeshFilter m_mesh_filter;
 
 	protected TileObject m_tile_object;
 
-	public void Start()
+	public void Awake()
 	{
 		m_lookable = GetComponent<Lookable>();
-		m_gaugeable = GetComponent<Gaugeable>();
+        m_gaugeable = GetComponent<Gaugeable>();
+
+        m_mesh_filter = GetComponent<MeshFilter>();
 	}
 
 	// Returns the TileObject placed on this Tile, or null if no TileObject on Tile
