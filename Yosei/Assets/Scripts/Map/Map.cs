@@ -8,6 +8,9 @@ public class Map : MonoBehaviour {
     public int m_width;
     public int m_depth;
 
+    public float m_x_size;
+    public float m_z_size;
+
     public int m_ground_layer;
 
 	void Start ()
@@ -37,7 +40,8 @@ public class Map : MonoBehaviour {
                 GameObject tile_go = new GameObject(x + " / " + z + " ");
 
                 tile_go.layer = m_ground_layer;
-                tile_go.transform.position = new Vector3(x, 0, z);
+                tile_go.transform.position = new Vector3(x * m_x_size, 0, z * m_z_size);
+                tile_go.transform.localScale = new Vector3(m_x_size, 1f, m_z_size);
 
                 if (Random.value < 0.75f)
                 {

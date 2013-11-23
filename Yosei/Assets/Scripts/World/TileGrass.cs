@@ -11,9 +11,4 @@ public class TileGrass : Tile {
             "Tiles/Mesh/Cube",
             Game.Inst.m_colors.GetColor(0.35f, 0.02f));
 	}
-	
-	void Update ()
-    {
-	
-	}
 }

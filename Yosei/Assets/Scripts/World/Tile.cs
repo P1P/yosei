@@ -4,7 +4,7 @@ using System;
 
 [RequireComponent(typeof(Lookable))]
 [RequireComponent(typeof(Gaugeable))]
-[RequireComponent(typeof(BoxCollider))]
+//[RequireComponent(typeof(BoxCollider))]
 
 public abstract class Tile : MonoBehaviour
 {

@@ -11,9 +11,4 @@ public class TileLava : Tile {
             "Tiles/Mesh/Cube",
             Game.Inst.m_colors.GetColor(0.01f, 0.02f));
 	}
-	
-	void Update ()
-    {
-
-	}
 }
