@@ -11,6 +11,10 @@ public class Map : MonoBehaviour {
     public float m_x_size;
     public float m_z_size;
 
+    public Bounds m_bounds;
+
+    private bool m_require_graph_update = false;
+
 	void Start ()
     {
         InitializeMap();
@@ -54,10 +58,19 @@ public class Map : MonoBehaviour {
                 tile_go.transform.parent = line_go.transform;
             }
         }
+
+        m_require_graph_update = true;
     }
 
     void Update()
     {
-	
+        if (m_require_graph_update)
+        {
+            m_require_graph_update = false;
+
+            m_bounds = new Bounds(new Vector3(m_width * m_x_size / 2f, 0f, m_depth * m_z_size / 2f), new Vector3(m_width * m_x_size, 5f, m_depth * m_z_size));
+
+            Game.Inst.m_pathfinder.UpdateGraphs(m_bounds);
+        }
 	}
 }

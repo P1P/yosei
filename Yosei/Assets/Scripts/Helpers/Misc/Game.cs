@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class Game : MonoBehaviour
 {
     public GameObject m_object_helpers;
+    public GameObject m_object_pathfinder;
 
     public Console m_console;
     public ColorFactory m_colors;
@@ -12,6 +13,9 @@ public class Game : MonoBehaviour
 	public TimeHelper m_time_helper;
 	public ScreenHelper m_screen_helper;
     public LayerHelper m_layer_helper;
+
+    public AstarPath m_pathfinder;
+
 
     private static Game instance;
     public static Game Inst
@@ -42,6 +46,7 @@ public class Game : MonoBehaviour
     {
         // Finding GameObjects
         m_object_helpers = GameObject.Find("Helper");
+        m_object_pathfinder = GameObject.Find("Pathfinding");
 
         // Finding Components
         m_console = m_object_helpers.GetComponent<Console>();
@@ -50,5 +55,7 @@ public class Game : MonoBehaviour
         m_colors = m_object_helpers.GetComponent<ColorFactory>();
         m_textures = m_object_helpers.GetComponent<TextureFactory>();
         m_layer_helper = m_object_helpers.GetComponent<LayerHelper>();
+
+        m_pathfinder = m_object_pathfinder.GetComponent<AstarPath>();
     }
 }

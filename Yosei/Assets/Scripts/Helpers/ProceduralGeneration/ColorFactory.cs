@@ -33,6 +33,15 @@ public class ColorFactory : MonoBehaviour
         set { _value = value; UpdateColors(); }
     }
 
+    [SerializeField]
+    [HideInInspector]
+    private float _hl_offset;
+    public float m_hl_offset
+    {
+        get { return _hl_offset; }
+        set { _hl_offset = value; }
+    }
+
 	void Awake()
     {
         UpdateColors();
@@ -76,5 +85,14 @@ public class ColorFactory : MonoBehaviour
     public Color GetRandomGrey(float p_base_value = 0.5f, float p_variance = 0.5f)
     {
         return UnityEditor.EditorGUIUtility.HSVToRGB(0f, 0f, p_base_value + Random.Range(-p_variance, p_variance));
+    }
+
+    public Color HighlightColor(Color p_color)
+    {
+        float h, s, v;
+
+        UnityEditor.EditorGUIUtility.RGBToHSV(p_color, out h, out s, out v);
+
+        return UnityEditor.EditorGUIUtility.HSVToRGB(h, Mathf.Min(1f, Mathf.Max(0f, s + m_hl_offset)), v);
     }
 }

@@ -17,6 +17,9 @@ public class ColorFactoryEditor : Editor
         color_factory.m_nb_colors = EditorGUILayout.IntSlider(
                 "Nb colors base palette", color_factory.m_nb_colors, 10, 100);
 
+        color_factory.m_hl_offset = EditorGUILayout.Slider(
+                "Highlight offset", color_factory.m_hl_offset, -1f, 1f);
+
         base.OnInspectorGUI();
     }
 }

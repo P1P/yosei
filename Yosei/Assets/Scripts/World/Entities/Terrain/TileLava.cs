@@ -10,5 +10,9 @@ public class TileLava : Tile {
             Game.Inst.m_textures.GetRandomGreyscaleTexture(2, 2, 0.9f, 0.025f),
             "Tiles/Mesh/Cube",
             Game.Inst.m_colors.GetColor(0.01f, 0.02f));
+
+        m_walkability.SetWalkable(false);
+
+        transform.localScale = new Vector3(1f, 2f, 1f);
 	}
 }

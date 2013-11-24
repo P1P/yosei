@@ -8,4 +8,6 @@ public class LayerHelper : MonoBehaviour
 
     public LayerMask m_ground_mask;
     public LayerMask m_obstacle_mask;
+
+    public LayerMask m_tiles_mask;
 }

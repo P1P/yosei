@@ -6,27 +6,31 @@ using Pathfinding;
 public class Pathfinder : MonoBehaviour
 {
     //The point to move to
-    public Vector3 targetPosition;
     private Seeker seeker;
     private CharacterController controller;
     //The calculated path
     public Path path;
     //The AI's speed per second
-    public float speed = 100;
+    public float speed = 1000;
     //The max distance from the AI to a waypoint for it to continue to the next waypoint
-    public float nextWaypointDistance = 3;
+    public float nextWaypointDistance = 1;
     //The waypoint we are currently moving towards
     private int currentWaypoint = 0;
-    public void Start()
+
+    public void Awake()
     {
         seeker = GetComponent<Seeker>();
         controller = GetComponent<CharacterController>();
-        //Start a new path to the targetPosition, return the result to the OnPathComplete function
-        seeker.StartPath(transform.position, targetPosition, OnPathComplete);
     }
+
+    public void GoTo(Vector3 p_target_position)
+    {
+        //Start a new path to the targetPosition, return the result to the OnPathComplete function
+        seeker.StartPath(transform.position, p_target_position, OnPathComplete);
+    }
+
     public void OnPathComplete(Path p)
     {
-        Debug.Log("Yey, we got a path back. Did it have an error? " + p.error);
         if (!p.error)
         {
             path = p;
@@ -34,6 +38,7 @@ public class Pathfinder : MonoBehaviour
             currentWaypoint = 0;
         }
     }
+
     public void FixedUpdate()
     {
         if (path == null)
@@ -43,7 +48,6 @@ public class Pathfinder : MonoBehaviour
         }
         if (currentWaypoint >= path.vectorPath.Count)
         {
-            Debug.Log("End Of Path Reached");
             return;
         }
         //Direction to the next waypoint

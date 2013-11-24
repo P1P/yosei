@@ -10,5 +10,7 @@ public class TileGrass : Tile {
             Game.Inst.m_textures.GetRandomGreyscaleTexture(2, 2, 0.9f, 0.01f),
             "Tiles/Mesh/Cube",
             Game.Inst.m_colors.GetColor(0.35f, 0.02f));
+
+        m_walkability.SetWalkable(true);
 	}
 }

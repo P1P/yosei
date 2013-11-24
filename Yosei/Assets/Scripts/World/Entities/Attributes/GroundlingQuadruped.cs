@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 [RequireComponent(typeof(BoxCollider))]
 
-public class Groundling : MonoBehaviour
+public class GroundlingQuadruped : MonoBehaviour
 {
     public List<Vector3> m_lst_extremities;
     public Bounds m_bounds;
