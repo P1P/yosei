@@ -7,8 +7,7 @@ using System.Collections;
 public class Lookable : MonoBehaviour
 {
     public string m_appearance;
-
-    private MeshFilter m_mesh_filter;
+    public MeshFilter m_mesh_filter;
 
     public void Awake()
     {
@@ -28,7 +27,6 @@ public class Lookable : MonoBehaviour
         m_mesh_filter.mesh = go.GetComponent<MeshFilter>().mesh;
         GameObject.Destroy(go);
     }
-
 
     public void SetAppearance(string p_appearance, string p_material, string p_texture, string p_mesh, Color p_color)
     {

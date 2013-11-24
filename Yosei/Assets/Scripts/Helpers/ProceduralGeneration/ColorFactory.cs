@@ -1,25 +1,52 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Colors : MonoBehaviour
+[ExecuteInEditMode]
+public class ColorFactory : MonoBehaviour
 {
-    public List<Color> m_lst_colors;
-    public int m_nb_colors;
+    public List<Color> m_lst_colors = new List<Color>();
 
-    public float m_saturation;
-    public float m_value;
+    [SerializeField]
+    [HideInInspector]
+    private int _nb_colors;
+    public int m_nb_colors
+    {
+        get { return _nb_colors; }
+        set { _nb_colors = value; UpdateColors(); }
+    }
 
-    public float m_green;
+    [SerializeField]
+    [HideInInspector]
+    private float _saturation;
+    public float m_saturation
+    {
+        get { return _saturation; }
+        set { _saturation = value; UpdateColors(); }
+    }
 
-    public float m_random_range;
+    [SerializeField]
+    [HideInInspector]
+    private float _value;
+    public float m_value
+    {
+        get { return _value; }
+        set { _value = value; UpdateColors(); }
+    }
 
 	void Awake()
     {
+        UpdateColors();
+	}
+
+    private void UpdateColors()
+    {
+        m_lst_colors.Clear();
+
         for (int i = 0; i < m_nb_colors; ++i)
         {
             m_lst_colors.Add(UnityEditor.EditorGUIUtility.HSVToRGB((1f / (m_nb_colors + 1)) * i, m_saturation, m_value));
         }
-	}
+    }
 
     public Color GetRandomBaseColor()
     {

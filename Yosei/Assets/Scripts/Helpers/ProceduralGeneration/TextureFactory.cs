@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Textures : MonoBehaviour
+public class TextureFactory : MonoBehaviour
 {
     public Texture2D GetRandomGreyscaleTexture(int p_width, int p_height, float p_base_value = 0.5f, float p_value_variance = 0.5f)
     {
