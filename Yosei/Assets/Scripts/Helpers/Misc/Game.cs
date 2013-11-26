@@ -6,6 +6,7 @@ public class Game : MonoBehaviour
 {
     public GameObject m_object_helpers;
     public GameObject m_object_pathfinder;
+	public GameObject m_object_observer;
 
     public Console m_console;
     public ColorFactory m_colors;
@@ -47,6 +48,7 @@ public class Game : MonoBehaviour
         // Finding GameObjects
         m_object_helpers = GameObject.Find("Helper");
         m_object_pathfinder = GameObject.Find("Pathfinding");
+		m_object_observer = GameObject.Find("Observer");
 
         // Finding Components
         m_console = m_object_helpers.GetComponent<Console>();
