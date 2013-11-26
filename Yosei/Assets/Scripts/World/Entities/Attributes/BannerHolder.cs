@@ -19,7 +19,7 @@ public class BannerHolder : MonoBehaviour
 	}
 
 	[SerializeField]
-	private float _banner_scale = 5f;
+	private float _banner_scale = 7.5f;
 	public float m_banner_scale
 	{
 		get { return _banner_scale; }
@@ -76,7 +76,7 @@ public class BannerHolder : MonoBehaviour
 	{
 		if (m_banner != null)
 		{
-			m_banner.transform.localScale = Vector3.one * m_banner_scale;
+            m_banner.transform.localScale = Vector3.one * m_banner_scale;
 		}
 	}
 
@@ -89,4 +89,14 @@ public class BannerHolder : MonoBehaviour
 	{
 		m_title_text.text = p_text;
 	}
+
+    public void SetCoreColor(Color p_color)
+    {
+        m_core_background.color = p_color;
+    }
+
+    public void SetTitleColor(Color p_color)
+    {
+        m_title_background.color = p_color;
+    }
 }

@@ -32,9 +32,11 @@ public class Yosei : Entity
 
 		m_bannerholder.SetCoreText("I'm a happy dude");
 		m_bannerholder.SetTitleText("Why hello there");
+        m_bannerholder.SetCoreColor(Game.Inst.m_colors.HighlightColor(m_lookable.m_base_color));
     }
 
 	public void Update()
 	{
+
 	}
 }

@@ -6,10 +6,10 @@ using System.Collections;
 
 public class Lookable : MonoBehaviour
 {
-    public string m_appearance;
-    public MeshFilter m_mesh_filter;
+    public string m_appearance { get; private set; }
+    public Color m_base_color { get; private set; }
+    private MeshFilter m_mesh_filter;
 
-    private Color m_base_color;
     private bool m_hl;
 
     public void Awake()

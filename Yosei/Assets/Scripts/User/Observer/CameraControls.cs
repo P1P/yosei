@@ -47,8 +47,8 @@ public class CameraControls : MonoBehaviour {
     {
         Vector3 direction = Vector3.zero;
 
-        direction += -Input.GetAxis("Mouse Y") * Vector3.forward;
         direction += -Input.GetAxis("Mouse X") * Vector3.right;
+        direction += -Input.GetAxis("Mouse Y") * Vector3.forward;
 
         // Transforming direction from the camera rotation
         direction = transform.TransformDirection(direction);
@@ -72,6 +72,9 @@ public class CameraControls : MonoBehaviour {
 
         // Transforming direction from the camera rotation
         direction = transform.TransformDirection(direction);
+
+        // This is absolute, not related to the camera's transform
+        direction += Input.GetAxis("Altitude") * Vector3.up;
 
         // Holding means more speed
         if (direction == Vector3.zero)
