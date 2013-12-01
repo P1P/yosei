@@ -11,6 +11,7 @@ public class Game : MonoBehaviour
     public Console m_console;
     public ColorFactory m_colors;
     public TextureFactory m_textures;
+    public NameFactory m_names;
 	public TimeHelper m_time_helper;
 	public ScreenHelper m_screen_helper;
     public LayerHelper m_layer_helper;
@@ -56,6 +57,7 @@ public class Game : MonoBehaviour
         m_screen_helper = m_object_helpers.GetComponent<ScreenHelper>();
         m_colors = m_object_helpers.GetComponent<ColorFactory>();
         m_textures = m_object_helpers.GetComponent<TextureFactory>();
+        m_names = m_object_helpers.GetComponent<NameFactory>();
         m_layer_helper = m_object_helpers.GetComponent<LayerHelper>();
 
         m_pathfinder = m_object_pathfinder.GetComponent<AstarPath>();

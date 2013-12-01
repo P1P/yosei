@@ -17,13 +17,14 @@ public class Yosei : Entity
     {
         m_pathfinder = GetComponent<Pathfinder>();
 		m_bannerholder = GetComponent<BannerHolder>();
-        m_name = "Fairy";
 
         base.Awake();
     }
 
     public void Start()
     {
+        m_name = Game.Inst.m_names.GiveMeAName();
+
         m_lookable.SetAppearance(
             "Yosei",
             "Tiles/Material/Material",

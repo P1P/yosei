@@ -17,5 +17,10 @@ public class Commander : MonoBehaviour {
                 yosei.m_pathfinder.GoTo(m_highlighter.m_hl_tile.transform.position);
             }
         }
+
+        if (Input.GetKey(KeyCode.Backspace))
+        {
+            Application.LoadLevel(Application.loadedLevel);
+        }
 	}
 }

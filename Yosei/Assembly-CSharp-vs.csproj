@@ -191,6 +191,7 @@
      <Compile Include="Assets\Scripts\Helpers\Misc\ScreenHelper.cs" />
      <Compile Include="Assets\Scripts\Helpers\Misc\TimeHelper.cs" />
      <Compile Include="Assets\Scripts\Helpers\ProceduralGeneration\ColorFactory.cs" />
+     <Compile Include="Assets\Scripts\Helpers\ProceduralGeneration\NameFactory.cs" />
      <Compile Include="Assets\Scripts\Helpers\ProceduralGeneration\TextureFactory.cs" />
      <Compile Include="Assets\Scripts\User\Observer\CameraControls.cs" />
      <Compile Include="Assets\Scripts\User\Observer\Commander.cs" />
@@ -216,6 +217,7 @@
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Masked Colored.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo18.txt" />
      <None Include="Assets\AstarPathfindingProject\Plugins\DotNetZip\License.txt" />
+     <None Include="Assets\Resources\Shaders\XtremShaderz.shader" />
      <None Include="Assets\AstarPathfindingProject\ExampleScenes\Materials\Projector Multiply.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Header.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (AlphaClip).shader" />
