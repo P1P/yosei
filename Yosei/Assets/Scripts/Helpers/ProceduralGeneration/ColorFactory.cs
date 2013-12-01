@@ -95,4 +95,9 @@ public class ColorFactory : MonoBehaviour
 
         return UnityEditor.EditorGUIUtility.HSVToRGB(h, Mathf.Min(1f, Mathf.Max(0f, s + m_hl_offset)), v);
     }
+
+    public static string ToHexa(Color32 p_color)
+    {
+        return p_color.r.ToString("X2") + p_color.g.ToString("X2") + p_color.b.ToString("X2");
+    }
 }

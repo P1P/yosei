@@ -27,6 +27,7 @@ public class BannerHolder : MonoBehaviour
 	}
 
 	private bool m_follow_camera = true;
+    private Color m_base_text_core_color = Color.white;
 
 	public void Awake()
 	{
@@ -80,10 +81,35 @@ public class BannerHolder : MonoBehaviour
 		}
 	}
 
-	public void SetCoreText(string p_text)
+    public void ClearCoreText()
+    {
+        m_core_text.text = "";
+    }
+
+	public void AddCoreTextLine(string p_text, Color p_color)
 	{
-		m_core_text.text = p_text;
+		m_core_text.text += "[" + ColorFactory.ToHexa(p_color) + "]" + p_text + "[-]" + "\n";
 	}
+
+    public void AddCoreTextLine(string p_test)
+    {
+        AddCoreTextLine(p_test, m_base_text_core_color);
+    }
+
+    public void AddCoreTextLine()
+    {
+        m_core_text.text += "\n";
+    }
+
+    public void AddCoreText(string p_text, Color p_color)
+    {
+        m_core_text.text += "[" + ColorFactory.ToHexa(p_color) + "]" + p_text + "[-]";
+    }
+
+    public void AddCoreText(string p_text)
+    {
+        AddCoreText(p_text, m_base_text_core_color);
+    }
 
 	public void SetTitleText(string p_text)
 	{
