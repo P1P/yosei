@@ -9,14 +9,14 @@ using System.Collections;
 public class Yosei : Entity
 {
     public Pathfinder m_pathfinder;
-	private BannerHolder m_bannerholder;
+    private BannerHolder m_bannerholder;
 
     public string m_name;
 
     public void Awake()
     {
         m_pathfinder = GetComponent<Pathfinder>();
-		m_bannerholder = GetComponent<BannerHolder>();
+        m_bannerholder = GetComponent<BannerHolder>();
 
         base.Awake();
     }
@@ -35,10 +35,10 @@ public class Yosei : Entity
         transform.localScale = Vector3.one * 0.25f;
     }
 
-	public void Update()
-	{
+    public void Update()
+    {
         WriteToBanner();
-	}
+    }
 
     private void WriteToBanner()
     {
