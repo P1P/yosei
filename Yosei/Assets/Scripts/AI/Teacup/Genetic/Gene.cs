@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace givemeaname.Genetic
+namespace Teacup.Genetic
 {
-    public class Gene<T>
+    public class Gene<T> where T : struct
     {
         private T m_data;
 
@@ -20,6 +20,11 @@ namespace givemeaname.Genetic
         public void set_data(T p_data)
         {
             m_data = p_data;
+        }
+
+        public string ToString()
+        {
+            return m_data.ToString();
         }
     }
 }
