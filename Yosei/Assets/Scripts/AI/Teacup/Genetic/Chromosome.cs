@@ -1,17 +1,25 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 
 namespace Teacup.Genetic
 {
+    /// <summary>
+    /// A chromosomes contains several genes
+    /// Can undergo several transformations such as crossovers and gene mutations
+    /// </summary>
+    /// <typeparam name="T">The type of genetic information (struct)</typeparam>
     public class Chromosome<T> where T : struct
     {
         private LinkedList<Gene<T>> m_lst_genes;
+        private static Random m_static_random = new Random();
 
-        public Chromosome()
-        {
-            m_lst_genes = new LinkedList<Gene<T>>();
-        }
+        public Chromosome() : this(new LinkedList<Gene<T>>()) { }
 
+        /// <summary>
+        /// Initializes the chromosome with a list of genes
+        /// </summary>
+        /// <param name="p_lst_genes">The list of genes</param>
         public Chromosome(LinkedList<Gene<T>> p_lst_genes)
         {
             m_lst_genes = p_lst_genes;
@@ -30,12 +38,12 @@ namespace Teacup.Genetic
             int chr_1_length = p_chr_1.m_lst_genes.Count;
 
             // Requires same length on both chromosomes
-            System.Diagnostics.Debug.Assert(chr_1_length == p_chr_2.m_lst_genes.Count);
+            Debug.Assert(chr_1_length == p_chr_2.m_lst_genes.Count);
 
             // Random junction
             if (p_junction_index < 0)
             {
-                p_junction_index = Random.Range(0, chr_1_length);
+                p_junction_index = m_static_random.Next(0, chr_1_length);
             }
 
             LinkedListNode<Gene<T>> node_chr_1, node_chr_2;
@@ -70,7 +78,7 @@ namespace Teacup.Genetic
             // Random mutation location
             if (p_index < 0)
             {
-                p_index = Random.Range(0, this.m_lst_genes.Count);
+                p_index = m_static_random.Next(0, this.m_lst_genes.Count);
             }
 
             LinkedListNode<Gene<T>> node = this.m_lst_genes.First;
@@ -83,6 +91,28 @@ namespace Teacup.Genetic
                 }
                 node = node.Next;
             }
+        }
+
+        /// <summary>
+        /// Returns the gene at the given index
+        /// </summary>
+        /// <param name="p_index">Index of the gene. Must be lower than gene count</param>
+        /// <returns>The gene at p_index</returns>
+        public Gene<T> GetGene(int p_index)
+        {
+            Debug.Assert(p_index < m_lst_genes.Count);
+
+            int i = 0;
+            foreach (Gene<T> gene in m_lst_genes)
+            {
+                if (i == p_index)
+                {
+                    return gene;
+                }
+                ++i;
+            }
+
+            return null;
         }
 
         public string ToString()
