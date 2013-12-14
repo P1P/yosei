@@ -34,7 +34,7 @@ namespace Teacup.Genetic
         /// Retrieves this gene's data
         /// </summary>
         /// <returns>The gene data</returns>
-        public T get_data()
+        public T GetData()
         {
             return m_data;
         }
@@ -43,7 +43,7 @@ namespace Teacup.Genetic
         /// Sets the gene data
         /// </summary>
         /// <param name="p_data">The new gene data</param>
-        public void set_data(T p_data)
+        public void SetData(T p_data)
         {
             m_data = p_data;
         }

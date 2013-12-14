@@ -12,14 +12,17 @@ namespace Teacup.Genetic
     public class Chromosome<T> where T : struct
     {
         private LinkedList<Gene<T>> m_lst_genes;
+        private string m_name;
+
         private static Random m_random = new Random();
 
         /// <summary>
         /// Initializes the chromosome with a list of genes
         /// </summary>
-        /// <param name="p_lst_genes">The list of genes</param>
-        public Chromosome(params Gene<T>[] p_array_genes)
+        /// <param name="p_array_genes">The array of genes</param>
+        public Chromosome(string p_name, params Gene<T>[] p_array_genes)
         {
+            m_name = p_name;
             m_lst_genes = new LinkedList<Gene<T>>(p_array_genes);
         }
 
@@ -27,8 +30,10 @@ namespace Teacup.Genetic
         /// Initializes the chromosome with a list of data
         /// </summary>
         /// <param name="p_lst_genes">The list of genes</param>
-        public Chromosome(params T[] p_array_data)
+        public Chromosome(string p_name, params T[] p_array_data)
         {
+            m_name = p_name;
+
             m_lst_genes = new LinkedList<Gene<T>>();
 
             foreach (T data in p_array_data)
@@ -38,12 +43,19 @@ namespace Teacup.Genetic
         }
 
         /// <summary>
-        /// Copy constructor, clones the list of genes of the given chromosome
+        /// Copy constructor, deep-copies the list of genes of the given chromosome
         /// </summary>
-        /// <param name="p_other">The Chromosome to copy</param>
+        /// <param name="p_other">The chromosome to copy</param>
         public Chromosome(Chromosome<T> p_other)
         {
-            m_lst_genes = new LinkedList<Gene<T>>(p_other.m_lst_genes);
+            m_name = p_other.m_name;
+
+            m_lst_genes = new LinkedList<Gene<T>>();
+
+            foreach (Gene<T> gene in p_other.m_lst_genes)
+            {
+                m_lst_genes.AddLast(new Gene<T>(gene));
+            }
         }
 
         /// <summary>
@@ -54,7 +66,7 @@ namespace Teacup.Genetic
         /// <param name="p_chr_1">The first chromosome</param>
         /// <param name="p_chr_2">The second chromosome</param>
         /// <param name="p_junction_index">The point of junction. No parameter or -1 for random index</param>
-        public static void CrossOver(Chromosome<T> p_chr_1, Chromosome<T> p_chr_2, int p_junction_index)
+        public static void CrossOver(Chromosome<T> p_chr_1, Chromosome<T> p_chr_2, int p_junction_index = -1)
         {
             int chr_1_length = p_chr_1.m_lst_genes.Count;
 
@@ -108,11 +120,20 @@ namespace Teacup.Genetic
             {
                 if (i == p_index)
                 {
-                    node.Value = MutateGene(node.Value);
+                    node.Value = MutateGeneFull(node.Value);
                     break;
                 }
                 node = node.Next;
             }
+        }
+
+        /// <summary>
+        /// Returns the name of the chromosome
+        /// </summary>
+        /// <returns>The name of the chromosome</returns>
+        public string GetName()
+        {
+            return m_name;
         }
 
         /// <summary>
@@ -184,7 +205,7 @@ namespace Teacup.Genetic
             int i = 0;
             foreach (Gene<T> gene in m_lst_genes)
             {
-                array_data[i] = gene.get_data();
+                array_data[i] = gene.GetData();
                 i++;
             }
 
@@ -256,19 +277,19 @@ namespace Teacup.Genetic
         }
 
         /// <summary>
-        /// Mutates a gene
+        /// Fully mutates a gene; no regards to the old value
         /// </summary>
         /// <param name="p_gene">The gene to mutate</param>
-        /// <returns>The gene after mutation</returns>
-        public static Gene<T> MutateGene(Gene<T> p_gene)
+        /// <returns>The gene after full mutation</returns>
+        public static Gene<T> MutateGeneFull(Gene<T> p_gene)
         {
             if (p_gene is Gene<decimal>)
             {
-                (p_gene as Gene<decimal>).set_data((decimal) m_random.NextDouble());
+                (p_gene as Gene<decimal>).SetData((decimal) m_random.NextDouble());
             }
             else if (p_gene is Gene<int>)
             {
-                (p_gene as Gene<int>).set_data(m_random.Next());
+                (p_gene as Gene<int>).SetData(m_random.Next());
             }
             else
             {

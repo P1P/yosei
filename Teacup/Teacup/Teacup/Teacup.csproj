@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Genetic\Population.cs" />
+    <Compile Include="Genetic\UnitTesting\TestGenome.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Genetic\Chromosome.cs" />
     <Compile Include="Genetic\Gene.cs" />
