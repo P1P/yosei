@@ -124,9 +124,6 @@
     <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
     <Compile Include="Assets\Scripts\AI\Brewery\Brewer.cs" />
-    <Compile Include="Assets\Scripts\AI\Teacup\Genetic\Chromosome.cs" />
-    <Compile Include="Assets\Scripts\AI\Teacup\Genetic\Gene.cs" />
-    <Compile Include="Assets\Scripts\AI\Teacup\Genetic\Genome.cs" />
     <Compile Include="Assets\Scripts\Helpers\Datastructures\Tuple.cs" />
     <Compile Include="Assets\Scripts\Helpers\Debug\Console.cs" />
     <Compile Include="Assets\Scripts\Helpers\Debug\FpsCounter.cs" />
@@ -191,9 +188,6 @@
     <None Include="Assets\Plugins\AstarPathfindingProject\link.xml" />
     <Reference Include="NGUI">
       <HintPath>Assets\NGUI\DLLs\NGUI.dll</HintPath>
-    </Reference>
-    <Reference Include="AKeNe">
-      <HintPath>Assets\Plugins\AKeNe\AKeNe.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip.Reduced">
       <HintPath>Assets\Plugins\AstarPathfindingProject\Plugins\DotNetZip\Ionic.Zip.Reduced.dll</HintPath>

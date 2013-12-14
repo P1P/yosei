@@ -12,15 +12,14 @@ namespace Teacup.Genetic
 	{
         private List<Chromosome<T>> m_lst_chromosomes;
 
-        public Genome() : this(new List<Chromosome<T>>()) { }
-
         /// <summary>
         /// Initializes the genome with a list of chromosomes
         /// </summary>
         /// <param name="p_lst_chromosomes">The list of chromosomes</param>
-        public Genome(List<Chromosome<T>> p_lst_chromosomes)
+        public Genome(params Chromosome<T>[] p_array_chromosomes)
         {
-            m_lst_chromosomes = p_lst_chromosomes;
+            m_lst_chromosomes = new List<Chromosome<T>>(p_array_chromosomes);
+            
         }
 
         /// <summary>

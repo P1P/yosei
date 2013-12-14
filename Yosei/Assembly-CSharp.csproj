@@ -123,8 +123,6 @@
      <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
      <Compile Include="Assets\Scripts\AI\Brewery\Brewer.cs" />
-     <Compile Include="Assets\Scripts\AI\Teacup\Genetic\Chromosome.cs" />
-     <Compile Include="Assets\Scripts\AI\Teacup\Genetic\Gene.cs" />
      <Compile Include="Assets\Scripts\Helpers\Datastructures\Tuple.cs" />
      <Compile Include="Assets\Scripts\Helpers\Debug\Console.cs" />
      <Compile Include="Assets\Scripts\Helpers\Debug\FpsCounter.cs" />
