@@ -54,7 +54,7 @@ namespace Teacup.Genetic
         /// <returns>A string representation of the gene's data</returns>
         public override string ToString()
         {
-            return m_data.ToString();
+            return String.Format("{0:000.00}", m_data);
         }
 
         /// <summary>

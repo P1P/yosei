@@ -73,7 +73,7 @@ namespace Teacup.Genetic
         }
 
         /// <summary>
-        /// Returns the number of chromosomes in the genom
+        /// Returns the number of chromosomes in the genome
         /// </summary>
         /// <returns>The number of chromosomes</returns>
         public int GetChromosomeCount()
@@ -82,30 +82,30 @@ namespace Teacup.Genetic
         }
 
         /// <summary>
-        /// Mate two parent genomes to form an offspring through possible crossovers and mutations on each chromosome
-        /// Note that the two parent genomes will undergo modifications
+        /// Mate two parent genomes to become offsprings through possible crossovers and mutations on each chromosome
         /// </summary>
-        /// <param name="p_genome_1">The fist parent genome</param>
-        /// <param name="p_genome_2">The second parent genome</param>
+        /// <param name="p_genome_1">The fist parent genome, to become the first offspring</param>
+        /// <param name="p_genome_2">The second parent genome, to become the second offspring</param>
         /// <param name="p_crossover_rate">The probability for a crossover to occur on each chromosome</param>
         /// <param name="p_mutation_rate">The probability for a mutation to occur on each chromosome (not on each gene)</param>
-        /// <returns>The offspring genome</returns>
-        public static Genome<T> Mate(Genome<T> p_genome_1, Genome<T> p_genome_2, float p_crossover_rate, float p_mutation_rate)
+        /// <param name="p_mutation_type">
+        /// The type of mutations to occur
+        /// DELTA: new gene = old gene +- random(0, delta); guaranteed to stay within bounds
+        /// FULL: new gene = random(0, bounds); guaranteed to stay within bounds</param>
+        /// <param name="p_mutation_delta">
+        /// The variation (in case of delta mutation)
+        /// A negative or positive offset of absolute value up to it will be added to the gene
+        /// </param>
+        /// <param name="p_mutation_bounds">The upper limit or the gene's value. Lower is always zero</param>
+        public static void Mate(Genome<T> p_genome_1, Genome<T> p_genome_2, double p_crossover_rate, double p_mutation_rate,
+            Chromosome<T>.MUTATION_TYPE p_mutation_type, decimal p_mutation_delta, decimal p_mutation_bounds)
         {
-            Genome<T> offspring = new Genome<T>();
-
             for (int i = 0; i < p_genome_1.GetChromosomeCount(); ++i)
             {
-                string name = p_genome_1.GetChromosome(i).GetName();
+                Chromosome<T> chr_1 = p_genome_1.GetChromosome(i);
+                Chromosome<T> chr_2 = p_genome_2.GetChromosome(chr_1.GetName());
 
-                Debug.Assert(name == p_genome_2.GetChromosome(i).GetName());
-
-                // Coin toss which side we should do the crossover from, or which parent to take in case of no crossover
-                bool order = m_static_random.Next(2) == 0;
-                Chromosome<T> chr_1 = order ? p_genome_1.GetChromosome(name) : p_genome_2.GetChromosome(name);
-                Chromosome<T> chr_2 = !order ? p_genome_1.GetChromosome(name) : p_genome_2.GetChromosome(name);
-
-                Chromosome<T> child_chromosome = chr_1;
+                Debug.Assert(chr_1.GetName() == chr_2.GetName());
 
                 // Crossover
                 if (m_static_random.NextDouble() < p_crossover_rate)
@@ -116,17 +116,18 @@ namespace Teacup.Genetic
                 // Mutation
                 if (m_static_random.NextDouble() < p_mutation_rate)
                 {
-                    chr_1.Mutate();
+                    chr_1.Mutate(p_mutation_type, p_mutation_delta, p_mutation_bounds);
                 }
 
-                offspring.AddChromosome(chr_1);
+                if (m_static_random.NextDouble() < p_mutation_rate)
+                {
+                    chr_2.Mutate(p_mutation_type, p_mutation_delta, p_mutation_bounds);
+                }
             }
-
-            return offspring;
         }
 
         /// <summary>
-        /// Returns a multi-line display of this genome's chromosomes
+        /// Returns a one-line display of this genome's chromosomes
         /// </summary>
         /// <returns>A string representation of the genome</returns>
         public override string ToString()
@@ -137,9 +138,9 @@ namespace Teacup.Genetic
             foreach (KeyValuePair<string, Chromosome<T>> pair in m_dict_chromosomes)
             {
                 if (first) { first = false; }
-                else { str += "\n"; }
+                else { str += " - "; }
 
-                str += "[" + pair.Key.ToString() + "] " + pair.Value.ToString();
+                str += pair.Key.ToString() + " " + pair.Value.ToString();
             }
 
             return str;

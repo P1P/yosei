@@ -11,6 +11,8 @@ namespace Teacup.Genetic
     /// <typeparam name="T">The type of genetic information (struct)</typeparam>
     public class Chromosome<T> where T : struct
     {
+        public enum MUTATION_TYPE { DELTA, FULL }
+
         private LinkedList<Gene<T>> m_lst_genes;
         private string m_name;
 
@@ -66,7 +68,8 @@ namespace Teacup.Genetic
         /// <param name="p_chr_1">The first chromosome</param>
         /// <param name="p_chr_2">The second chromosome</param>
         /// <param name="p_junction_index">The point of junction. No parameter or -1 for random index</param>
-        public static void CrossOver(Chromosome<T> p_chr_1, Chromosome<T> p_chr_2, int p_junction_index = -1)
+        /// <param name="p_order">The order from which the cross over will happen. 1 forward, 0 backward. No parameter or -1 for random order</param>
+        public static void CrossOver(Chromosome<T> p_chr_1, Chromosome<T> p_chr_2, int p_junction_index = -1, int p_order = -1)
         {
             int chr_1_length = p_chr_1.m_lst_genes.Count;
 
@@ -79,16 +82,19 @@ namespace Teacup.Genetic
                 p_junction_index = m_random.Next(0, chr_1_length);
             }
 
+            // Randomly decide from what side of the junction the crossover should happen
+            bool order = (p_order == 0 ? false : p_order == 1 ? true : m_random.Next(2) == 0);
+
             LinkedListNode<Gene<T>> node_chr_1, node_chr_2;
             Gene<T> gene_tmp;
 
             node_chr_1 = p_chr_1.m_lst_genes.First;
             node_chr_2 = p_chr_2.m_lst_genes.First;
 
-            // Cross genes over after the junction point
+            // Cross genes over after (or before) the junction point
             for (int i = 0; i < chr_1_length; ++i)
             {
-                if (i >= p_junction_index)
+                if ((order && i >= p_junction_index) || (!order && i < p_junction_index))
                 {
                     gene_tmp = node_chr_1.Value;
 
@@ -104,10 +110,19 @@ namespace Teacup.Genetic
         public delegate Gene<T> Mutation(Gene<T> p_gene);
 
         /// <summary>
-        /// Mutates this chromosome by changing a gene at either a given or randomly selected index
+        /// Mutates a chromosome with an offset, or without regards to the genes' current values
         /// </summary>
+        /// <param name="p_mutation_type">
+        /// The type of mutations to occur
+        /// DELTA: new gene = old gene +- random(0, delta); guaranteed to stay within bounds
+        /// FULL: new gene = random(0, bounds); guaranteed to stay within bounds</param>
+        /// <param name="p_delta">
+        /// The variation (in case of delta mutation)
+        /// A negative or positive offset of absolute value up to it will be added to the gene
+        /// </param>
+        /// <param name="p_bounds">The upper limit or the gene's value. Lower is always zero</param>
         /// <param name="p_index">The index of the gene the mutation should occur on. No value or -1 for random index</param>
-        public void Mutate(int p_index = -1)
+        public void Mutate(MUTATION_TYPE p_mutation_type, decimal p_delta, decimal p_bounds, int p_index = -1)
         {
             // Random mutation location
             if (p_index < 0)
@@ -120,7 +135,7 @@ namespace Teacup.Genetic
             {
                 if (i == p_index)
                 {
-                    node.Value = MutateGeneFull(node.Value);
+                    node.Value = MutateGene(node.Value, p_mutation_type, p_delta, p_bounds);
                     break;
                 }
                 node = node.Next;
@@ -218,12 +233,21 @@ namespace Teacup.Genetic
         /// <returns>A string representation of the chromosome</returns>
         public override string ToString()
         {
-            string str = "|";
+            string str = "{";
 
+            int i = 0;
             foreach (Gene<T> gene in m_lst_genes)
             {
-                str += gene.ToString() + "|";
+                str += gene.ToString();
+
+                if (i < m_lst_genes.Count - 1)
+                {
+                    str += ", ";
+                }
+                i++;
             }
+
+            str += "}";
 
             return str;
         }
@@ -274,22 +298,59 @@ namespace Teacup.Genetic
         public static void SetRandomSeed(int p_seed)
         {
             m_random = new Random(p_seed);
-        }
+        }       
 
         /// <summary>
-        /// Fully mutates a gene; no regards to the old value
+        /// Mutates a gene with an offset, or without regards to the gene's current value
         /// </summary>
+        /// <param name="p_mutation_type">
+        /// The type of mutation to occur
+        /// DELTA: new gene = old gene +- random(0, delta); guaranteed to stay within bounds
+        /// FULL: new gene = random(0, bounds); guaranteed to stay within bounds</param>
         /// <param name="p_gene">The gene to mutate</param>
+        /// <param name="p_delta">
+        /// The variation (in case of delta mutation)
+        /// A negative or positive offset of absolute value up to it will be added to the gene
+        /// </param>
+        /// <param name="p_bounds">The upper limit or the gene's value. Lower is always zero</param>
         /// <returns>The gene after full mutation</returns>
-        public static Gene<T> MutateGeneFull(Gene<T> p_gene)
+        private static Gene<T> MutateGene(Gene<T> p_gene, MUTATION_TYPE p_mutation_type, decimal p_delta, decimal p_bounds)
         {
             if (p_gene is Gene<decimal>)
             {
-                (p_gene as Gene<decimal>).SetData((decimal) m_random.NextDouble());
+                switch (p_mutation_type)
+                {
+                    case MUTATION_TYPE.DELTA:
+                        int sign = (m_random.Next(2) == 0) ? 1 : -1;
+                        decimal offset = ((decimal)m_random.NextDouble()) * p_delta * sign;
+
+                        (p_gene as Gene<decimal>).SetData(Math.Max(0m, Math.Min(p_bounds, (p_gene as Gene<decimal>).GetData() + offset)));
+                        break;
+                    case MUTATION_TYPE.FULL:
+                        decimal newvalue = ((decimal)m_random.NextDouble()) * p_bounds;
+
+                        (p_gene as Gene<decimal>).SetData(Math.Max(0m, Math.Min(p_bounds, newvalue)));
+
+                        break;
+                }
             }
             else if (p_gene is Gene<int>)
             {
-                (p_gene as Gene<int>).SetData(m_random.Next());
+                switch (p_mutation_type)
+                {
+                    case MUTATION_TYPE.DELTA:
+                        int sign = (m_random.Next(2) == 0) ? 1 : -1;
+                        int offset = m_random.Next((int)p_delta) * sign;
+
+                        (p_gene as Gene<int>).SetData(Math.Max(0, Math.Min((int)p_bounds, (p_gene as Gene<int>).GetData() + offset)));
+                        break;
+                    case MUTATION_TYPE.FULL:
+                        int newvalue = m_random.Next() % (int)(p_bounds);
+
+                        (p_gene as Gene<int>).SetData(Math.Max(0, Math.Min((int)p_bounds, newvalue)));
+
+                        break;
+                }
             }
             else
             {
