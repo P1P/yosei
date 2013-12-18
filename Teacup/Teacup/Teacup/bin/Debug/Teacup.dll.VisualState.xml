@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
-  <TopNode>[0-1012]D:\dev\Yosei\yosei\Teacup\Teacup\Teacup\bin\Debug\Teacup.dll</TopNode>
-  <SelectedNode>[0-1012]D:\dev\Yosei\yosei\Teacup\Teacup\Teacup\bin\Debug\Teacup.dll</SelectedNode>
+  <TopNode>[0-1010]D:\dev\Yosei\yosei\Teacup\Teacup\Teacup\bin\Debug\Teacup.dll</TopNode>
+  <SelectedNode>[0-1010]D:\dev\Yosei\yosei\Teacup\Teacup\Teacup\bin\Debug\Teacup.dll</SelectedNode>
   <ExcludeCategories>false</ExcludeCategories>
   <Nodes>
-    <Node UniqueName="[0-1012]D:\dev\Yosei\yosei\Teacup\Teacup\Teacup\bin\Debug\Teacup.dll" Expanded="true" />
-    <Node UniqueName="[0-1013]Teacup" Expanded="true" />
-    <Node UniqueName="[0-1014]Teacup.Genetic" Expanded="true" />
-    <Node UniqueName="[0-1015]Teacup.Genetic.UnitTesting" Expanded="true" />
+    <Node UniqueName="[0-1010]D:\dev\Yosei\yosei\Teacup\Teacup\Teacup\bin\Debug\Teacup.dll" Expanded="true" />
+    <Node UniqueName="[0-1011]Teacup" Expanded="true" />
+    <Node UniqueName="[0-1012]Teacup.Genetic" Expanded="true" />
+    <Node UniqueName="[0-1013]Teacup.Genetic.UnitTesting" Expanded="true" />
     <Node UniqueName="[0-1006]Teacup.Genetic.UnitTesting.TestChromosome" Expanded="true" />
-    <Node UniqueName="[0-1010]Teacup.Genetic.UnitTesting.TestGene" Expanded="true" />
     <Node UniqueName="[0-1000]Teacup.Genetic.UnitTesting.TestGenome" Expanded="true" />
     <Node UniqueName="[0-1003]Teacup.Genetic.UnitTesting.TestPopulation" Expanded="true" />
   </Nodes>

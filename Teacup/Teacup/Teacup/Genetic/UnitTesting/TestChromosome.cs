@@ -11,8 +11,10 @@ namespace Teacup.Genetic.UnitTesting
         [Test]
         public void InitGetSet()
         {
+            GeneticOperatorRules rules = new GeneticOperatorRules(0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m);
+
             // Creating a chromosome gene by gene
-            Chromosome<int> chr_1 = new Chromosome<int>("MyChromosome", 0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m);
+            Chromosome<int> chr_1 = new Chromosome<int>("MyChromosome", rules);
 
             Assert.AreEqual(chr_1.GetGenesCount(), 0);
 
@@ -20,7 +22,7 @@ namespace Teacup.Genetic.UnitTesting
 
             for (int i = 0; i < nb_genes; ++i)
             {
-                Gene<int> gene = new Gene<int>(i * 10);
+                int gene = i * 10;
                 chr_1.AddGene(gene);
                 Assert.AreEqual(chr_1.GetGene(i), gene);
             }
@@ -30,19 +32,21 @@ namespace Teacup.Genetic.UnitTesting
             // Creating a chromosome directly through data
             decimal[] data_array = new decimal[] { decimal.MinValue, decimal.MinusOne, decimal.Zero, decimal.One, decimal.MaxValue };
 
-            Chromosome<decimal> chr_2 = new Chromosome<decimal>("MySecondChromosome", 0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m, data_array);
+            Chromosome<decimal> chr_2 = new Chromosome<decimal>("MySecondChromosome", rules, data_array);
 
             for (int i = 0; i < data_array.Length; ++i)
             {
-                Assert.AreEqual(chr_2.GetGene(i).GetData(), data_array[i]);
+                Assert.AreEqual(chr_2.GetGene(i), data_array[i]);
             }
         }
 
         [Test]
         public void Crossover()
         {
-            Chromosome<int> chr_base_1 = new Chromosome<int>("Chromosome1", 0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m, new int[] { 1, 2, 3, 4, 5 });
-            Chromosome<int> chr_base_2 = new Chromosome<int>("Chromosome2", 0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m, new int[] { -1, -2, -3, -4, -5 });
+            GeneticOperatorRules rules = new GeneticOperatorRules(0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m);
+
+            Chromosome<int> chr_base_1 = new Chromosome<int>("Chromosome1", rules, new int[] { 1, 2, 3, 4, 5 });
+            Chromosome<int> chr_base_2 = new Chromosome<int>("Chromosome2", rules, new int[] { -1, -2, -3, -4, -5 });
             
             // Junction at end should mean no crossover or full swap
             Chromosome<int> chr_1 = new Chromosome<int>(chr_base_1);
@@ -101,18 +105,20 @@ namespace Teacup.Genetic.UnitTesting
         [Test]
         public void Mutation()
         {
-            Chromosome<decimal> chr_1 = new Chromosome<decimal>("MyChromosome", 0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m);
+            GeneticOperatorRules rules = new GeneticOperatorRules(0.7, MUTATION_TYPE.FULL, 1, 1m, 0m, 2m);
+
+            Chromosome<decimal> chr_1 = new Chromosome<decimal>("MyChromosome", rules);
 
             for (int i = 0; i < 10; ++i)
             {
-                chr_1.AddGene(new Gene<decimal>(1m));
-                Assert.AreEqual(chr_1.GetGene(i).GetData(), 1m);
+                chr_1.AddGene(1m);
+                Assert.AreEqual(chr_1.GetGene(i), 1m);
             }
 
-            chr_1.Mutate(MUTATION_TYPE.FULL, 0.1m, 0m, 2m, 0);
+            chr_1.Mutate(0);
 
             Assert.AreEqual(chr_1.GetGenesCount(), 10);
-            Assert.AreNotEqual(chr_1.GetGene(0).GetData(), 1m);
+            Assert.AreNotEqual(chr_1.GetGene(0), 1m);
         }
     }
 }

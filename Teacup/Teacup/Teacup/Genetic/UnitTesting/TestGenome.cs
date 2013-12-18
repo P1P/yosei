@@ -11,32 +11,36 @@ namespace Teacup.Genetic.UnitTesting
         [Test]
         public void InitGetSet()
         {
-            Chromosome<int> chr_1 = new Chromosome<int>("MyFirstChromosome", 0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m);
-            Chromosome<int> chr_2 = new Chromosome<int>("MySecondChromosome", 0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m);
+            GeneticOperatorRules rules = new GeneticOperatorRules(0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m);
 
-            chr_1.AddGene(new Gene<int>(1));
-            chr_1.AddGene(new Gene<int>(2));
+            Chromosome<int> chr_1 = new Chromosome<int>("MyFirstChromosome", rules);
+            Chromosome<int> chr_2 = new Chromosome<int>("MySecondChromosome", rules);
 
-            chr_2.AddGene(new Gene<int>(11));
-            chr_2.AddGene(new Gene<int>(12));
-            chr_2.AddGene(new Gene<int>(13));
+            chr_1.AddGene(1);
+            chr_1.AddGene(2);
+
+            chr_2.AddGene(11);
+            chr_2.AddGene(12);
+            chr_2.AddGene(13);
 
             Genome<int> genome = new Genome<int>(new Chromosome<int>[] { chr_1, chr_2} );
 
             Assert.AreEqual(genome.GetChromosomeCount(), 2);
             Assert.AreEqual(genome.GetChromosome("MyFirstChromosome"), chr_1);
             Assert.AreEqual(genome.GetChromosome("MySecondChromosome").GetGenesCount(), 3);
-            Assert.AreEqual(genome.GetChromosome("MySecondChromosome").GetGene(2).GetData(), 13);
+            Assert.AreEqual(genome.GetChromosome("MySecondChromosome").GetGene(2), 13);
         }
 
         [Test]
         public void Mate()
         {
-            Chromosome<decimal> chr_1A = new Chromosome<decimal>("ChromosomeA", 0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m, 1, 2, 3, 4);
-            Chromosome<decimal> chr_1B = new Chromosome<decimal>("ChromosomeB", 0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m, 11, 12, 13, 14, 15, 16);
+            GeneticOperatorRules rules = new GeneticOperatorRules(0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m);
 
-            Chromosome<decimal> chr_2A = new Chromosome<decimal>("ChromosomeA", 0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m, 2.1m, 2.1m, 3.1m, 4.1m);
-            Chromosome<decimal> chr_2B = new Chromosome<decimal>("ChromosomeB", 0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m, 11.1m, 12.1m, 13.1m, 14.1m, 15.1m, 16.1m);
+            Chromosome<decimal> chr_1A = new Chromosome<decimal>("ChromosomeA", rules, 1, 2, 3, 4);
+            Chromosome<decimal> chr_1B = new Chromosome<decimal>("ChromosomeB", rules, 11, 12, 13, 14, 15, 16);
+
+            Chromosome<decimal> chr_2A = new Chromosome<decimal>("ChromosomeA", rules, 2.1m, 2.1m, 3.1m, 4.1m);
+            Chromosome<decimal> chr_2B = new Chromosome<decimal>("ChromosomeB", rules, 11.1m, 12.1m, 13.1m, 14.1m, 15.1m, 16.1m);
 
             Genome<decimal> genome_1 = new Genome<decimal>(new Chromosome<decimal>[] { chr_1A, chr_1B });
             Genome<decimal> genome_2 = new Genome<decimal>(new Chromosome<decimal>[] { chr_2A, chr_2B });

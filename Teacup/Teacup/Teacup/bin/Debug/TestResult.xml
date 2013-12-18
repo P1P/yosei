@@ -1,38 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--This file represents the results of running a test suite-->
-<test-results name="D:\dev\Yosei\yosei\Teacup\Teacup\Teacup\bin\Debug\Teacup.dll" total="8" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2013-12-18" time="21:50:45">
+<test-results name="D:\dev\Yosei\yosei\Teacup\Teacup\Teacup\bin\Debug\Teacup.dll" total="7" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2013-12-19" time="00:33:52">
   <environment nunit-version="2.6.3.13283" clr-version="2.0.50727.5472" os-version="Microsoft Windows NT 6.1.7601 Service Pack 1" platform="Win32NT" cwd="C:\Program Files (x86)\NUnit 2.6.3\bin" machine-name="MIYAKO" user="Théo" user-domain="Miyako" />
   <culture-info current-culture="en-GB" current-uiculture="fr-FR" />
-  <test-suite type="Assembly" name="D:\dev\Yosei\yosei\Teacup\Teacup\Teacup\bin\Debug\Teacup.dll" executed="True" result="Success" success="True" time="6.486" asserts="0">
+  <test-suite type="Assembly" name="D:\dev\Yosei\yosei\Teacup\Teacup\Teacup\bin\Debug\Teacup.dll" executed="True" result="Success" success="True" time="0.097" asserts="0">
     <results>
-      <test-suite type="Namespace" name="Teacup" executed="True" result="Success" success="True" time="6.486" asserts="0">
+      <test-suite type="Namespace" name="Teacup" executed="True" result="Success" success="True" time="0.097" asserts="0">
         <results>
-          <test-suite type="Namespace" name="Genetic" executed="True" result="Success" success="True" time="6.486" asserts="0">
+          <test-suite type="Namespace" name="Genetic" executed="True" result="Success" success="True" time="0.097" asserts="0">
             <results>
-              <test-suite type="Namespace" name="UnitTesting" executed="True" result="Success" success="True" time="6.486" asserts="0">
+              <test-suite type="Namespace" name="UnitTesting" executed="True" result="Success" success="True" time="0.097" asserts="0">
                 <results>
-                  <test-suite type="TestFixture" name="TestChromosome" executed="True" result="Success" success="True" time="0.006" asserts="0">
+                  <test-suite type="TestFixture" name="TestChromosome" executed="True" result="Success" success="True" time="0.007" asserts="0">
                     <results>
                       <test-case name="Teacup.Genetic.UnitTesting.TestChromosome.Crossover" executed="True" result="Success" success="True" time="0.000" asserts="18" />
                       <test-case name="Teacup.Genetic.UnitTesting.TestChromosome.InitGetSet" executed="True" result="Success" success="True" time="0.000" asserts="17" />
                       <test-case name="Teacup.Genetic.UnitTesting.TestChromosome.Mutation" executed="True" result="Success" success="True" time="0.000" asserts="12" />
                     </results>
                   </test-suite>
-                  <test-suite type="TestFixture" name="TestGene" executed="True" result="Success" success="True" time="0.000" asserts="0">
-                    <results>
-                      <test-case name="Teacup.Genetic.UnitTesting.TestGene.InitGetSet" executed="True" result="Success" success="True" time="0.000" asserts="6" />
-                    </results>
-                  </test-suite>
-                  <test-suite type="TestFixture" name="TestGenome" executed="True" result="Success" success="True" time="0.002" asserts="0">
+                  <test-suite type="TestFixture" name="TestGenome" executed="True" result="Success" success="True" time="0.004" asserts="0">
                     <results>
                       <test-case name="Teacup.Genetic.UnitTesting.TestGenome.InitGetSet" executed="True" result="Success" success="True" time="0.000" asserts="4" />
                       <test-case name="Teacup.Genetic.UnitTesting.TestGenome.Mate" executed="True" result="Success" success="True" time="0.000" asserts="12" />
                     </results>
                   </test-suite>
-                  <test-suite type="TestFixture" name="TestPopulation" executed="True" result="Success" success="True" time="6.469" asserts="0">
+                  <test-suite type="TestFixture" name="TestPopulation" executed="True" result="Success" success="True" time="0.077" asserts="0">
                     <results>
                       <test-case name="Teacup.Genetic.UnitTesting.TestPopulation.BalancedSelection" executed="True" result="Success" success="True" time="0.000" asserts="1" />
-                      <test-case name="Teacup.Genetic.UnitTesting.TestPopulation.PredominantSelection" executed="True" result="Success" success="True" time="6.468" asserts="50001" />
+                      <test-case name="Teacup.Genetic.UnitTesting.TestPopulation.PredominantSelection" executed="True" result="Success" success="True" time="0.073" asserts="1001" />
                     </results>
                   </test-suite>
                 </results>

@@ -96,20 +96,20 @@ namespace Teacup.Genetic
                 Debug.Assert(chr_1.GetName() == chr_2.GetName());
 
                 // Crossover
-                if (m_static_random.NextDouble() < chr_1.m_crossover_rate)
+                if (m_static_random.NextDouble() < chr_1.GetGeneticOperatorRules().m_crossover_rate)
                 {
                     Chromosome<T>.CrossOver(chr_1, chr_2);
                 }
 
                 // Mutation
-                if (m_static_random.NextDouble() < chr_1.m_mutation_rate)
+                if (m_static_random.NextDouble() < chr_1.GetGeneticOperatorRules().m_mutation_rate)
                 {
-                    chr_1.Mutate(chr_1.m_mutation_type, chr_1.m_mutation_delta, chr_1.m_mutation_lower_bound, chr_1.m_mutation_upper_bound);
+                    chr_1.Mutate();
                 }
 
-                if (m_static_random.NextDouble() < chr_1.m_mutation_rate)
+                if (m_static_random.NextDouble() < chr_2.GetGeneticOperatorRules().m_mutation_rate)
                 {
-                    chr_2.Mutate(chr_1.m_mutation_type, chr_1.m_mutation_delta, chr_1.m_mutation_lower_bound, chr_1.m_mutation_upper_bound);
+                    chr_2.Mutate();
                 }
             }
         }
