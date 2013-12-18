@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 namespace Teacup.Genetic
 {
+    public enum MUTATION_TYPE { DELTA, FULL };
+
     /// <summary>
     /// A chromosome contains several genes
     /// Can undergo several transformations such as crossovers and gene mutations
@@ -11,7 +13,38 @@ namespace Teacup.Genetic
     /// <typeparam name="T">The type of genetic information (struct)</typeparam>
     public class Chromosome<T> where T : struct
     {
-        public enum MUTATION_TYPE { DELTA, FULL }
+        /// <summary>
+        /// The type of mutations to occur
+        /// DELTA: new gene = old gene +- random(0, delta); guaranteed to stay within bounds
+        /// FULL: new gene = random(0, bounds); guaranteed to stay within bounds
+        /// </summary>
+        public MUTATION_TYPE m_mutation_type { get; set; }
+
+        /// <summary>
+        /// The probability for a crossover to occur on each chromosome
+        /// </summary>
+        public double m_crossover_rate { get; set; }
+
+        /// <summary>
+        /// The probability for a mutation to occur on each chromosome (not on each gene)
+        /// </summary>
+        public double m_mutation_rate { get; set; }
+
+        /// <summary>
+        /// The variation (in case of delta mutation)
+        /// A negative or positive offset of absolute value up to it will be added to the gene
+        /// </summary>
+        public decimal m_mutation_delta { get; set; }
+
+        /// <summary>
+        /// The lower limit or the gene's value
+        /// </summary>
+        public decimal m_mutation_lower_bound { get; set; }
+
+        /// <summary>
+        /// The upper limit or the gene's value
+        /// </summary>
+        public decimal m_mutation_upper_bound { get; set; }
 
         private LinkedList<Gene<T>> m_lst_genes;
         private string m_name;
@@ -22,19 +55,33 @@ namespace Teacup.Genetic
         /// Initializes the chromosome with a list of genes
         /// </summary>
         /// <param name="p_array_genes">The array of genes</param>
-        public Chromosome(string p_name, params Gene<T>[] p_array_genes)
+        public Chromosome(string p_name, double p_crossover_rate, MUTATION_TYPE p_mutation_type, double p_mutation_rate, decimal p_mutation_delta, decimal p_mutation_lower_bound, decimal p_mutation_upper_bound, params Gene<T>[] p_array_genes)
         {
             m_name = p_name;
             m_lst_genes = new LinkedList<Gene<T>>(p_array_genes);
+
+            m_crossover_rate = p_crossover_rate;
+            m_mutation_type = p_mutation_type;
+            m_mutation_rate = p_mutation_rate;
+            m_mutation_delta = p_mutation_delta;
+            m_mutation_lower_bound = p_mutation_lower_bound;
+            m_mutation_upper_bound = p_mutation_upper_bound;
         }
 
         /// <summary>
         /// Initializes the chromosome with a list of data
         /// </summary>
         /// <param name="p_lst_genes">The list of genes</param>
-        public Chromosome(string p_name, params T[] p_array_data)
+        public Chromosome(string p_name, double p_crossover_rate, MUTATION_TYPE p_mutation_type, double p_mutation_rate, decimal p_mutation_delta, decimal p_mutation_lower_bound, decimal p_mutation_upper_bound, params T[] p_array_data)
         {
             m_name = p_name;
+
+            m_crossover_rate = p_crossover_rate;
+            m_mutation_type = p_mutation_type;
+            m_mutation_rate = p_mutation_rate;
+            m_mutation_delta = p_mutation_delta;
+            m_mutation_lower_bound = p_mutation_lower_bound;
+            m_mutation_upper_bound = p_mutation_upper_bound;
 
             m_lst_genes = new LinkedList<Gene<T>>();
 
@@ -51,6 +98,13 @@ namespace Teacup.Genetic
         public Chromosome(Chromosome<T> p_other)
         {
             m_name = p_other.m_name;
+
+            m_crossover_rate = p_other.m_crossover_rate;
+            m_mutation_type = p_other.m_mutation_type;
+            m_mutation_rate = p_other.m_mutation_rate;
+            m_mutation_delta = p_other.m_mutation_delta;
+            m_mutation_lower_bound = p_other.m_mutation_lower_bound;
+            m_mutation_upper_bound = p_other.m_mutation_upper_bound;
 
             m_lst_genes = new LinkedList<Gene<T>>();
 
@@ -120,9 +174,10 @@ namespace Teacup.Genetic
         /// The variation (in case of delta mutation)
         /// A negative or positive offset of absolute value up to it will be added to the gene
         /// </param>
-        /// <param name="p_bounds">The upper limit or the gene's value. Lower is always zero</param>
+        /// <param name="p_lower_bound">The lower limit or the gene's value</param>
+        /// <param name="p_upper_bound">The upper limit or the gene's value</param>
         /// <param name="p_index">The index of the gene the mutation should occur on. No value or -1 for random index</param>
-        public void Mutate(MUTATION_TYPE p_mutation_type, decimal p_delta, decimal p_bounds, int p_index = -1)
+        public void Mutate(MUTATION_TYPE p_mutation_type, decimal p_delta, decimal p_lower_bound, decimal p_upper_bound, int p_index = -1)
         {
             // Random mutation location
             if (p_index < 0)
@@ -135,7 +190,7 @@ namespace Teacup.Genetic
             {
                 if (i == p_index)
                 {
-                    node.Value = MutateGene(node.Value, p_mutation_type, p_delta, p_bounds);
+                    node.Value = MutateGene(node.Value, p_mutation_type, p_delta, p_lower_bound, p_upper_bound);
                     break;
                 }
                 node = node.Next;
@@ -312,9 +367,10 @@ namespace Teacup.Genetic
         /// The variation (in case of delta mutation)
         /// A negative or positive offset of absolute value up to it will be added to the gene
         /// </param>
-        /// <param name="p_bounds">The upper limit or the gene's value. Lower is always zero</param>
+        /// <param name="p_lower_bound">The lower limit or the gene's value</param>
+        /// <param name="p_upper_bound">The upper limit or the gene's value</param>
         /// <returns>The gene after full mutation</returns>
-        private static Gene<T> MutateGene(Gene<T> p_gene, MUTATION_TYPE p_mutation_type, decimal p_delta, decimal p_bounds)
+        private static Gene<T> MutateGene(Gene<T> p_gene, MUTATION_TYPE p_mutation_type, decimal p_delta, decimal p_lower_bound, decimal p_upper_bound)
         {
             if (p_gene is Gene<decimal>)
             {
@@ -324,12 +380,12 @@ namespace Teacup.Genetic
                         int sign = (m_random.Next(2) == 0) ? 1 : -1;
                         decimal offset = ((decimal)m_random.NextDouble()) * p_delta * sign;
 
-                        (p_gene as Gene<decimal>).SetData(Math.Max(0m, Math.Min(p_bounds, (p_gene as Gene<decimal>).GetData() + offset)));
+                        (p_gene as Gene<decimal>).SetData(Math.Max(p_upper_bound, Math.Min(p_lower_bound, (p_gene as Gene<decimal>).GetData() + offset)));
                         break;
                     case MUTATION_TYPE.FULL:
-                        decimal newvalue = ((decimal)m_random.NextDouble()) * p_bounds;
+                        decimal newvalue = ((decimal)m_random.NextDouble()) * p_lower_bound;
 
-                        (p_gene as Gene<decimal>).SetData(Math.Max(0m, Math.Min(p_bounds, newvalue)));
+                        (p_gene as Gene<decimal>).SetData(Math.Max(p_upper_bound, Math.Min(p_lower_bound, newvalue)));
 
                         break;
                 }
@@ -342,12 +398,12 @@ namespace Teacup.Genetic
                         int sign = (m_random.Next(2) == 0) ? 1 : -1;
                         int offset = m_random.Next((int)p_delta) * sign;
 
-                        (p_gene as Gene<int>).SetData(Math.Max(0, Math.Min((int)p_bounds, (p_gene as Gene<int>).GetData() + offset)));
+                        (p_gene as Gene<int>).SetData(Math.Max((int)p_upper_bound, Math.Min((int)p_lower_bound, (p_gene as Gene<int>).GetData() + offset)));
                         break;
                     case MUTATION_TYPE.FULL:
-                        int newvalue = m_random.Next() % (int)(p_bounds);
+                        int newvalue = m_random.Next() % (int)(p_lower_bound);
 
-                        (p_gene as Gene<int>).SetData(Math.Max(0, Math.Min((int)p_bounds, newvalue)));
+                        (p_gene as Gene<int>).SetData(Math.Max((int)p_upper_bound, Math.Min((int)p_lower_bound, newvalue)));
 
                         break;
                 }

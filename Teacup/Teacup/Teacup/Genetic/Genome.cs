@@ -86,19 +86,7 @@ namespace Teacup.Genetic
         /// </summary>
         /// <param name="p_genome_1">The fist parent genome, to become the first offspring</param>
         /// <param name="p_genome_2">The second parent genome, to become the second offspring</param>
-        /// <param name="p_crossover_rate">The probability for a crossover to occur on each chromosome</param>
-        /// <param name="p_mutation_rate">The probability for a mutation to occur on each chromosome (not on each gene)</param>
-        /// <param name="p_mutation_type">
-        /// The type of mutations to occur
-        /// DELTA: new gene = old gene +- random(0, delta); guaranteed to stay within bounds
-        /// FULL: new gene = random(0, bounds); guaranteed to stay within bounds</param>
-        /// <param name="p_mutation_delta">
-        /// The variation (in case of delta mutation)
-        /// A negative or positive offset of absolute value up to it will be added to the gene
-        /// </param>
-        /// <param name="p_mutation_bounds">The upper limit or the gene's value. Lower is always zero</param>
-        public static void Mate(Genome<T> p_genome_1, Genome<T> p_genome_2, double p_crossover_rate, double p_mutation_rate,
-            Chromosome<T>.MUTATION_TYPE p_mutation_type, decimal p_mutation_delta, decimal p_mutation_bounds)
+        public static void Mate(Genome<T> p_genome_1, Genome<T> p_genome_2)
         {
             for (int i = 0; i < p_genome_1.GetChromosomeCount(); ++i)
             {
@@ -108,20 +96,20 @@ namespace Teacup.Genetic
                 Debug.Assert(chr_1.GetName() == chr_2.GetName());
 
                 // Crossover
-                if (m_static_random.NextDouble() < p_crossover_rate)
+                if (m_static_random.NextDouble() < chr_1.m_crossover_rate)
                 {
                     Chromosome<T>.CrossOver(chr_1, chr_2);
                 }
 
                 // Mutation
-                if (m_static_random.NextDouble() < p_mutation_rate)
+                if (m_static_random.NextDouble() < chr_1.m_mutation_rate)
                 {
-                    chr_1.Mutate(p_mutation_type, p_mutation_delta, p_mutation_bounds);
+                    chr_1.Mutate(chr_1.m_mutation_type, chr_1.m_mutation_delta, chr_1.m_mutation_lower_bound, chr_1.m_mutation_upper_bound);
                 }
 
-                if (m_static_random.NextDouble() < p_mutation_rate)
+                if (m_static_random.NextDouble() < chr_1.m_mutation_rate)
                 {
-                    chr_2.Mutate(p_mutation_type, p_mutation_delta, p_mutation_bounds);
+                    chr_2.Mutate(chr_1.m_mutation_type, chr_1.m_mutation_delta, chr_1.m_mutation_lower_bound, chr_1.m_mutation_upper_bound);
                 }
             }
         }

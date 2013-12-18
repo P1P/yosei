@@ -17,34 +17,6 @@ namespace Teacup.Genetic
         private Random m_static_random = new Random();
 
         /// <summary>
-        /// The type of mutations to occur
-        /// DELTA: new gene = old gene +- random(0, delta); guaranteed to stay within bounds
-        /// FULL: new gene = random(0, bounds); guaranteed to stay within bounds
-        /// </summary>
-        private Chromosome<T>.MUTATION_TYPE m_mutation_type { get; set; }
-
-        /// <summary>
-        /// The probability for a crossover to occur on each chromosome
-        /// </summary>
-        public double m_crossover_rate { get; set; }
-
-        /// <summary>
-        /// The probability for a mutation to occur on each chromosome (not on each gene)
-        /// </summary>
-        public double m_mutation_rate { get; set; }
-
-        /// <summary>
-        /// The variation (in case of delta mutation)
-        /// A negative or positive offset of absolute value up to it will be added to the gene
-        /// </summary>
-        private decimal m_mutation_delta { get; set; }
-
-        /// <summary>
-        /// The upper limit or the gene's value. Lower is always zero
-        /// </summary>
-        private decimal m_mutation_bounds { get; set; }
-
-        /// <summary>
         /// Delegate of the fitness function
         /// Attributes a score (non-negative) to the genome
         /// From this usually depends its odds to be selected for mating
@@ -57,15 +29,9 @@ namespace Teacup.Genetic
         /// Initializes the population with a list of genomes
         /// </summary>
         /// <param name="p_array_genomes">The array of genomes</param>
-        public Population(double p_crossover_rate, Chromosome<T>.MUTATION_TYPE p_mutation_type, double p_mutation_rate, decimal p_mutation_delta, decimal p_mutation_bounds, params Genome<T>[] p_array_genomes)
+        public Population(params Genome<T>[] p_array_genomes)
         {
             m_lst_genomes = new List<Genome<T>>(p_array_genomes);
-            
-            m_crossover_rate = p_crossover_rate;
-            m_mutation_type = p_mutation_type;
-            m_mutation_rate = p_mutation_rate;
-            m_mutation_delta = p_mutation_delta;
-            m_mutation_bounds = p_mutation_bounds;
         }
 
         /// <summary>
@@ -80,12 +46,6 @@ namespace Teacup.Genetic
             {
                 m_lst_genomes.Add(new Genome<T>(genome));
             }
-            
-            m_crossover_rate = p_other.m_crossover_rate;
-            m_mutation_type = p_other.m_mutation_type;
-            m_mutation_rate = p_other.m_mutation_rate;
-            m_mutation_delta = p_other.m_mutation_delta;
-            m_mutation_bounds = p_other.m_mutation_bounds;
         }
 
 
@@ -130,13 +90,13 @@ namespace Teacup.Genetic
 
             for (int i = 0; i < p_genetic_pool.Count - 1; i += 2)
             {
-                Genome<T>.Mate(p_genetic_pool[i], p_genetic_pool[i + 1], m_crossover_rate, m_mutation_rate, m_mutation_type, m_mutation_delta, m_mutation_bounds);
+                Genome<T>.Mate(p_genetic_pool[i], p_genetic_pool[i + 1]);
 
                 lst_children.Add(p_genetic_pool[i]);
                 lst_children.Add(p_genetic_pool[i + 1]);
             }
 
-            return new Population<T>(m_crossover_rate, m_mutation_type, m_mutation_rate, m_mutation_delta, m_mutation_bounds, lst_children.ToArray());
+            return new Population<T>(lst_children.ToArray());
         }
 
         /// <summary>

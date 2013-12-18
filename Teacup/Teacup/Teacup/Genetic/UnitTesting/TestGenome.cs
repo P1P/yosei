@@ -11,8 +11,8 @@ namespace Teacup.Genetic.UnitTesting
         [Test]
         public void InitGetSet()
         {
-            Chromosome<int> chr_1 = new Chromosome<int>("MyFirstChromosome");
-            Chromosome<int> chr_2 = new Chromosome<int>("MySecondChromosome");
+            Chromosome<int> chr_1 = new Chromosome<int>("MyFirstChromosome", 0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m);
+            Chromosome<int> chr_2 = new Chromosome<int>("MySecondChromosome", 0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m);
 
             chr_1.AddGene(new Gene<int>(1));
             chr_1.AddGene(new Gene<int>(2));
@@ -32,11 +32,11 @@ namespace Teacup.Genetic.UnitTesting
         [Test]
         public void Mate()
         {
-            Chromosome<decimal> chr_1A = new Chromosome<decimal>("ChromosomeA", 1, 2, 3, 4);
-            Chromosome<decimal> chr_1B = new Chromosome<decimal>("ChromosomeB", 11, 12, 13, 14, 15, 16);
+            Chromosome<decimal> chr_1A = new Chromosome<decimal>("ChromosomeA", 0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m, 1, 2, 3, 4);
+            Chromosome<decimal> chr_1B = new Chromosome<decimal>("ChromosomeB", 0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m, 11, 12, 13, 14, 15, 16);
 
-            Chromosome<decimal> chr_2A = new Chromosome<decimal>("ChromosomeA", 2.1m, 2.1m, 3.1m, 4.1m);
-            Chromosome<decimal> chr_2B = new Chromosome<decimal>("ChromosomeB", 11.1m, 12.1m, 13.1m, 14.1m, 15.1m, 16.1m);
+            Chromosome<decimal> chr_2A = new Chromosome<decimal>("ChromosomeA", 0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m, 2.1m, 2.1m, 3.1m, 4.1m);
+            Chromosome<decimal> chr_2B = new Chromosome<decimal>("ChromosomeB", 0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m, 11.1m, 12.1m, 13.1m, 14.1m, 15.1m, 16.1m);
 
             Genome<decimal> genome_1 = new Genome<decimal>(new Chromosome<decimal>[] { chr_1A, chr_1B });
             Genome<decimal> genome_2 = new Genome<decimal>(new Chromosome<decimal>[] { chr_2A, chr_2B });
@@ -44,7 +44,7 @@ namespace Teacup.Genetic.UnitTesting
             Genome<decimal> offspring_1 = new Genome<decimal>(genome_1);
             Genome<decimal> offspring_2 = new Genome<decimal>(genome_2);
 
-            Genome<decimal>.Mate(offspring_1, offspring_2, 0.7f, 0.05f, Chromosome<decimal>.MUTATION_TYPE.DELTA, 1m, 100m);
+            Genome<decimal>.Mate(offspring_1, offspring_2);
 
             // Make sure constructor by copy is functioning properly
             Assert.AreEqual(genome_1.GetChromosome(0).GetName(), "ChromosomeA");

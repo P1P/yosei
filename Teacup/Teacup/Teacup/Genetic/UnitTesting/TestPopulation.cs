@@ -11,16 +11,16 @@ namespace Teacup.Genetic.UnitTesting
         [Test]
         public void BalancedSelection()
         {
-            Chromosome<decimal> chr_1A = new Chromosome<decimal>("ChromosomeA", new decimal[] { 2m, 2m, 0m });
-            Chromosome<decimal> chr_1B = new Chromosome<decimal>("ChromosomeB", new decimal[] { 2m, 2m, 0m });
+            Chromosome<decimal> chr_1A = new Chromosome<decimal>("ChromosomeA", 0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m, new decimal[] { 2m, 2m, 0m });
+            Chromosome<decimal> chr_1B = new Chromosome<decimal>("ChromosomeB", 0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m, new decimal[] { 2m, 2m, 0m });
 
-            Chromosome<decimal> chr_2A = new Chromosome<decimal>("ChromosomeA", new decimal[] { 0m, 2m, 2m });
-            Chromosome<decimal> chr_2B = new Chromosome<decimal>("ChromosomeB", new decimal[] { 0m, 2m, 2m });
+            Chromosome<decimal> chr_2A = new Chromosome<decimal>("ChromosomeA", 0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m, new decimal[] { 0m, 2m, 2m });
+            Chromosome<decimal> chr_2B = new Chromosome<decimal>("ChromosomeB", 0.7, MUTATION_TYPE.DELTA, 0.01, 0.1m, 0m, 1m, new decimal[] { 0m, 2m, 2m });
 
             Genome<decimal> genome_1 = new Genome<decimal>(chr_1A, chr_1B);
             Genome<decimal> genome_2 = new Genome<decimal>(chr_2A, chr_2B);
 
-            Population<decimal> pop_1 = new Population<decimal>(0.7f, Chromosome<decimal>.MUTATION_TYPE.DELTA, 0.01f, 0.1m, 10m, genome_1, genome_2);
+            Population<decimal> pop_1 = new Population<decimal>(genome_1, genome_2);
 
             List<Genome<decimal>> genetic_pool_1 = pop_1.SelectRoulette(FitnessDelegate);
 
@@ -31,13 +31,13 @@ namespace Teacup.Genetic.UnitTesting
         [Test]
         public void PredominantSelection()
         {
-            Chromosome<decimal> chr_1A_weak = new Chromosome<decimal>("ChromosomeA", new decimal[] { 1m, 1m });
-            Chromosome<decimal> chr_1A_normal = new Chromosome<decimal>("ChromosomeA", new decimal[] { 10m, 10m });
-            Chromosome<decimal> chr_1A_strong = new Chromosome<decimal>("ChromosomeA", new decimal[] { 100m, 100m });
+            Chromosome<decimal> chr_1A_weak = new Chromosome<decimal>("ChromosomeA", 0.7, MUTATION_TYPE.DELTA, 0.01, 150m, 0m, 1000m, new decimal[] { 1m, 1m });
+            Chromosome<decimal> chr_1A_normal = new Chromosome<decimal>("ChromosomeA", 0.7, MUTATION_TYPE.DELTA, 0.01, 150m, 0m, 1000m, new decimal[] { 10m, 10m });
+            Chromosome<decimal> chr_1A_strong = new Chromosome<decimal>("ChromosomeA", 0.7, MUTATION_TYPE.DELTA, 0.01, 150m, 0m, 1000m, new decimal[] { 100m, 100m });
 
-            Chromosome<decimal> chr_2B_weak = new Chromosome<decimal>("ChromosomeB", new decimal[] { 2m,  2m });
-            Chromosome<decimal> chr_2B_normal = new Chromosome<decimal>("ChromosomeB", new decimal[] { 20m, 20m });
-            Chromosome<decimal> chr_2B_strong = new Chromosome<decimal>("ChromosomeB", new decimal[] { 200m, 200m });
+            Chromosome<decimal> chr_2B_weak = new Chromosome<decimal>("ChromosomeB", 0.7, MUTATION_TYPE.DELTA, 0.01, 150m, 0m, 1000m, new decimal[] { 2m, 2m });
+            Chromosome<decimal> chr_2B_normal = new Chromosome<decimal>("ChromosomeB", 0.7, MUTATION_TYPE.DELTA, 0.01, 150m, 0m, 1000m, new decimal[] { 20m, 20m });
+            Chromosome<decimal> chr_2B_strong = new Chromosome<decimal>("ChromosomeB", 0.7, MUTATION_TYPE.DELTA, 0.01, 150m, 0m, 1000m, new decimal[] { 200m, 200m });
 
             List<Genome<decimal>> lst_base_genomes = new List<Genome<decimal>>();
 
@@ -57,9 +57,9 @@ namespace Teacup.Genetic.UnitTesting
                 }
             }
 
-            Population<decimal> pop_1 = new Population<decimal>(0.7, Chromosome<decimal>.MUTATION_TYPE.DELTA, 0.0, 500m, 1000m, lst_genomes.ToArray());
+            Population<decimal> pop_1 = new Population<decimal>(lst_genomes.ToArray());
 
-            for (int i = 0; i < 100; ++i)
+            for (int i = 0; i < 50000; ++i)
             {
                 List<Genome<decimal>> genetic_pool_1 = pop_1.SelectRoulette(FitnessDelegate);
 
@@ -83,7 +83,7 @@ namespace Teacup.Genetic.UnitTesting
                 }
             }
             
-            decimal difference = Math.Abs(3000m - fitness);
+            decimal difference = Math.Abs(300m - fitness);
 
             fitness = 1m / Math.Max(0.00001m, difference);
 

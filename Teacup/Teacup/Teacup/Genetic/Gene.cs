@@ -24,7 +24,7 @@ namespace Teacup.Genetic
         /// Copy constructor, does a copy of the given gene's data
         /// Data held by genes are guaranteed to be structs, hence shallow copy
         /// </summary>
-        /// <param name="p_other"></param>
+        /// <param name="p_other">The gene from which to initialize</param>
         public Gene(Gene<T> p_other)
         {
             m_data = p_other.m_data;
