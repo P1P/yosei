@@ -123,6 +123,9 @@
      <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
      <Compile Include="Assets\Scripts\AI\Brewery\Brewer.cs" />
+     <Compile Include="Assets\Scripts\Helpers\Configuration\ConfigFetcher.cs" />
+     <Compile Include="Assets\Scripts\Helpers\Configuration\ConfigLoader.cs" />
+     <Compile Include="Assets\Scripts\Helpers\Configuration\IniFile.cs" />
      <Compile Include="Assets\Scripts\Helpers\Datastructures\Tuple.cs" />
      <Compile Include="Assets\Scripts\Helpers\Debug\Console.cs" />
      <Compile Include="Assets\Scripts\Helpers\Debug\FpsCounter.cs" />
@@ -145,8 +148,10 @@
      <Compile Include="Assets\Scripts\World\Entities\Attributes\Walkability.cs" />
      <Compile Include="Assets\Scripts\World\Entities\Entities\Entity.cs" />
      <Compile Include="Assets\Scripts\World\Entities\Terrain\Tile.cs" />
+     <Compile Include="Assets\Scripts\World\Entities\Terrain\TileGoal.cs" />
      <Compile Include="Assets\Scripts\World\Entities\Terrain\TileGrass.cs" />
      <Compile Include="Assets\Scripts\World\Entities\Terrain\TileLava.cs" />
+     <Compile Include="Assets\Scripts\World\Entities\Terrain\TileSpawn.cs" />
      <Compile Include="Assets\Scripts\World\Map\Map.cs" />
      <Compile Include="Assets\Scripts\World\Pathfinding\Pathfinder.cs" />
      <Compile Include="Assets\Scripts\Yosei\Yosei.cs" />

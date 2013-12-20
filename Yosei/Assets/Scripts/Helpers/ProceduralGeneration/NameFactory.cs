@@ -11,7 +11,7 @@ public class NameFactory : MonoBehaviour
     public void Awake()
     {
         m_lst_phonems = new List<string>(new string[] {
-            "fal", "li", "ly", "ily" , "ya", "tor", "ti", "ni", "ta", "li", "su", "ku", "ris", "phor", "ni"
+            "fal", "li", "ly", "ily" , "ya", "tor", "ti", "ni", "ta", "li", "su", "ku", "ris", "phor", "ni", "a", "ri", "etta"
         });
     }
 

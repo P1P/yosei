@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class Game : MonoBehaviour
 {
     public GameObject m_object_helpers;
+    public GameObject m_object_map;
     public GameObject m_object_pathfinder;
 	public GameObject m_object_observer;
 
@@ -16,6 +17,7 @@ public class Game : MonoBehaviour
 	public ScreenHelper m_screen_helper;
     public LayerHelper m_layer_helper;
 
+    public Map m_map;
     public AstarPath m_pathfinder;
 
 
@@ -48,6 +50,7 @@ public class Game : MonoBehaviour
     {
         // Finding GameObjects
         m_object_helpers = GameObject.Find("Helper");
+        m_object_map = GameObject.Find("Map");
         m_object_pathfinder = GameObject.Find("Pathfinding");
 		m_object_observer = GameObject.Find("Observer");
 
@@ -59,6 +62,8 @@ public class Game : MonoBehaviour
         m_textures = m_object_helpers.GetComponent<TextureFactory>();
         m_names = m_object_helpers.GetComponent<NameFactory>();
         m_layer_helper = m_object_helpers.GetComponent<LayerHelper>();
+
+        m_map = m_object_map.GetComponent<Map>();
 
         m_pathfinder = m_object_pathfinder.GetComponent<AstarPath>();
     }
