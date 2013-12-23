@@ -8,13 +8,8 @@ public class Hiker : MonoBehaviour
 {
     private CharacterController m_character_controller;
 
-	void Start ()
+	public void Awake()
     {
         m_character_controller = GetComponent<CharacterController>();
-	}
-	
-	void Update ()
-    {
-	    
 	}
 }

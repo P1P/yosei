@@ -40,6 +40,19 @@ public class Yosei : Entity
         WriteToBanner();
     }
 
+	public static Yosei InstantiateYosei(Vector3 p_position, Quaternion p_rotation = default(Quaternion))
+	{
+		GameObject yosei = new GameObject("Yosei");
+		yosei.transform.position = p_position + Vector3.up;
+		yosei.transform.rotation = p_rotation;
+		yosei.transform.parent = GameObject.Find("Population").transform;
+
+		yosei.AddComponent<Seeker>();
+		yosei.AddComponent<CharacterController>();
+
+		return yosei.AddComponent<Yosei>();
+	}
+
     private void WriteToBanner()
     {
         m_bannerholder.SetTitleText(m_name + " the " + m_lookable.m_appearance);
@@ -61,6 +74,5 @@ public class Yosei : Entity
         {
             m_bannerholder.AddCoreTextLine("Nowhere!", Game.Inst.m_colors.GetBaseColor(color++));
         }
-
     }
 }

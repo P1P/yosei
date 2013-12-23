@@ -6,14 +6,14 @@ using Pathfinding;
 public class Pathfinder : MonoBehaviour
 {
     //The point to move to
-    private Seeker seeker;
+    public Seeker seeker;
     private CharacterController controller;
     //The calculated path
     public Path path;
     //The AI's speed per second
-    public float speed = 1000;
+    public float speed = 100;
     //The max distance from the AI to a waypoint for it to continue to the next waypoint
-    public float nextWaypointDistance = 1;
+    public float nextWaypointDistance = 0.4f;
     //The waypoint we are currently moving towards
     private int currentWaypoint = 0;
 
