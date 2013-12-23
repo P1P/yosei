@@ -19,7 +19,7 @@ public class BannerHolder : MonoBehaviour
 	}
 
 	[SerializeField]
-	private float _banner_scale = 10f;
+	private float _banner_scale = 15f;
 	public float m_banner_scale
 	{
 		get { return _banner_scale; }

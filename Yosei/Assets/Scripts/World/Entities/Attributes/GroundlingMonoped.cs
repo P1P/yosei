@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GroundlingMonoped : MonoBehaviour
 {
-    private Tile m_tile_under;
+    public Tile m_tile_under;
 
     void Awake()
     {

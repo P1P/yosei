@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Teacup.Helpers
 {
-    static class Extensions
+    public static class Extensions
     {
         public static void Shuffle<T>(this IList<T> list)
         {

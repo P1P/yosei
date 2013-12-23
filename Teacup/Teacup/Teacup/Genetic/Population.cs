@@ -109,7 +109,7 @@ namespace Teacup.Genetic
         public List<Genome<T>> SelectRoulette(FitnessDelegate p_delegate_fitness)
         {
             List<Tuple<decimal, decimal>> lst_tickets = GetTickets(p_delegate_fitness);
-
+			
             int resulting_population = m_lst_genomes.Count;
             List<Genome<T>> lst_parents = new List<Genome<T>>();
 
@@ -120,7 +120,7 @@ namespace Teacup.Genetic
                 for (int j = 0; j < lst_tickets.Count; ++j)
                 {
                     // Find our winner for this draw
-                    if (draw >= lst_tickets[j].Item1 && draw <= lst_tickets[j].Item2)
+                    if (draw >= lst_tickets[j].First && draw <= lst_tickets[j].Second)
                     {
                         lst_parents.Add(new Genome<T>(m_lst_genomes[j]));
                         break;

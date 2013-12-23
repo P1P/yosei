@@ -6,7 +6,7 @@ using System.Collections;
 
 public class Hiker : MonoBehaviour
 {
-    private CharacterController m_character_controller;
+    public CharacterController m_character_controller;
 
 	public void Awake()
     {

@@ -12,7 +12,7 @@ public class Commander : MonoBehaviour {
     {
         if ((m_highlighter.m_hl_tile != null) && (m_highlighter.m_new_tile))
         {
-            foreach (Yosei yosei in GameObject.Find("Population").GetComponentsInChildren<Yosei>())
+            foreach (Yosei yosei in Game.Inst.m_object_population.GetComponentsInChildren<Yosei>())
             {
                 yosei.m_pathfinder.GoTo(m_highlighter.m_hl_tile.transform.position);
             }

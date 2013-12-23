@@ -2,7 +2,9 @@
 using System.Collections;
 
 public class TileGoal : Tile {
-	void Start ()
+	private bool m_reached = false;
+
+	public void Start()
     {
         m_lookable.SetAppearance(
             "Goal",
@@ -14,5 +16,21 @@ public class TileGoal : Tile {
         m_walkability.SetWalkable(true);
 
         transform.localScale = new Vector3(1f, 1f, 1f);
+	}
+
+	public bool FirstReached()
+	{
+		if (m_reached == false)
+		{
+			m_reached = true;
+			return true;
+		}
+
+		return false;
+	}
+
+	public void ResetReached()
+	{
+		m_reached = false;
 	}
 }

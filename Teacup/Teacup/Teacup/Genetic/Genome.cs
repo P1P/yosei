@@ -15,6 +15,8 @@ namespace Teacup.Genetic
         private Dictionary<string, Chromosome<T>> m_dict_chromosomes;
         private static Random m_static_random = new Random();
 
+		public decimal m_fitness { get; set; }
+
         /// <summary>
         /// Initializes the genome with a list of chromosomes
         /// </summary>

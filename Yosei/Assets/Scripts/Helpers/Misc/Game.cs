@@ -4,8 +4,10 @@ using System.Collections.Generic;
 
 public class Game : MonoBehaviour
 {
-    public GameObject m_object_helpers;
-    public GameObject m_object_map;
+	public GameObject m_object_helpers;
+	public GameObject m_object_population;
+	public GameObject m_object_map;
+	public GameObject m_object_brewer;
     public GameObject m_object_pathfinder;
 	public GameObject m_object_observer;
 
@@ -17,7 +19,8 @@ public class Game : MonoBehaviour
 	public ScreenHelper m_screen_helper;
     public LayerHelper m_layer_helper;
 
-    public Map m_map;
+	public Map m_map;
+	public Brewer m_brewer;
     public AstarPath m_pathfinder;
 
 
@@ -49,9 +52,11 @@ public class Game : MonoBehaviour
     public void Initialize()
     {
         // Finding GameObjects
-        m_object_helpers = GameObject.Find("Helper");
+		m_object_helpers = GameObject.Find("Helper");
+		m_object_population = GameObject.Find("Population");
         m_object_map = GameObject.Find("Map");
-        m_object_pathfinder = GameObject.Find("Pathfinding");
+		m_object_pathfinder = GameObject.Find("Pathfinding");
+		m_object_brewer = GameObject.Find("Brewery");
 		m_object_observer = GameObject.Find("Observer");
 
         // Finding Components
@@ -64,6 +69,8 @@ public class Game : MonoBehaviour
         m_layer_helper = m_object_helpers.GetComponent<LayerHelper>();
 
         m_map = m_object_map.GetComponent<Map>();
+
+		m_brewer = m_object_brewer.GetComponent<Brewer>();
 
         m_pathfinder = m_object_pathfinder.GetComponent<AstarPath>();
     }

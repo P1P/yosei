@@ -216,7 +216,6 @@
      <Compile Include="Assets\Scripts\World\Map\Map.cs" />
      <Compile Include="Assets\Scripts\World\Pathfinding\Pathfinder.cs" />
      <Compile Include="Assets\Scripts\Yosei\Yosei.cs" />
-     <None Include="Assets\NGUI\Resources\Shaders\Depth.shader" />
      <None Include="Assets\Editor\EditorAssets\Materials\Navmesh2.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo20.txt" />
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo14.txt" />
@@ -226,6 +225,7 @@
      <None Include="Assets\Resources\Shaders\XtremShaderz.shader" />
      <None Include="Assets\AstarPathfindingProject\ExampleScenes\Materials\Projector Multiply.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Header.txt" />
+     <None Include="Assets\NGUI\Resources\Shaders\Depth.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (AlphaClip).shader" />
      <None Include="Assets\AstarPathfindingProject\ExampleScenes\Materials\DiffuseAlwaysVisible.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Fantasy\Fantasy Font - Normal.txt" />
@@ -235,7 +235,6 @@
      <None Include="Assets\AstarPathfindingProject\ExampleScenes\_Example Scenes.txt" />
      <None Include="Assets\Resources\Shaders\UnlitColor.shader" />
      <None Include="Assets\AstarPathfindingProject\Readme_upgrading.txt" />
-     <None Include="Assets\NGUI\ReadMe.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (HardClip).shader" />
      <None Include="Assets\AstarPathfindingProject\ExampleScenes\Materials\Projector Light.shader" />
@@ -250,18 +249,19 @@
      <None Include="Assets\NGUI\Examples\Shaders\Refractive.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (SoftClip).shader" />
+     <None Include="Assets\NGUI\ReadMe.txt" />
      <None Include="Assets\AstarPathfindingProject\link.xml" />
- <Reference Include="NGUI">
- <HintPath>Assets\NGUI\DLLs\NGUI.dll</HintPath>
- </Reference>
- <Reference Include="AKeNe">
- <HintPath>Assets\Plugins\AKeNe\AKeNe.dll</HintPath>
- </Reference>
  <Reference Include="Ionic.Zip.Reduced">
  <HintPath>Assets\AstarPathfindingProject\Plugins\DotNetZip\Ionic.Zip.Reduced.dll</HintPath>
  </Reference>
  <Reference Include="JsonFx.Json">
  <HintPath>Assets\AstarPathfindingProject\Plugins\JsonFx\JsonFx.Json.dll</HintPath>
+ </Reference>
+ <Reference Include="NGUI">
+ <HintPath>Assets\NGUI\DLLs\NGUI.dll</HintPath>
+ </Reference>
+ <Reference Include="Teacup">
+ <HintPath>Assets\Plugins\Teacup\Teacup.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
