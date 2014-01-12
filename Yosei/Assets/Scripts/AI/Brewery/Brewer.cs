@@ -7,11 +7,11 @@ using Teacup.Genetic;
 
 public class Brewer : MonoBehaviour
 {
-    public bool m_start_simulation;
-
 	private Stopwatch m_stopwatch;
-	private int m_position;
+	private int m_current_position;
 	private Population<decimal> m_population;
+
+    private bool m_first = true;
 
 	public void Awake()
 	{
@@ -20,30 +20,69 @@ public class Brewer : MonoBehaviour
 
     public void Update()
     {
-		if (m_start_simulation)
-		{
-			m_start_simulation = false;
-			m_stopwatch.Reset();
-			m_stopwatch.Start();
-			m_position = 0;
-
-			List<Tuple<TileSpawn, TileGoal>> lst_tuples_spawn_goal = GetSpawnGoalTuples();
-
-			EvolvePopulation(lst_tuples_spawn_goal.Count);
-
-			LaunchSimulation(lst_tuples_spawn_goal);
-		}
+        if (m_first)
+        {
+            m_first = false;
+            ChallengePopulation();
+        }
     }
 
-	private void EvolvePopulation(int p_nb_genomes)
-	{
-		if (m_population == null)
-		{
+    /// <summary>
+    /// Advances the simulation by one step
+    /// On the first step, creates the first population and starts a challenge
+    /// On the next steps, evolves to a new lineage and starts a new challenge
+    /// </summary>
+    private void ChallengePopulation()
+    {
+        m_stopwatch.Reset();
+        m_stopwatch.Start();
+        m_current_position = 0;
+
+        List<Tuple<TileSpawn, TileGoal>> lst_tuples_spawn_goal = GetSpawnGoalTuples();
+
+        if (m_population == null)
+        {
+            CreatePopulation(lst_tuples_spawn_goal.Count);
+        }
+        else
+        {
+            EvolvePopulation();
+        }
+
+        LaunchChallenge(lst_tuples_spawn_goal);
+    }
+
+    /// <summary>
+    /// Instantiates Yosei at spawns and setting them to reach their respective goals
+    /// </summary>
+    /// <param name="p_lst_tuples_spawn_goal">The list of goal/spawn tuples</param>
+    private void LaunchChallenge(List<Tuple<TileSpawn, TileGoal>> p_lst_tuples_spawn_goal)
+    {
+        // Resetting the goal triggers
+        foreach (Tuple<TileSpawn, TileGoal> tuple in p_lst_tuples_spawn_goal)
+        {
+            tuple.Item2.ResetReached();
+        }
+
+        // Instantiating Yosei and launching them
+        for (int i = 0; i < p_lst_tuples_spawn_goal.Count; ++i)
+        {
+            Yosei.InstantiateYosei(p_lst_tuples_spawn_goal[i].Item1.transform.position, Quaternion.identity,
+                m_population.GetGenome(i)).m_pathfinder.GoTo(p_lst_tuples_spawn_goal[i].Item2.transform.position);
+        }
+    }
+
+    /// <summary>
+    /// Creates a new population of random individuals
+    /// </summary>
+    /// <param name="p_population_size">The number of individuals in the population</param>
+    private void CreatePopulation(int p_population_size)
+    {
 			m_population = new Population<decimal>();
 
 			GeneticOperatorRules rules = new GeneticOperatorRules(0.7, MUTATION_TYPE.DELTA, 0.1, 0.1m, 0m, 1m);
 
-			for (int i = 0; i < p_nb_genomes; ++i)
+			for (int i = 0; i < p_population_size; ++i)
 			{
 				Chromosome<decimal> chr_1 = new Chromosome<decimal>("Movement", 1, rules);
 
@@ -51,44 +90,51 @@ public class Brewer : MonoBehaviour
 
 				m_population.AddGenome(genome);
 			}
-		}
-		else
-		{
-			m_population = m_population.GetChildren(m_population.SelectRoulette(Fitness));
-		}
-	}
+    }
 
-	private decimal Fitness(Genome<decimal> p_genome)
+    /// <summary>
+    /// Advances the current population by one lineage
+    /// </summary>
+	private void EvolvePopulation()
 	{
-		return p_genome.m_fitness;
+		m_population = m_population.GetChildren(m_population.SelectRoulette(Fitness));
 	}
 
-	public void ReachedGoal(Yosei p_yosei)
-	{
-		System.TimeSpan timespan = m_stopwatch.Elapsed;
-		Game.Inst.m_console.WriteLine("Congratulations to " + p_yosei.ToString() + " for reaching position " + (m_position + 1) + " in " + timespan.ToString(), p_yosei.m_lookable.m_base_color);
-		p_yosei.m_genome.m_fitness = m_population.GetGenomeCount() - m_position + (m_position == 0 ? 10 : 0);
-		m_position++;
+    /// <summary>
+    /// Upon a Yosei reaching its goal, assigns fitness and checks for the end of the current challenge
+    /// </summary>
+    /// <param name="p_yosei">The Yosei to reach the goal</param>
+    public void ReachedGoal(Yosei p_yosei)
+    {
+        System.TimeSpan timespan = m_stopwatch.Elapsed;
+        Game.Inst.m_console.WriteLine("Congratulations to " + p_yosei.ToString() + " for reaching position " + (m_current_position + 1) + " in " + timespan.ToString(), p_yosei.m_lookable.m_base_color);
 
-		if (m_position == m_population.GetGenomeCount())
-		{
-			foreach (Yosei yosei in Game.Inst.m_object_population.GetComponentsInChildren<Yosei>())
-			{
-				GameObject.Destroy(yosei.gameObject);
-			}
+        p_yosei.m_genome.m_fitness = GetCurrentFitnessReward();
 
-			m_start_simulation = true;
-		}
-	}
+        m_current_position++;
 
+        if (m_current_position == m_population.GetGenomeCount())
+        {
+            foreach (Yosei yosei in Game.Inst.m_object_population.GetComponentsInChildren<Yosei>())
+            {
+                GameObject.Destroy(yosei.gameObject);
+            }
+
+            ChallengePopulation();
+        }
+    }
+
+    /// <summary>
+    /// Associates every spawn to a goal
+    /// Assuming that every spawn are away from their goal by a constant distance (e.g. lane pattern)
+    /// </summary>
+    /// <returns></returns>
 	private List<Tuple<TileSpawn, TileGoal>> GetSpawnGoalTuples()
 	{
-		// Associating every spawn to a goal
-		// Assumes that every spawn are away from their goal by a constant distance
-
 		List<TileSpawn> lst_spawns = new List<TileSpawn>();
 		List<TileGoal> lst_goals = new List<TileGoal>();
 
+        // Retrieving spawns and goals
 		foreach (Tile tile in Game.Inst.m_map.m_matrix_tiles.SelectMany<List<Tile>, Tile>(k => k))
 		{
 			if (tile is TileSpawn)
@@ -134,18 +180,22 @@ public class Brewer : MonoBehaviour
 		return lst_tuples_spawn_goal;
 	}
 
-	private void LaunchSimulation(List<Tuple<TileSpawn, TileGoal>> p_lst_tuples_spawn_goal)
-	{
-		foreach (Tuple<TileSpawn, TileGoal> tuple in p_lst_tuples_spawn_goal)
-		{
-			tuple.Item2.ResetReached();
-		}
+    /// <summary>
+    /// Returns the fitness value for the current position
+    /// </summary>
+    /// <returns>The fitness for the current position</returns>
+    private decimal GetCurrentFitnessReward()
+    {
+        return m_population.GetGenomeCount() - m_current_position + (m_current_position == 0 ? 10 : 0);
+    }
 
-		// Instantiating Yosei at spawns and asking them to reach their respective goals
-		for (int i = 0; i < p_lst_tuples_spawn_goal.Count; ++i)
-		{
-			Yosei.InstantiateYosei(p_lst_tuples_spawn_goal[i].Item1.transform.position, Quaternion.identity,
-				m_population.GetGenome(i)).m_pathfinder.GoTo(p_lst_tuples_spawn_goal[i].Item2.transform.position);
-		}
-	}
+    /// <summary>
+    /// The fitness delegate, based on the fitness on the genome
+    /// </summary>
+    /// <param name="p_genome"></param>
+    /// <returns></returns>
+    private decimal Fitness(Genome<decimal> p_genome)
+    {
+        return p_genome.m_fitness;
+    }
 }
