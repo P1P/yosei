@@ -19,14 +19,14 @@ public class Map : MonoBehaviour {
 
 	public void Start()
     {
-        InitializeMap(0, MapgenCurveLanes);
+        InitializeMap(0, 5, MapgenCurveLanes);
 	}
 
     /// <summary>
     /// Initializes the Map with Tiles
     /// </summary>
     /// <param name="p_tile"></param>
-    private void InitializeMap(int p_seed, MapGen p_mapgen)
+    public void InitializeMap(int p_seed, int p_size, MapGen p_mapgen)
     {
         System.Random random = new System.Random(p_seed);
 
@@ -75,7 +75,7 @@ public class Map : MonoBehaviour {
 
     // Map generation delegates
 
-    private System.Type MapgenRandom(int p_x, int p_z, System.Random p_random)
+    public System.Type MapgenRandom(int p_x, int p_z, System.Random p_random)
     {
         if (p_random.NextDouble() < 0.5)
         {
@@ -87,7 +87,7 @@ public class Map : MonoBehaviour {
         }
     }
 
-    private System.Type MapgenCurveLanes(int p_x, int p_z, System.Random p_random)
+    public System.Type MapgenCurveLanes(int p_x, int p_z, System.Random p_random)
     {
         if (p_z % 4 == 0)
         {

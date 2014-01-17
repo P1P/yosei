@@ -49,7 +49,7 @@ public class Yosei : Entity
 		{
 			if ((m_groundling.m_tile_under as TileGoal).FirstReached())
 			{
-				Game.Inst.m_brewer.ReachedGoal(this);
+				Game.Inst.m_brewer.m_challenge.ReachedGoal(this);
 			}
 		}
     }
