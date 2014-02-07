@@ -3,12 +3,7 @@ using System.Collections;
 
 public class GroundlingMonoped : MonoBehaviour
 {
-    public Tile m_tile_under;
-
-    void Awake()
-    {
-
-    }
+    public Tile Tile_under { get; private set; }
 
     public void FixedUpdate()
     {
@@ -19,24 +14,19 @@ public class GroundlingMonoped : MonoBehaviour
         }
     }
 
-    public void UpdateGroundUnder()
+    private void UpdateGroundUnder()
     {
         RaycastHit hit_info;
-        Physics.Raycast(transform.position, -Vector3.up, out hit_info, 100f, Game.Inst.m_layer_helper.m_ground_mask);
+        Physics.Raycast(transform.position, -Vector3.up, out hit_info, 100f, LayerHelper.Instance.Ground_mask);
 
         if (hit_info.distance != 0f)
         {
             // Found a Tile!
-            m_tile_under = hit_info.collider.gameObject.GetComponent<Tile>();
+            Tile_under = hit_info.collider.gameObject.GetComponent<Tile>();
         }
         else
         {
-            m_tile_under = null;
+            Tile_under = null;
         }
-    }
-
-    public Tile GetTileUnder()
-    {
-        return m_tile_under;
     }
 }

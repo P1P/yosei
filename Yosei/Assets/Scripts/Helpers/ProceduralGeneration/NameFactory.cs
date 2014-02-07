@@ -3,14 +3,21 @@ using System.Collections.Generic;
 
 public class NameFactory : MonoBehaviour
 {
-    private List<string> m_lst_phonems;
-    private float m_whitespace_chance = 0.3f;
-    private int m_min_phonems = 2;
-    private int m_max_phonems = 4;
+    #region SINGLETON
+    private static NameFactory _instance = null;
+    public static NameFactory Instance { get { return _instance; } }
+    #endregion
+
+    private List<string> _lst_phonems;
+    private float _whitespace_chance = 0.3f;
+    private int _min_phonems = 2;
+    private int _max_phonems = 4;
 
     public void Awake()
     {
-        m_lst_phonems = new List<string>(new string[] {
+        _instance = this;
+
+        _lst_phonems = new List<string>(new string[] {
             "fal", "li", "ly", "ily" , "ya", "tor", "ti", "ni", "ta", "li", "su", "ku", "ris", "phor", "ni", "a", "ri", "etta"
         });
     }
@@ -19,12 +26,12 @@ public class NameFactory : MonoBehaviour
     {
         string name = "";
 
-        int nb_phonems = Random.Range(m_min_phonems, m_max_phonems);
+        int nb_phonems = Random.Range(_min_phonems, _max_phonems);
 
         for (int i = 0; i < nb_phonems; ++i)
         {
             // Select a random phonem
-            char[] phonem = m_lst_phonems[Random.Range(0, m_lst_phonems.Count)].ToCharArray();
+            char[] phonem = _lst_phonems[Random.Range(0, _lst_phonems.Count)].ToCharArray();
 
             // Capitalize on new word, or when a random whitespace separation occurs
             if (name.Length < 1)
@@ -32,7 +39,7 @@ public class NameFactory : MonoBehaviour
                 // First word, kappatalize
                 phonem[0] = char.ToUpper(phonem[0]);
             }
-            else if (Random.value < m_whitespace_chance)
+            else if (Random.value < _whitespace_chance)
             {
                 // Random separation, add a whitespace before the phonem and capitalize
                 char[] corrected_phonem = new char[phonem.Length + 1];

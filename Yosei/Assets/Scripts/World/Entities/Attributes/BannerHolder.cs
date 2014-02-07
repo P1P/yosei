@@ -3,55 +3,54 @@ using System.Collections;
 
 public class BannerHolder : MonoBehaviour
 {
-	private GameObject m_banner;
+    [SerializeField]
+    private float _banner_height = 1f;
+    public float Banner_height
+    {
+        get { return _banner_height; }
+        set { _banner_height = value; UpdateHeight(); }
+    }
 
-	private UISlicedSprite m_core_background;
-	private UISlicedSprite m_title_background;
-	private UILabel m_core_text;
-	private UILabel m_title_text;
+    [SerializeField]
+    private float _banner_scale = 15f;
+    public float Banner_scale
+    {
+        get { return _banner_scale; }
+        set { _banner_scale = value; UpdateScale(); }
+    }
 
-	[SerializeField]
-	private float _banner_height = 1f;
-	public float m_banner_height
-	{
-		get { return _banner_height; }
-		set { _banner_height = value; UpdateHeight(); }
-	}
+    private bool _follow_camera = true;
+    private Color _base_text_core_color = Color.white;
 
-	[SerializeField]
-	private float _banner_scale = 15f;
-	public float m_banner_scale
-	{
-		get { return _banner_scale; }
-		set { _banner_scale = value; UpdateScale(); }
-	}
-
-	private bool m_follow_camera = true;
-    private Color m_base_text_core_color = Color.white;
+	private GameObject _banner;
+	private UISlicedSprite _core_background;
+	private UISlicedSprite _title_background;
+	private UILabel _core_text;
+	private UILabel _title_text;
 
 	public void Awake()
 	{
-		m_banner = GameObject.Instantiate(Resources.Load("GUI/3D_Banner")) as GameObject;
+		_banner = GameObject.Instantiate(Resources.Load("GUI/3D_Banner")) as GameObject;
 
-		foreach (UISlicedSprite bg in m_banner.GetComponentsInChildren<UISlicedSprite>())
+		foreach (UISlicedSprite bg in _banner.GetComponentsInChildren<UISlicedSprite>())
 		{
 			switch (bg.name)
 			{
-				case "Core_Background": m_core_background = bg; break;
-				case "Title_Background": m_title_background = bg; break;
+				case "Core_Background": _core_background = bg; break;
+				case "Title_Background": _title_background = bg; break;
 			}
 		}
 
-		foreach (UILabel text in m_banner.GetComponentsInChildren<UILabel>())
+		foreach (UILabel text in _banner.GetComponentsInChildren<UILabel>())
 		{
 			switch (text.name)
 			{
-				case "Core_Text": m_core_text = text; break;
-				case "Title_Text": m_title_text = text; break;
+				case "Core_Text": _core_text = text; break;
+				case "Title_Text": _title_text = text; break;
 			}
 		}
 
-		m_banner.transform.parent = transform;
+		_banner.transform.parent = transform;
 
 		UpdateHeight();
 		UpdateScale();
@@ -59,70 +58,70 @@ public class BannerHolder : MonoBehaviour
 
 	public void Update()
 	{
-		if (m_follow_camera)
+		if (_follow_camera)
 		{
-			m_banner.transform.rotation = Game.Inst.m_object_observer.transform.rotation;
+			_banner.transform.rotation = ReferenceHelper.Instance.Object_observer.transform.rotation;
 		}
 	}
 	
 	private void UpdateHeight()
 	{
-		if (m_banner != null)
+		if (_banner != null)
 		{
-			m_banner.transform.position = transform.position + Vector3.up * m_banner_height;
+			_banner.transform.position = transform.position + Vector3.up * Banner_height;
 		}
 	}
 
 	private void UpdateScale()
 	{
-		if (m_banner != null)
+		if (_banner != null)
 		{
-            m_banner.transform.localScale = Vector3.one * m_banner_scale;
+            _banner.transform.localScale = Vector3.one * Banner_scale;
 		}
 	}
 
     public void ClearCoreText()
     {
-        m_core_text.text = "";
+        _core_text.text = "";
     }
 
 	public void AddCoreTextLine(string p_text, Color p_color)
 	{
-		m_core_text.text += "[" + ColorFactory.ToHexa(p_color) + "]" + p_text + "[-]" + "\n";
+		_core_text.text += "[" + ColorFactory.ToHexa(p_color) + "]" + p_text + "[-]" + "\n";
 	}
 
     public void AddCoreTextLine(string p_test)
     {
-        AddCoreTextLine(p_test, m_base_text_core_color);
+        AddCoreTextLine(p_test, _base_text_core_color);
     }
 
     public void AddCoreTextLine()
     {
-        m_core_text.text += "\n";
+        _core_text.text += "\n";
     }
 
     public void AddCoreText(string p_text, Color p_color)
     {
-        m_core_text.text += "[" + ColorFactory.ToHexa(p_color) + "]" + p_text + "[-]";
+        _core_text.text += "[" + ColorFactory.ToHexa(p_color) + "]" + p_text + "[-]";
     }
 
     public void AddCoreText(string p_text)
     {
-        AddCoreText(p_text, m_base_text_core_color);
+        AddCoreText(p_text, _base_text_core_color);
     }
 
 	public void SetTitleText(string p_text)
 	{
-		m_title_text.text = p_text;
+		_title_text.text = p_text;
 	}
 
     public void SetCoreColor(Color p_color)
     {
-        m_core_background.color = p_color;
+        _core_background.color = p_color;
     }
 
     public void SetTitleColor(Color p_color)
     {
-        m_title_background.color = p_color;
+        _title_background.color = p_color;
     }
 }

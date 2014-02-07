@@ -2,22 +2,25 @@
 using System.Collections;
 
 public class Commander : MonoBehaviour {
-    public Highlighter m_highlighter;
+    private Highlighter _highlighter;
 
-	void Awake() {
-        m_highlighter = GetComponent<Highlighter>();
+	public void Awake()
+    {
+        _highlighter = GetComponent<Highlighter>();
 	}
 	
-	void Update ()
+	public void Update()
     {
-        if ((m_highlighter.m_hl_tile != null) && (m_highlighter.m_new_tile))
+        // Orders the Yosei to go to a clicked tile
+        if ((_highlighter.Hl_tile != null) && (_highlighter.New_tile))
         {
-            foreach (Yosei yosei in Game.Inst.m_object_population.GetComponentsInChildren<Yosei>())
+            foreach (Yosei yosei in ReferenceHelper.Instance.Object_population.GetComponentsInChildren<Yosei>())
             {
-                yosei.m_pathfinder.GoTo(m_highlighter.m_hl_tile.transform.position);
+                yosei.Pathfinder.GoTo(_highlighter.Hl_tile.transform.position);
             }
         }
 
+        // Reset on keypress
         if (Input.GetKey(KeyCode.Backspace))
         {
             Application.LoadLevel(Application.loadedLevel);

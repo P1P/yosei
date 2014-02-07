@@ -4,227 +4,188 @@ using System.Collections.Generic;
 
 public class Console : MonoBehaviour
 {
-    public int m_nb_lines;
-    public int m_fixed_lines_timeout;
+    #region SINGLETON
+    private static Console _instance = null;
+    public static Console Instance { get { return _instance; } }
 
-    public float m_console_height_pc;
-    public float m_console_height_margin_pc;
-    public float m_console_height_text_margin_pc;
-    public float m_console_width_separation_pc;
-    public float m_console_width_separation_margin_pc;
-    public float m_console_width_text_margin_pc;
+    void Awake()
+    {
+        _instance = this;
+    }
+    #endregion
 
-    public bool m_console_on;
-    public bool m_background_on;
+    // Inspector-set values
+    public int Nb_lines = 10;
+    public int Fixed_lines_timeout = 2;
 
-    public GUIStyle m_back_style;
-	public GUIStyle m_label_style;
+    public float Console_height_pc = 0.1f;
+    public float Console_height_margin_pc = 0.02f;
+    public float Console_height_text_margin_pc = 0.005f;
+    public float Console_width_separation_pc = 0.5f;
+    public float Console_width_separation_margin_pc = 0.01f;
+    public float Console_width_text_margin_pc = 0.01f;
 
-    private List<Line> m_lst_lines = new List<Line>();
-    private List<Line> m_lst_fixed_lines = new List<Line>();
-    private List<float> m_lst_fixed_lines_time = new List<float>();
+    public bool Console_on = true;
+    public bool Background_on;
+
+    public GUIStyle Back_style;
+	public GUIStyle Label_style;
+
+    public Color Default_color = Color.white;
+
+    private List<Line> _lst_lines = new List<Line>();
+    private List<Line> _lst_fixed_lines = new List<Line>();
+    private List<float> _lst_fixed_lines_time = new List<float>();
 
     struct Line
     {
-        public Line(string str, Color clr)
-        {
-            m_string = str;
-            m_color = clr;
-        }
+        public string _string;
+        public Color _color;
 
-        public Line(string str)
+        public Line(string p_str, Color p_clr)
         {
-            m_string = str;
-            m_color = Color.white;
+            _string = p_str;
+            _color = p_clr;
         }
-
-        public string m_string;
-        public Color m_color;
     }
 
-    void Start()
+    public void Start()
     {
-        for (int i = 0; i < m_nb_lines; ++i)
+        for (int i = 0; i < Nb_lines; ++i)
         {
-            m_lst_fixed_lines.Add(new Line(""));
-            m_lst_fixed_lines_time.Add(0);
+            _lst_fixed_lines.Add(new Line("", Default_color));
+            _lst_fixed_lines_time.Add(0);
         }
     }
 
     // Timing out the fixed console lines
-    void Update()
+    public void Update()
     {
-        for (int i = 0; i < m_nb_lines; ++i)
+        for (int i = 0; i < Nb_lines; ++i)
         {
-            if (m_lst_fixed_lines_time[i] != -1) // -1 means no timeout
+            if (_lst_fixed_lines_time[i] != -1) // -1 means no timeout
             {
-                m_lst_fixed_lines_time[i] += Game.Inst.m_time_helper.GetStep();
+                _lst_fixed_lines_time[i] += Time.deltaTime;
 
-                if (m_lst_fixed_lines_time[i] > m_fixed_lines_timeout)
+                if (_lst_fixed_lines_time[i] > Fixed_lines_timeout)
                 {
-                    m_lst_fixed_lines[i] = new Line("");
+                    _lst_fixed_lines[i] = new Line("", Default_color);
                 }
             }
         }
     }
 
-    void OnGUI()
+    public void OnGUI()
     {
-        if (m_console_on)
+        if (Console_on)
         {
             // Left console (dynamic log)
 
             // Background
-            if (m_background_on)
+            if (Background_on)
             {
                 GUI.Box(new Rect(
                             0,
                             0,
-                            Game.Inst.m_screen_helper.W_to_px(m_console_width_separation_pc - m_console_width_separation_margin_pc),
-                            Game.Inst.m_screen_helper.H_to_px(m_console_height_pc + m_console_height_margin_pc)),
+                            ScreenHelper.W_to_px(Console_width_separation_pc - Console_width_separation_margin_pc),
+                            ScreenHelper.H_to_px(Console_height_pc + Console_height_margin_pc)),
                         "",
-                        m_back_style);
+                        Back_style);
             }
 
             // Text
-            for (int i = 0; i < m_lst_lines.Count; ++i)
+            for (int i = 0; i < _lst_lines.Count; ++i)
             {
-                m_label_style.normal.textColor = m_lst_lines[i].m_color;
+                Label_style.normal.textColor = _lst_lines[i]._color;
                 GUI.Label(new Rect(
-                              Game.Inst.m_screen_helper.W_to_px(m_console_width_text_margin_pc),
-                              i * (Game.Inst.m_screen_helper.H_to_px(m_console_height_pc + m_console_height_text_margin_pc) / m_nb_lines)
-                              + (Game.Inst.m_screen_helper.H_to_px(m_console_height_text_margin_pc)),
-                              Game.Inst.m_screen_helper.W_to_px(m_console_width_separation_pc - m_console_width_separation_margin_pc),
-                              Game.Inst.m_screen_helper.H_to_px(m_console_height_pc / m_nb_lines)),
-                          m_lst_lines[i].m_string,
-                          m_label_style);
+                              ScreenHelper.W_to_px(Console_width_text_margin_pc),
+                              i * (ScreenHelper.H_to_px(Console_height_pc + Console_height_text_margin_pc) / Nb_lines)
+                              + (ScreenHelper.H_to_px(Console_height_text_margin_pc)),
+                              ScreenHelper.W_to_px(Console_width_separation_pc - Console_width_separation_margin_pc),
+                              ScreenHelper.H_to_px(Console_height_pc / Nb_lines)),
+                          _lst_lines[i]._string,
+                          Label_style);
             }
 
             // Right console (static)
 
             // Background
-            if (m_background_on)
+            if (Background_on)
             {
                 GUI.Box(new Rect(
-                            Game.Inst.m_screen_helper.W_to_px((m_console_width_separation_pc)),
+                            ScreenHelper.W_to_px((Console_width_separation_pc)),
                             0,
-                            Game.Inst.m_screen_helper.W_to_px(1 - m_console_width_separation_pc),
-                            Game.Inst.m_screen_helper.H_to_px(m_console_height_pc + m_console_height_margin_pc)),
+                            ScreenHelper.W_to_px(1 - Console_width_separation_pc),
+                            ScreenHelper.H_to_px(Console_height_pc + Console_height_margin_pc)),
                         "",
-                        m_back_style);
+                        Back_style);
             }
 
             // Text
-            for (int i = 0; i < m_nb_lines; ++i)
+            for (int i = 0; i < Nb_lines; ++i)
             {
-                m_label_style.normal.textColor = m_lst_fixed_lines[i].m_color;
+                Label_style.normal.textColor = _lst_fixed_lines[i]._color;
                 GUI.Label(new Rect(
-                              Game.Inst.m_screen_helper.W_to_px(m_console_width_separation_pc + m_console_width_text_margin_pc),
-                              i * (Game.Inst.m_screen_helper.H_to_px(m_console_height_pc + m_console_height_text_margin_pc) / m_nb_lines)
-                              + (Game.Inst.m_screen_helper.H_to_px(m_console_height_text_margin_pc)),
-                              Game.Inst.m_screen_helper.W_to_px(1 - m_console_width_separation_pc),
-                              Game.Inst.m_screen_helper.H_to_px(m_console_height_pc / m_nb_lines)),
-                          m_lst_fixed_lines[i].m_string,
-                          m_label_style);
+                              ScreenHelper.W_to_px(Console_width_separation_pc + Console_width_text_margin_pc),
+                              i * (ScreenHelper.H_to_px(Console_height_pc + Console_height_text_margin_pc) / Nb_lines)
+                              + (ScreenHelper.H_to_px(Console_height_text_margin_pc)),
+                              ScreenHelper.W_to_px(1 - Console_width_separation_pc),
+                              ScreenHelper.H_to_px(Console_height_pc / Nb_lines)),
+                          _lst_fixed_lines[i]._string,
+                          Label_style);
             }
         }
-    }
-
-    public void WriteLine(int line)
-    {
-        WriteLine(line.ToString());
-    }
-
-    public void WriteLine(float line)
-    {
-        WriteLine(line.ToString());
     }
 
     // Write a line to the dynamic log
-    public void WriteLine(string line, Color color)
+    public Console WriteLine<T>(T p_line, Color? p_color = null)
     {
-        if (m_console_on)
+        if (Console_on)
         {
-            if (m_lst_lines.Count >= m_nb_lines)
+            if (_lst_lines.Count >= Nb_lines)
             {
-                for (int i = 0; i < m_lst_lines.Count - 1; ++i)
+                for (int i = 0; i < _lst_lines.Count - 1; ++i)
                 {
-                    m_lst_lines[i] = m_lst_lines[i + 1];
+                    _lst_lines[i] = _lst_lines[i + 1];
                 }
 
-                m_lst_lines[m_nb_lines - 1] = new Line(line, color);
+                _lst_lines[Nb_lines - 1] = new Line(p_line.ToString(), p_color.HasValue ? p_color.Value : Default_color);
             }
             else
             {
-                m_lst_lines.Add(new Line(line, color));
+                _lst_lines.Add(new Line(p_line.ToString(), p_color.HasValue ? p_color.Value : Default_color));
             }
         }
+
+        return this;
     }
 
-	public void WriteLine(string line)
-	{
-		WriteLine(line, Color.white);
-	}
-
-	public void WriteLine(int line, int color)
-	{
-		WriteLine(line.ToString(), Game.Inst.m_colors.GetBaseColor(color));
-	}
-
-	public void WriteLine(float line, int color)
-	{
-        WriteLine(line.ToString(), Game.Inst.m_colors.GetBaseColor(color));
-	}
-
-	public void WriteLine(string line, int color)
-	{
-        WriteLine(line, Game.Inst.m_colors.GetBaseColor(color));
-	}
-	
-    public void WriteFixedLine(int line, int id, bool time_limit = true)
+    public Console WriteLine<T>(T p_line, int p_color_index)
     {
-        WriteFixedLine(line.ToString(), id, time_limit);
-    }
-
-    public void WriteFixedLine(float line, int id, bool time_limit = true)
-    {
-        WriteFixedLine(line.ToString(), id, time_limit);
+        return WriteLine(p_line, ColorFactory.Instance.GetBaseColor(p_color_index));
     }
 
     // Prints a line at the given position in the static console
-    public void WriteFixedLine(string line, int id, Color color, bool time_limit = true)
+    public Console WriteFixedLine<T>(T p_line, int p_id, Color? p_color = null, bool p_time_limit = true)
     {
-        if (m_console_on)
+        if (Console_on)
         {
-            if (id < m_nb_lines)
+            if (p_id < Nb_lines)
             {
-                m_lst_fixed_lines[id] = new Line(line, color);
-                m_lst_fixed_lines_time[id] = time_limit ? 0 : -1;
+                _lst_fixed_lines[p_id] = new Line(p_line.ToString(), p_color.HasValue ? p_color.Value : Default_color);
+                _lst_fixed_lines_time[p_id] = p_time_limit ? 0 : -1;
             }
             else
             {
-                WriteLine("Console.WriteFixedLine: Out of index fixed line write: " + id);
+                WriteLine("Console.WriteFixedLine: Out of index fixed line write: " + p_id);
             }
         }
-    }
 
-    public void WriteFixedLine(string line, int id, bool time_limit = true)
+        return this;
+    }
+    
+    public Console WriteFixedLine<T>(T p_line, int p_id, int p_color_index, bool p_time_limit = true)
     {
-        WriteFixedLine(line, id, Color.white, time_limit);
+        return WriteFixedLine(p_line, p_id, ColorFactory.Instance.GetBaseColor(p_color_index), p_time_limit);
     }
-
-	public void WriteFixedLine(int line, int id, int color, bool time_limit = true)
-	{
-        WriteFixedLine(line.ToString(), id, Game.Inst.m_colors.GetBaseColor(color), time_limit);
-	}
-
-	public void WriteFixedLine(float line, int id, int color, bool time_limit = true)
-	{
-        WriteFixedLine(line.ToString(), id, Game.Inst.m_colors.GetBaseColor(color), time_limit);
-	}
-
-	public void WriteFixedLine(string line, int id, int color, bool time_limit = true)
-	{
-        WriteFixedLine(line, id, Game.Inst.m_colors.GetBaseColor(color), time_limit);
-	}
 }

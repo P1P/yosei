@@ -5,17 +5,23 @@ using Teacup.Genetic;
 
 public class Brewer : MonoBehaviour
 {
-	private Population<decimal> m_population;
-    public Challenge m_challenge;
+    #region SINGLETON
+    private static Brewer _instance = null;
+    public static Brewer Instance { get { return _instance; } }
 
-	public void Awake()
-	{
+    void Awake()
+    {
+        _instance = this;
+    }
+    #endregion
 
-	}
+    public Challenge Current_challenge { get; private set; }
+
+	private Population<decimal> _population;
 
     public void Update()
     {
-        if (m_challenge == null || m_challenge.HasEnded())
+        if (Current_challenge == null || Current_challenge.HasEnded())
         {
             ChallengePopulation();
         }
@@ -28,7 +34,7 @@ public class Brewer : MonoBehaviour
     /// </summary>
     private void ChallengePopulation()
     {
-        if (m_population == null)
+        if (_population == null)
         {
             CreatePopulation(6);
         }
@@ -37,7 +43,7 @@ public class Brewer : MonoBehaviour
             EvolvePopulation();
         }
 
-        m_challenge = new Challenge(m_population);
+        Current_challenge = new Challenge(_population);
     }
 
     /// <summary>
@@ -46,17 +52,19 @@ public class Brewer : MonoBehaviour
     /// <param name="p_population_size">The number of individuals in the population</param>
     private void CreatePopulation(int p_population_size)
     {
-		m_population = new Population<decimal>();
+		_population = new Population<decimal>();
 
+        // Defining common genetic rules
 		GeneticOperatorRules rules = new GeneticOperatorRules(0.7, MUTATION_TYPE.DELTA, 0.1, 0.1m, 0m, 1m);
 
+        // Creating the genomes
 		for (int i = 0; i < p_population_size; ++i)
 		{
 			Chromosome<decimal> chr_1 = new Chromosome<decimal>("Movement", 1, rules);
 
 			Genome<decimal> genome = new Genome<decimal>(chr_1);
 
-			m_population.AddGenome(genome);
+			_population.AddGenome(genome);
 		}
     }
 
@@ -65,7 +73,7 @@ public class Brewer : MonoBehaviour
     /// </summary>
 	private void EvolvePopulation()
 	{
-		m_population = m_population.GetChildren(m_population.SelectRoulette(Fitness));
+		_population = _population.GetChildren(_population.SelectRoulette(Fitness));
 	}
 
     /// <summary>

@@ -21,6 +21,10 @@ using Pathfinding;
  * \nosubgrouping
  * \ingroup relevant */
 public class AstarPath : MonoBehaviour {
+    #region SINGLETON
+    private static AstarPath _instance = null;
+    public static AstarPath Instance { get { return _instance; } }
+    #endregion
 	
 	/** The version number for the A* %Pathfinding Project
 	 */
@@ -1027,6 +1031,8 @@ public class AstarPath : MonoBehaviour {
 	 * Also starts threads if using multithreading
 	 * \see #OnAwakeSettings */
 	public void Awake () {
+        _instance = this;
+
 		//Very important to set this. Ensures the singleton pattern holds
 		active = this;
 		

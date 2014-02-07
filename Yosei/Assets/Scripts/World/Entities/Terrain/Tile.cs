@@ -7,23 +7,23 @@ using System.Collections;
 
 public abstract class Tile : MonoBehaviour
 {
-    public Lookable m_lookable { get; protected set; }
-    public Gaugeable m_gaugeable { get; protected set; }
-    public Walkability m_walkability { get; protected set; }
+    public Lookable Lookable { get; protected set; }
+    public Gaugeable Gaugeable { get; protected set; }
+    public Walkability Walkability { get; protected set; }
 
-    protected MeshFilter m_mesh_filter;
+    protected MeshFilter _mesh_filter;
 
     public void Awake()
     {
-        m_lookable = GetComponent<Lookable>();
-        m_gaugeable = GetComponent<Gaugeable>();
-        m_walkability = GetComponent<Walkability>();
+        Lookable = GetComponent<Lookable>();
+        Gaugeable = GetComponent<Gaugeable>();
+        Walkability = GetComponent<Walkability>();
 
-        m_mesh_filter = GetComponent<MeshFilter>();
+        _mesh_filter = GetComponent<MeshFilter>();
     }
 
     public string ToString()
     {
-        return m_lookable.m_appearance;
+        return Lookable.Appearance;
     }
 }

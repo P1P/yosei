@@ -2,32 +2,31 @@
 using System.Collections;
 
 public class Highlighter : MonoBehaviour {
-    public int m_mouse_button_hl = 0;
+    public Tile Hl_tile { get; private set; }
+    public bool New_tile { get; private set; }
 
-    public LayerMask m_hl_mask;
-    public Tile m_hl_tile;
-    public bool m_new_tile;
+    private int _mouse_button_hl = 0;
+    private LayerMask _hl_mask;
+    private Camera _camera;
 
-    private Camera m_camera;
-
-    void Awake()
+    public void Awake()
     {
-        m_camera = GetComponent<Camera>();
+        _camera = GetComponent<Camera>();
     }
 
-	void Start()
+	public void Start()
     {
-        m_hl_mask = Game.Inst.m_layer_helper.m_tiles_mask;
+        _hl_mask = LayerHelper.Instance.Tiles_mask;
 	}
 	
-	void Update ()
+	public void Update()
     {
         Tile tile = null;
         bool whiff = true;
-        if (Input.GetMouseButton(m_mouse_button_hl) && !Screen.lockCursor)
+        if (Input.GetMouseButton(_mouse_button_hl) && !Screen.lockCursor)
         {
             RaycastHit hit;
-            Physics.Raycast(m_camera.ScreenPointToRay(Input.mousePosition), out hit, 1000f, m_hl_mask);
+            Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit, 1000f, _hl_mask);
 
             if (hit.distance != 0f)
             {
@@ -38,36 +37,36 @@ public class Highlighter : MonoBehaviour {
 
         if (whiff) // Nothing has hit, disable HL for old tile if he exists
         {
-            if (m_hl_tile != null)
+            if (Hl_tile != null)
             {
-                m_hl_tile.m_lookable.SetHighlight(false);
-                m_hl_tile = null;
+                Hl_tile.Lookable.SetHighlight(false);
+                Hl_tile = null;
             }
         }
         else // We've hit something
         {
-            if (m_hl_tile != null) // Someone was here last frame
+            if (Hl_tile != null) // Someone was here last frame
             {
-                if (tile != m_hl_tile) // It's something new, replace
+                if (tile != Hl_tile) // It's something new, replace
                 {
-                    m_hl_tile.m_lookable.SetHighlight(false);
+                    Hl_tile.Lookable.SetHighlight(false);
 
-                    tile.m_lookable.SetHighlight(true);
-                    m_hl_tile = tile;
+                    tile.Lookable.SetHighlight(true);
+                    Hl_tile = tile;
 
-                    m_new_tile = true;
+                    New_tile = true;
                 }
                 else
                 {
-                    m_new_tile = false;
+                    New_tile = false;
                 }
             }
             else // It's something new, take the empty space
             {
-                tile.m_lookable.SetHighlight(true);
-                m_hl_tile = tile;
+                tile.Lookable.SetHighlight(true);
+                Hl_tile = tile;
 
-                m_new_tile = true;
+                New_tile = true;
             }
         }
 	}

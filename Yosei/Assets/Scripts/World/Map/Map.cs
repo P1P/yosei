@@ -2,7 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Map : MonoBehaviour {
+public class Map : MonoBehaviour
+{
+    #region SINGLETON
+    private static Map _instance = null;
+    public static Map Instance { get { return _instance; } }
+
+    void Awake()
+    {
+        _instance = this;
+    }
+    #endregion
+
     public List<List<Tile>> m_matrix_tiles;
 
     public int m_width;
@@ -68,7 +79,7 @@ public class Map : MonoBehaviour {
 
     private void UpdateGraph()
     {
-        Game.Inst.m_pathfinder.UpdateGraphs(new Bounds(
+        AstarPath.Instance.UpdateGraphs(new Bounds(
                 new Vector3(m_width * m_x_size / 2f, 0f, m_depth * m_z_size / 2f),
                 new Vector3(m_width * m_x_size, 5f, m_depth * m_z_size)));
     }

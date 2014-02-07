@@ -6,19 +6,19 @@ using System.Collections.Generic;
 
 public abstract class Entity : MonoBehaviour
 {
-	public Lookable m_lookable;
-    public Gaugeable m_gaugeable;
-    public GroundlingMonoped m_groundling;
+    public Lookable Lookable { get; private set; }
+    public Gaugeable Gaugeable { get; private set; }
+    public GroundlingMonoped Groundling { get; private set; }
 
 	public void Awake()
 	{
-		m_lookable = GetComponent<Lookable>();
-		m_gaugeable = GetComponent<Gaugeable>();
-        m_groundling = GetComponent<GroundlingMonoped>();
+		Lookable = GetComponent<Lookable>();
+		Gaugeable = GetComponent<Gaugeable>();
+        Groundling = GetComponent<GroundlingMonoped>();
 	}
 
     public string ToString()
     {
-        return m_lookable.m_appearance;
+        return Lookable.Appearance;
     }
 }

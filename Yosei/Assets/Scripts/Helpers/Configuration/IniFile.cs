@@ -4,7 +4,7 @@ using System.Text;
 
 public class IniFile
 {
-    public string path;
+    private string _path;
 
     [DllImport("kernel32")]
     private static extern long WritePrivateProfileString(string section,
@@ -16,21 +16,19 @@ public class IniFile
 
     public IniFile(string INIPath)
     {
-        path = INIPath;
+        _path = INIPath;
     }
 
     public void IniWriteValue(string section, string key, string value)
     {
-        WritePrivateProfileString(section, key, value, this.path);
+        WritePrivateProfileString(section, key, value, this._path);
     }
 
     public string IniReadValue(string section, string key)
     {
         StringBuilder temp = new StringBuilder(255);
         GetPrivateProfileString(section, key, "", temp,
-                                255, this.path);
-
-        Game.Inst.m_console.WriteLine("[" + section + "] " + key + " " + temp.ToString());
+                                255, this._path);
 
         return temp.ToString();
     }

@@ -2,16 +2,16 @@
 using System.Collections;
 
 public class TileGrass : Tile {
-	void Start ()
+	public void Start()
     {
-        m_lookable.SetAppearance(
+        Lookable.SetAppearance(
             "Grass",
             "Tiles/Material/Material",
-            Game.Inst.m_textures.GetRandomGreyscaleTexture(2, 2, 0.9f, 0.01f),
+            TextureFactory.Instance.GetRandomGrayscaleTexture(2, 2, 0.9f, 0.01f),
             "Tiles/Mesh/Cube",
-            Game.Inst.m_colors.GetColor(0.35f, 0.02f));
+            ColorFactory.Instance.GetColor(0.35f, 0.02f));
 
-        m_walkability.SetWalkable(true);
+        Walkability.SetWalkable(true);
 
         transform.localScale = new Vector3(1f, 1f, 1f);
 	}

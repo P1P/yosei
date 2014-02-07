@@ -4,41 +4,41 @@ namespace UnityEngine
 {
     public static class ColorHSV
     {
-        public static Color FromHsv(int h, int s, int v)
+        public static Color FromHsv(int p_hue, int p_saturation, int p_value)
         {
-            while (h >= 360) h -= 360;
-            while (h < 0) h += 360;
-            if (s > 255) s = 255;
-            if (s < 0) s = 0;
-            if (v > 255) v = 255;
-            if (v < 0) v = 0;
+            while (p_hue >= 360) p_hue -= 360;
+            while (p_hue < 0) p_hue += 360;
+            if (p_saturation > 255) p_saturation = 255;
+            if (p_saturation < 0) p_saturation = 0;
+            if (p_value > 255) p_value = 255;
+            if (p_value < 0) p_value = 0;
 
-            return FromHsv((float)h / 255.0f, (float)s / 255.0f, (float)v / 255.0f);
+            return FromHsv((float) p_hue / 255.0f, (float) p_saturation / 255.0f, (float) p_value / 255.0f);
         }
 
-        public static Color FromHsv(float h, float s, float v)
+        public static Color FromHsv(float p_hue, float p_saturation, float p_value)
         {
-            h = Mathf.Clamp01(h);
-            s = Mathf.Clamp01(s);
-            v = Mathf.Clamp01(v);
+            p_hue = Mathf.Clamp01(p_hue);
+            p_saturation = Mathf.Clamp01(p_saturation);
+            p_value = Mathf.Clamp01(p_value);
 
-            h *= 255.0f;
+            p_hue *= 255.0f;
 
             Color resColor = Color.clear;
 
-            if (s == 0.0)
+            if (p_saturation == 0.0)
             {
-                int rgb = Convert.ToInt16((float)(v * 255));
+                int rgb = Convert.ToInt16((float) (p_value * 255));
                 resColor = new Color(rgb, rgb, rgb);
             }
             else
             {
-                int Hi = (int)(Mathf.Floor(h / 60.0f) % 6.0f);
-                float f = (h / 60.0f) - Hi;
+                int Hi = (int) (Mathf.Floor(p_hue / 60.0f) % 6.0f);
+                float f = (p_hue / 60.0f) - Hi;
 
-                float p = v * (1 - s);
-                float q = v * (1 - f * s);
-                float t = v * (1 - (1 - f) * s);
+                float p = p_value * (1 - p_saturation);
+                float q = p_value * (1 - f * p_saturation);
+                float t = p_value * (1 - (1 - f) * p_saturation);
 
                 float r = 0.0f;
                 float g = 0.0f;
@@ -46,12 +46,12 @@ namespace UnityEngine
 
                 switch (Hi)
                 {
-                    case 0: r = v; g = t; b = p; break;
-                    case 1: r = q; g = v; b = p; break;
-                    case 2: r = p; g = v; b = t; break;
-                    case 3: r = p; g = q; b = v; break;
-                    case 4: r = t; g = p; b = v; break;
-                    case 5: r = v; g = p; b = q; break;
+                    case 0: r = p_value; g = t; b = p; break;
+                    case 1: r = q; g = p_value; b = p; break;
+                    case 2: r = p; g = p_value; b = t; break;
+                    case 3: r = p; g = q; b = p_value; break;
+                    case 4: r = t; g = p; b = p_value; break;
+                    case 5: r = p_value; g = p; b = q; break;
                     default: break;
                 }
 
@@ -64,45 +64,45 @@ namespace UnityEngine
 
     public static class ColorExtension
     {
-        public static int h(this Color c)
+        public static int Hue(this Color p_color)
         {
-            float min = Mathf.Min(new float[] { c.r, c.g, c.b });
-            float max = Mathf.Max(new float[] { c.r, c.g, c.b });
+            float min = Mathf.Min(new float[] { p_color.r, p_color.g, p_color.b });
+            float max = Mathf.Max(new float[] { p_color.r, p_color.g, p_color.b });
 
             if (max == 0) return 0;
 
             float h = 0;
 
-            if (max == c.r) h = 60 * (c.g - c.b) / (max - min) + 0;
-            else if (max == c.g) h = 60 * (c.b - c.r) / (max - min) + 120;
-            else if (max == c.b) h = 60 * (c.r - c.g) / (max - min) + 240;
+            if (max == p_color.r) h = 60 * (p_color.g - p_color.b) / (max - min) + 0;
+            else if (max == p_color.g) h = 60 * (p_color.b - p_color.r) / (max - min) + 120;
+            else if (max == p_color.b) h = 60 * (p_color.r - p_color.g) / (max - min) + 240;
 
             if (h < 0) h += 360;
 
-            return (int)Mathf.Round(h);
+            return (int) Mathf.Round(h);
         }
 
-        public static int s(this Color c)
+        public static int Saturation(this Color p_color)
         {
-            float min = Mathf.Min(new float[] { c.r, c.g, c.b });
-            float max = Mathf.Max(new float[] { c.r, c.g, c.b });
+            float min = Mathf.Min(new float[] { p_color.r, p_color.g, p_color.b });
+            float max = Mathf.Max(new float[] { p_color.r, p_color.g, p_color.b });
 
             if (max == 0) return 0;
-            return (int)(255 * (max - min) / max);
+            return (int) (255 * (max - min) / max);
         }
 
-        public static int v(this Color c)
+        public static int Value(this Color p_color)
         {
-            return (int)(255.0f * Mathf.Max(new float[] { c.r, c.g, c.b }));
+            return (int) (255.0f * Mathf.Max(new float[] { p_color.r, p_color.g, p_color.b }));
         }
 
-        public static Color Offset(this Color c, float offsetH, float offsetS, float offsetV)
+        public static Color Offset(this Color p_color, float p_offset_h, float p_offset_s, float p_offset_v)
         {
-            int newH = (int)(c.h() + offsetH * 255.0f);
-            int newS = (int)(c.s() + offsetS * 255.0f);
-            int newV = (int)(c.v() + offsetV * 255.0f);
+            int new_h = (int) (p_color.Hue() + p_offset_h * 255.0f);
+            int new_s = (int) (p_color.Saturation() + p_offset_s * 255.0f);
+            int new_v = (int) (p_color.Value() + p_offset_v * 255.0f);
 
-            return ColorHSV.FromHsv(newH, newS, newV);
+            return ColorHSV.FromHsv(new_h, new_s, new_v);
         }
     }
 }

@@ -5,18 +5,22 @@ using System.Collections.Generic;
 
 public class GroundlingQuadruped : MonoBehaviour
 {
-    public List<Vector3> m_lst_extremities;
-    public Bounds m_bounds;
-    public BoxCollider m_box_collider;
+    private List<Vector3> _lst_extremities;
+    private Bounds _bounds;
+    private BoxCollider _box_collider;
 
-    public List<Tile> m_lst_tiles_under_proportion_type = new List<Tile>();
-    public List<float> m_lst_tiles_under_proportion_freq = new List<float>();
+    public List<Tile> Lst_tiles_under_proportion_type { get; private set; }
+    public List<float> Lst_tiles_under_proportion_freq { get; private set; }
 
-	void Awake()
+	public void Awake()
     {
-        m_box_collider = GetComponent<BoxCollider>();
-        m_box_collider.size = Vector3.one;
-        m_lst_extremities = new List<Vector3>(new Vector3[] { Vector3.one, Vector3.one, Vector3.one, Vector3.one });
+        _box_collider = GetComponent<BoxCollider>();
+        _box_collider.size = Vector3.one;
+
+        _lst_extremities = new List<Vector3>(new Vector3[] { Vector3.one, Vector3.one, Vector3.one, Vector3.one });
+        Lst_tiles_under_proportion_type = new List<Tile>();
+        Lst_tiles_under_proportion_freq = new List<float>();
+
         UpdateBounding();
 	}
 
@@ -33,31 +37,31 @@ public class GroundlingQuadruped : MonoBehaviour
 
     private void UpdateBounding()
     {
-        m_bounds = m_box_collider.bounds;
+        _bounds = _box_collider.bounds;
 
-        for (int i = 0; i < m_lst_extremities.Count; ++i)
+        for (int i = 0; i < _lst_extremities.Count; ++i)
         {
-            m_lst_extremities[i] = new Vector3( // max max; min max; max min; min min
-                i % 2 == 0 ? m_bounds.max.x : m_bounds.min.x,
-                m_bounds.center.y,
-                i < m_lst_extremities.Count / 2 ? m_bounds.max.z : m_bounds.min.z);
+            _lst_extremities[i] = new Vector3( // max max; min max; max min; min min
+                i % 2 == 0 ? _bounds.max.x : _bounds.min.x,
+                _bounds.center.y,
+                i < _lst_extremities.Count / 2 ? _bounds.max.z : _bounds.min.z);
         }
     }
 
     // The groundling may be, at a given point, walking over several types of ground at the same time
     // This updates a List of Tuples<Tile, proportion percentage>, with only one Tuple per type of Tile
-    public void UpdateGroundUnderProportions()
+    private void UpdateGroundUnderProportions()
     {
-        m_lst_tiles_under_proportion_freq.Clear();
-        m_lst_tiles_under_proportion_type.Clear();
+        Lst_tiles_under_proportion_freq.Clear();
+        Lst_tiles_under_proportion_type.Clear();
 
         RaycastHit hit_info;
         int nb_tiles = 0;
 
         // Probing for ground tiles under
-        foreach (Vector3 extremity in m_lst_extremities)
+        foreach (Vector3 extremity in _lst_extremities)
         {
-            Physics.Raycast(extremity, -Vector3.up, out hit_info, 100f, Game.Inst.m_layer_helper.m_ground_mask);
+            Physics.Raycast(extremity, -Vector3.up, out hit_info, 100f, LayerHelper.Instance.Ground_mask);
 
             if (hit_info.distance != 0f)
             {
@@ -67,12 +71,12 @@ public class GroundlingQuadruped : MonoBehaviour
 
                 bool found = false;
                 // Either adding a +1 to the flagship Tile of this type
-                for (int i = 0; i < m_lst_tiles_under_proportion_type.Count; ++i)
+                for (int i = 0; i < Lst_tiles_under_proportion_type.Count; ++i)
                 {
-                    if (tile.GetType() == m_lst_tiles_under_proportion_type[i].GetType())
+                    if (tile.GetType() == Lst_tiles_under_proportion_type[i].GetType())
                     {
                         found = true;
-                        m_lst_tiles_under_proportion_freq[i] += 1f;
+                        Lst_tiles_under_proportion_freq[i] += 1f;
                         break;
                     }
                 }
@@ -80,8 +84,8 @@ public class GroundlingQuadruped : MonoBehaviour
                 // Or becoming the flagship for this type of Tile
                 if (found == false)
                 {
-                    m_lst_tiles_under_proportion_type.Add(tile);
-                    m_lst_tiles_under_proportion_freq.Add(1f);
+                    Lst_tiles_under_proportion_type.Add(tile);
+                    Lst_tiles_under_proportion_freq.Add(1f);
                 }
             }
 
@@ -89,9 +93,9 @@ public class GroundlingQuadruped : MonoBehaviour
         }
 
         // Normalizing so that frequency is in percentage
-        for (int i = 0; i < m_lst_tiles_under_proportion_freq.Count; ++i)
+        for (int i = 0; i < Lst_tiles_under_proportion_freq.Count; ++i)
         {
-            m_lst_tiles_under_proportion_freq[i] /= nb_tiles;
+            Lst_tiles_under_proportion_freq[i] /= nb_tiles;
         }
     }
 }

@@ -3,11 +3,22 @@ using System.Collections;
 
 public class LayerHelper : MonoBehaviour
 {
-    public int m_ground_layer;
-    public int m_obstacle_layer;
+    #region SINGLETON
+    private static LayerHelper _instance = null;
+    public static LayerHelper Instance { get { return _instance; } }
 
-    public LayerMask m_ground_mask;
-    public LayerMask m_obstacle_mask;
+    void Awake()
+    {
+        _instance = this;
+    }
+    #endregion
 
-    public LayerMask m_tiles_mask;
+    // Inspector-set values
+    public int Ground_layer;
+    public int Obstacle_layer;
+
+    public LayerMask Ground_mask;
+    public LayerMask Obstacle_mask;
+
+    public LayerMask Tiles_mask;
 }

@@ -3,28 +3,28 @@ using System.Collections;
 
 public class FpsCounter : MonoBehaviour
 {
-    public float m_update_interval = 0.5f;
+    private float _update_interval = 0.5f;
 
-    private float m_accum = 0; // FPS accumulated over the interval
-    private int m_frames = 0;  // Frames drawn over the interval
-    private float m_timeleft;  // Left time for current interval
+    private float _accumulated_fps;
+    private int _accumulated_frames;
+    private float _time_left;
 
-    void Start()
+    public void Start()
     {
-        m_timeleft = m_update_interval;
+        _time_left = _update_interval;
     }
 
-    void Update()
+    public void Update()
     {
-        m_timeleft -= Time.deltaTime;
-        m_accum += Time.timeScale / Time.deltaTime;
-        ++m_frames;
+        _time_left -= Time.deltaTime;
+        _accumulated_fps += Time.timeScale / Time.deltaTime;
+        ++_accumulated_frames;
 
         // Interval ended - update GUI text and start new interval
-        if (m_timeleft <= 0.0)
+        if (_time_left <= 0.0)
         {
             // display two fractional digits (f2 format)
-            float fps = m_accum / m_frames;
+            float fps = _accumulated_fps / _accumulated_frames;
             string format = System.String.Format("{0:F2} FPS", fps);
 
             int display_color;
@@ -42,11 +42,11 @@ public class FpsCounter : MonoBehaviour
                 display_color = 4;
             }
 
-            Game.Inst.m_console.WriteFixedLine(format, 0, display_color, false);
+            Console.Instance.WriteFixedLine(format, 0, display_color, false);
 
-            m_timeleft = m_update_interval;
-            m_accum = 0.0F;
-            m_frames = 0;
+            _time_left = _update_interval;
+            _accumulated_fps = 0f;
+            _accumulated_frames = 0;
         }
     }
 }

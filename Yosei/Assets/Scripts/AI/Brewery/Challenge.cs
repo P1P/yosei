@@ -7,32 +7,32 @@ using Teacup.Genetic;
 
 public class Challenge
 {
-    private int m_current_position;
-    private Stopwatch m_stopwatch;
-    private Population<decimal> m_population;
-    private List<Tuple<TileSpawn, TileGoal>> m_lst_tuples_spawn_goal;
-    private bool m_ended;
+    private int _current_position;
+    private Stopwatch _stopwatch;
+    private Population<decimal> _population;
+    private List<Tuple<TileSpawn, TileGoal>> _lst_tuples_spawn_goal;
+    private bool _ended;
 
     public Challenge(Population<decimal> p_population)
     {
-        m_lst_tuples_spawn_goal = GetSpawnGoalTuples();
-        m_population = p_population;
+        _lst_tuples_spawn_goal = GetSpawnGoalTuples();
+        _population = p_population;
 
-        m_ended = false;
-        m_stopwatch = new Stopwatch();
-        m_stopwatch.Start();
+        _ended = false;
+        _stopwatch = new Stopwatch();
+        _stopwatch.Start();
 
         // Resetting the goal triggers
-        foreach (Tuple<TileSpawn, TileGoal> tuple in m_lst_tuples_spawn_goal)
+        foreach (Tuple<TileSpawn, TileGoal> tuple in _lst_tuples_spawn_goal)
         {
-            tuple.Item2.ResetReached();
+            tuple.Item_2.ResetReached();
         }
 
         // Instantiating Yosei and launching them
-        for (int i = 0; i < m_lst_tuples_spawn_goal.Count; ++i)
+        for (int i = 0; i < _lst_tuples_spawn_goal.Count; ++i)
         {
-            Yosei.InstantiateYosei(m_lst_tuples_spawn_goal[i].Item1.transform.position, Quaternion.identity,
-                p_population.GetGenome(i)).m_pathfinder.GoTo(m_lst_tuples_spawn_goal[i].Item2.transform.position);
+            Yosei.InstantiateYosei(_lst_tuples_spawn_goal[i].Item_1.transform.position, Quaternion.identity,
+                p_population.GetGenome(i)).Pathfinder.GoTo(_lst_tuples_spawn_goal[i].Item_2.transform.position);
         }
     }
 
@@ -42,21 +42,23 @@ public class Challenge
     /// <param name="p_yosei">The Yosei to reach the goal</param>
     public void ReachedGoal(Yosei p_yosei)
     {
-        System.TimeSpan timespan = m_stopwatch.Elapsed;
-        Game.Inst.m_console.WriteLine("Congratulations to " + p_yosei.ToString() + " for reaching position " + (m_current_position + 1) + " in " + timespan.ToString(), p_yosei.m_lookable.m_base_color);
+        System.TimeSpan timespan = _stopwatch.Elapsed;
+        Console.Instance.WriteLine("Congratulations to " + p_yosei.ToString() + " for reaching position " + (_current_position + 1) + " in " + timespan.ToString(), p_yosei.Lookable.Base_color);
 
-        p_yosei.m_genome.m_fitness = GetCurrentFitnessReward();
+        // Evaluate the Yosei
+        p_yosei.Genome.m_fitness = GetCurrentFitnessReward();
 
-        m_current_position++;
+        _current_position++;
 
-        if (m_current_position == m_population.GetGenomeCount())
+        // Ends the challenge when everyone finished
+        if (_current_position == _population.GetGenomeCount())
         {
-            foreach (Yosei yosei in Game.Inst.m_object_population.GetComponentsInChildren<Yosei>())
+            foreach (Yosei yosei in ReferenceHelper.Instance.Object_population.GetComponentsInChildren<Yosei>())
             {
                 GameObject.Destroy(yosei.gameObject);
             }
 
-            m_ended = true;
+            _ended = true;
         }
     }
 
@@ -72,7 +74,7 @@ public class Challenge
         List<TileGoal> lst_goals = new List<TileGoal>();
 
         // Retrieving spawns and goals
-        foreach (Tile tile in Game.Inst.m_map.m_matrix_tiles.SelectMany<List<Tile>, Tile>(k => k))
+        foreach (Tile tile in Map.Instance.m_matrix_tiles.SelectMany<List<Tile>, Tile>(k => k))
         {
             if (tile is TileSpawn)
             {
@@ -123,11 +125,11 @@ public class Challenge
     /// <returns>The fitness for the current position</returns>
     private decimal GetCurrentFitnessReward()
     {
-        return m_population.GetGenomeCount() - m_current_position + (m_current_position == 0 ? 10 : 0);
+        return _population.GetGenomeCount() - _current_position + (_current_position == 0 ? 10 : 0);
     }
 
     public bool HasEnded()
     {
-        return m_ended;
+        return _ended;
     }
 }

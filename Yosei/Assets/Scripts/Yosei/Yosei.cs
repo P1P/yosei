@@ -10,93 +10,97 @@ using Teacup.Genetic;
 
 public class Yosei : Entity
 {
-	public Pathfinder m_pathfinder;
-	public Genome<decimal> m_genome;
+    public Pathfinder Pathfinder { get; private set; }
+    public Genome<decimal> Genome { get; private set; }
 
-    private string m_name;
-
-    private BannerHolder m_bannerholder;
+    private string _name;
+    private BannerHolder _bannerholder;
 
     public void Awake()
     {
-        m_pathfinder = GetComponent<Pathfinder>();
-        m_bannerholder = GetComponent<BannerHolder>();
+        Pathfinder = GetComponent<Pathfinder>();
+        _bannerholder = GetComponent<BannerHolder>();
 
         base.Awake();
     }
 
     public void Start()
     {
-        m_name = Game.Inst.m_names.GiveMeAName();
+        // Give the Yosei a name and appearance
+        _name = NameFactory.Instance.GiveMeAName();
 
-        m_lookable.SetAppearance(
+        Lookable.SetAppearance(
             "Yosei",
             "Tiles/Material/Material",
-            Game.Inst.m_textures.GetRandomGreyscaleTexture(1, 1, 0.9f, 0.1f),
+            TextureFactory.Instance.GetRandomGrayscaleTexture(1, 1, 0.9f, 0.1f),
             "Tiles/Mesh/Capsule",
-            Game.Inst.m_colors.GetRandomColor());
+            ColorFactory.Instance.GetRandomColor());
 
         transform.localScale = Vector3.one * 0.25f;
 
-		m_pathfinder.speed = (float)m_genome.GetChromosome("Movement").GetGene(0) * 250f + 100f;
+        // Express the genome
+		Pathfinder.Speed = (float)Genome.GetChromosome("Movement").GetGene(0) * 250f + 100f;
     }
 
     public void Update()
     {
         WriteToBanner();
 
-		if (m_groundling.m_tile_under is TileGoal)
+        // Detect reaching a challenge goal
+		if (Groundling.Tile_under is TileGoal)
 		{
-			if ((m_groundling.m_tile_under as TileGoal).FirstReached())
+			if ((Groundling.Tile_under as TileGoal).FirstReached())
 			{
-				Game.Inst.m_brewer.m_challenge.ReachedGoal(this);
+				Brewer.Instance.Current_challenge.ReachedGoal(this);
 			}
 		}
     }
 
 	public string ToString()
 	{
-		return m_name + " (" + m_lookable.m_appearance + ")";
+		return _name + " (" + Lookable.Appearance + ")";
 	}
 
     private void WriteToBanner()
     {
-        m_bannerholder.SetTitleText(ToString());
+        // Display useful debug info on the banner
+        _bannerholder.SetTitleText(ToString());
 
-        m_bannerholder.SetCoreColor(Game.Inst.m_colors.HighlightColor(m_lookable.m_base_color));
+        _bannerholder.SetCoreColor(ColorFactory.Instance.HighlightColor(Lookable.Base_color));
 
         int color = 0;
-        m_bannerholder.ClearCoreText();
-        m_bannerholder.AddCoreText("My name is ");
-        m_bannerholder.AddCoreTextLine(m_name, m_lookable.m_base_color);
-        m_bannerholder.AddCoreText("I'm going ");
+        _bannerholder.ClearCoreText();
+        _bannerholder.AddCoreText("My name is ");
+        _bannerholder.AddCoreTextLine(_name, Lookable.Base_color);
+        _bannerholder.AddCoreText("I'm going ");
 
-        if (m_pathfinder.path != null)
+        if (Pathfinder.Path != null)
         {
-            m_bannerholder.AddCoreTextLine("to " + m_pathfinder.path.vectorPath[m_pathfinder.path.vectorPath.Count - 1].ToString(), Game.Inst.m_colors.GetBaseColor(color++));
+            _bannerholder.AddCoreTextLine("to " + Pathfinder.Path.vectorPath[Pathfinder.Path.vectorPath.Count - 1].ToString(), ColorFactory.Instance.GetBaseColor(color++));
         }
         else
         {
-            m_bannerholder.AddCoreTextLine("Nowhere!", Game.Inst.m_colors.GetBaseColor(color++));
+            _bannerholder.AddCoreTextLine("Nowhere!", ColorFactory.Instance.GetBaseColor(color++));
         }
 
-		m_bannerholder.AddCoreTextLine("My genome is " + m_genome.ToString());
-		m_bannerholder.AddCoreText("Fitness " + m_genome.m_fitness);
+		_bannerholder.AddCoreTextLine("My genome is " + Genome.ToString());
+		_bannerholder.AddCoreText("Fitness " + Genome.m_fitness);
     }
 
 	public static Yosei InstantiateYosei(Vector3 p_position, Quaternion p_rotation, Genome<decimal> p_genome)
 	{
+        // Creates a Yosei and adds it to the population
 		GameObject go = new GameObject("Yosei");
 		go.transform.position = p_position + Vector3.up;
 		go.transform.rotation = p_rotation;
-		go.transform.parent = Game.Inst.m_object_population.transform;
+		go.transform.parent = ReferenceHelper.Instance.Object_population.transform;
 
 		go.AddComponent<Seeker>();
 		go.AddComponent<CharacterController>();
 
 		Yosei yosei = go.AddComponent<Yosei>();
 
-		yosei.m_genome = p_genome;
+		yosei.Genome = p_genome;
 
 		return yosei;
 	}

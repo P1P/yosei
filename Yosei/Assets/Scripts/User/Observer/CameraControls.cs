@@ -2,31 +2,31 @@
 using System.Collections;
 
 public class CameraControls : MonoBehaviour {
-    public float m_base_speed = 1f;
-    public float m_speed_increment = 1f;
-    public float m_max_speed_increment = 1f;
-    public float m_mouse_sensitivity = 2f;
-    public float m_mouse_wheel_bonus_speed_factor = 10f;
+    // Inspector-set values
+    public float Base_speed = 0.5f;
+    public float Speed_increment = 0.01f;
+    public float Max_speed_increment = 1f;
+    public float Mouse_sensitivity = 5f;
+    public float Mouse_wheel_bonus_speed_factor = 5f;
 
-    public float m_current_speed;
-    public float m_current_speed_increment;
+    public bool Inverted_vertical = true;
+    public int Mouse_button_look = 1;
+    public int Mouse_button_move = 2;
 
-    public bool m_inverted_vertical = true;
-    public int m_mouse_button_look = 1;
-    public int m_mouse_button_move = 2;
-
-    private Vector3 m_rotation;
+    private float _current_speed;
+    private float _current_speed_increment;
+    private Vector3 _rotation;
 
 	void Awake ()
     {
-        m_rotation = transform.rotation.eulerAngles;
+        _rotation = transform.rotation.eulerAngles;
 	}
 	
 	void FixedUpdate ()
     {
         Screen.lockCursor = false;
 
-        if (Input.GetMouseButton(m_mouse_button_move))
+        if (Input.GetMouseButton(Mouse_button_move))
         {
             transform.position += GetDragMovement();
             Screen.lockCursor = true;
@@ -36,7 +36,7 @@ public class CameraControls : MonoBehaviour {
             transform.position += GetNormalMovement();
         }
 
-        if (Input.GetMouseButton(m_mouse_button_look))
+        if (Input.GetMouseButton(Mouse_button_look))
         {
             transform.rotation = Quaternion.Euler(GetRotation());
             Screen.lockCursor = true;
@@ -56,7 +56,7 @@ public class CameraControls : MonoBehaviour {
         direction = new Vector3(direction.x, 0f, direction.z);
 
         // Applying total speed
-        direction = direction * (m_base_speed * (1f + m_current_speed_increment));
+        direction = direction * (Base_speed * (1f + _current_speed_increment));
 
         return direction;
     }
@@ -68,7 +68,7 @@ public class CameraControls : MonoBehaviour {
         direction += Input.GetAxis("Vertical") * Vector3.forward;
         direction += Input.GetAxis("Horizontal") * Vector3.right;
 
-        direction += Input.GetAxis("Mouse ScrollWheel") * m_mouse_wheel_bonus_speed_factor * Vector3.forward;
+        direction += Input.GetAxis("Mouse ScrollWheel") * Mouse_wheel_bonus_speed_factor * Vector3.forward;
 
         // Transforming direction from the camera rotation
         direction = transform.TransformDirection(direction);
@@ -79,24 +79,24 @@ public class CameraControls : MonoBehaviour {
         // Holding means more speed
         if (direction == Vector3.zero)
         {
-            m_current_speed_increment = 0f;
+            _current_speed_increment = 0f;
         }
         else
         {
-            m_current_speed_increment = Mathf.Min(m_max_speed_increment, m_current_speed_increment + m_speed_increment);
+            _current_speed_increment = Mathf.Min(Max_speed_increment, _current_speed_increment + Speed_increment);
         }
 
         // Applying total speed
-        direction = direction * (m_base_speed * (1f + m_current_speed_increment));
+        direction = direction * (Base_speed * (1f + _current_speed_increment));
 
         return direction;
     }
 
     public Vector3 GetRotation()
     {
-        m_rotation += Vector3.up * m_mouse_sensitivity * Input.GetAxis("Mouse X");
-        m_rotation += (m_inverted_vertical ? -1 : 1) * Vector3.right * m_mouse_sensitivity * Input.GetAxis("Mouse Y");
+        _rotation += Vector3.up * Mouse_sensitivity * Input.GetAxis("Mouse X");
+        _rotation += (Inverted_vertical ? -1 : 1) * Vector3.right * Mouse_sensitivity * Input.GetAxis("Mouse Y");
 
-        return m_rotation;
+        return _rotation;
     }
 }

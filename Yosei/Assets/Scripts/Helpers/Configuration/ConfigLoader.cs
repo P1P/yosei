@@ -3,12 +3,22 @@ using System.Collections;
 
 public class ConfigLoader : MonoBehaviour
 {
-    public string m_filename;
+    #region SINGLETON
+    private static ConfigLoader _instance = null;
+    public static ConfigLoader Instance { get { return _instance; } }
 
-    private ConfigurationFetcher m_fetcher;
+    void Awake()
+    {
+        _instance = this;
+    }
+    #endregion
+
+    public string _filename;
+
+    private ConfigurationFetcher _fetcher;
 
     public void Start()
     {
-        m_fetcher = new ConfigurationFetcher(m_filename);
+        _fetcher = new ConfigurationFetcher(_filename);
     }
 }
