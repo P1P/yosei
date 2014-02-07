@@ -15,7 +15,7 @@ public class Map : MonoBehaviour {
 
     private bool m_require_graph_update = false;
 
-    private delegate System.Type MapGen(int p_x, int p_z, System.Random p_random);
+    public delegate System.Type MapGen(int p_x, int p_z, System.Random p_random);
 
 	public void Start()
     {
