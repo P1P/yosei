@@ -4,6 +4,16 @@ using System.Collections.Generic;
 [ExecuteInEditMode]
 public class ColorFactory : MonoBehaviour
 {
+    #region SINGLETON
+    private static ColorFactory _instance = null;
+    public static ColorFactory Instance { get { return _instance; } }
+
+    void Awake()
+    {
+        _instance = this;
+    }
+    #endregion
+
     public List<Color> m_lst_colors = new List<Color>();
 
     [SerializeField]
@@ -42,10 +52,10 @@ public class ColorFactory : MonoBehaviour
         set { _hl_offset = value; }
     }
 
-	void Awake()
+    public void Start()
     {
         UpdateColors();
-	}
+    }
 
     private void UpdateColors()
     {
@@ -53,7 +63,7 @@ public class ColorFactory : MonoBehaviour
 
         for (int i = 0; i < m_nb_colors; ++i)
         {
-            m_lst_colors.Add(UnityEditor.EditorGUIUtility.HSVToRGB((1f / (m_nb_colors + 1)) * i, m_saturation, m_value));
+            m_lst_colors.Add(ColorHSV.FromHsv((1f / (m_nb_colors + 1)) * i, m_saturation, m_value));
         }
     }
 
@@ -69,31 +79,27 @@ public class ColorFactory : MonoBehaviour
 
     public Color GetRandomColor()
     {
-        return UnityEditor.EditorGUIUtility.HSVToRGB(Random.value, m_saturation, m_value);
+        return ColorHSV.FromHsv(Random.value, m_saturation, m_value);
     }
 
     public Color GetColor(float p_hue)
     {
-        return UnityEditor.EditorGUIUtility.HSVToRGB(p_hue, m_saturation, m_value);
+        return ColorHSV.FromHsv(p_hue, m_saturation, m_value);
     }
 
     public Color GetColor(float p_hue, float p_random_offset)
     {
-        return UnityEditor.EditorGUIUtility.HSVToRGB(p_hue + Random.Range(-p_random_offset, p_random_offset), m_saturation, m_value);
+        return ColorHSV.FromHsv(p_hue + Random.Range(-p_random_offset, p_random_offset), m_saturation, m_value);
     }
 
     public Color GetRandomGrey(float p_base_value = 0.5f, float p_variance = 0.5f)
     {
-        return UnityEditor.EditorGUIUtility.HSVToRGB(0f, 0f, p_base_value + Random.Range(-p_variance, p_variance));
+        return ColorHSV.FromHsv(0f, 0f, p_base_value + Random.Range(-p_variance, p_variance));
     }
 
     public Color HighlightColor(Color p_color)
     {
-        float h, s, v;
-
-        UnityEditor.EditorGUIUtility.RGBToHSV(p_color, out h, out s, out v);
-
-        return UnityEditor.EditorGUIUtility.HSVToRGB(h, Mathf.Min(1f, Mathf.Max(0f, s + m_hl_offset)), v);
+        return ColorExtension.Offset(p_color, 0, m_hl_offset, 0);
     }
 
     public static string ToHexa(Color32 p_color)

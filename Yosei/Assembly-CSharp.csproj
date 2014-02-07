@@ -238,6 +238,7 @@
      <Compile Include="Assets\Scripts\Helpers\Misc\ScreenHelper.cs" />
      <Compile Include="Assets\Scripts\Helpers\Misc\TimeHelper.cs" />
      <Compile Include="Assets\Scripts\Helpers\ProceduralGeneration\ColorFactory.cs" />
+     <Compile Include="Assets\Scripts\Helpers\ProceduralGeneration\ColorHSV.cs" />
      <Compile Include="Assets\Scripts\Helpers\ProceduralGeneration\NameFactory.cs" />
      <Compile Include="Assets\Scripts\Helpers\ProceduralGeneration\TextureFactory.cs" />
      <Compile Include="Assets\Scripts\User\Observer\CameraControls.cs" />
