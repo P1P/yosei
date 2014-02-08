@@ -21,14 +21,14 @@ public class Brewer : MonoBehaviour
 
     public void Update()
     {
-        if (Current_challenge == null || Current_challenge.HasEnded())
+        if (Current_challenge == null || Current_challenge.HasEnded)
         {
             ChallengePopulation();
         }
     }
 
     /// <summary>
-    /// Advances the simulation by one step
+    /// Creates a simulation or advances the current simulation by one step
     /// On the first step, creates the first population and starts a challenge
     /// On the next steps, evolves to a new lineage and starts a new challenge
     /// </summary>
@@ -77,10 +77,10 @@ public class Brewer : MonoBehaviour
 	}
 
     /// <summary>
-    /// The fitness delegate, based on the fitness on the genome
+    /// The fitness evaluation delegate; based on the fitness on the genome
     /// </summary>
-    /// <param name="p_genome"></param>
-    /// <returns></returns>
+    /// <param name="p_genome">The genome to evaluate</param>
+    /// <returns>The effective fitness of the genome</returns>
     private decimal Fitness(Genome<decimal> p_genome)
     {
         return p_genome.m_fitness;

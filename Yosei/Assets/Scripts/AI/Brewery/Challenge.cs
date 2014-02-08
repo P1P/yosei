@@ -11,14 +11,18 @@ public class Challenge
     private Stopwatch _stopwatch;
     private Population<decimal> _population;
     private List<Tuple<TileSpawn, TileGoal>> _lst_tuples_spawn_goal;
-    private bool _ended;
+
+    public bool HasEnded { get; private set; }
 
     public Challenge(Population<decimal> p_population)
     {
+        // Creating the challenge land
+        Land.Instance.InitializeLand(0, 29, 25, Land.Instance.LandgenCurveLanes);
+
         _lst_tuples_spawn_goal = GetSpawnGoalTuples();
         _population = p_population;
 
-        _ended = false;
+        HasEnded = false;
         _stopwatch = new Stopwatch();
         _stopwatch.Start();
 
@@ -43,7 +47,7 @@ public class Challenge
     public void ReachedGoal(Yosei p_yosei)
     {
         System.TimeSpan timespan = _stopwatch.Elapsed;
-        Console.Instance.WriteLine("Congratulations to " + p_yosei.ToString() + " for reaching position " + (_current_position + 1) + " in " + timespan.ToString(), p_yosei.Lookable.Base_color);
+        Console.Line("Congratulations to " + p_yosei.ToString() + " for reaching position " + (_current_position + 1) + " in " + timespan.ToString(), p_yosei.Lookable.Base_color);
 
         // Evaluate the Yosei
         p_yosei.Genome.m_fitness = GetCurrentFitnessReward();
@@ -58,7 +62,7 @@ public class Challenge
                 GameObject.Destroy(yosei.gameObject);
             }
 
-            _ended = true;
+            HasEnded = true;
         }
     }
 
@@ -74,7 +78,7 @@ public class Challenge
         List<TileGoal> lst_goals = new List<TileGoal>();
 
         // Retrieving spawns and goals
-        foreach (Tile tile in Map.Instance.m_matrix_tiles.SelectMany<List<Tile>, Tile>(k => k))
+        foreach (Tile tile in Land.Instance.Matrix_tiles.SelectMany<List<Tile>, Tile>(k => k))
         {
             if (tile is TileSpawn)
             {
@@ -126,10 +130,5 @@ public class Challenge
     private decimal GetCurrentFitnessReward()
     {
         return _population.GetGenomeCount() - _current_position + (_current_position == 0 ? 10 : 0);
-    }
-
-    public bool HasEnded()
-    {
-        return _ended;
     }
 }

@@ -33,16 +33,16 @@ public class Console : MonoBehaviour
 
     public Color Default_color = Color.white;
 
-    private List<Line> _lst_lines = new List<Line>();
-    private List<Line> _lst_fixed_lines = new List<Line>();
+    private List<TextLine> _lst_lines = new List<TextLine>();
+    private List<TextLine> _lst_fixed_lines = new List<TextLine>();
     private List<float> _lst_fixed_lines_time = new List<float>();
 
-    struct Line
+    private struct TextLine
     {
         public string _string;
         public Color _color;
 
-        public Line(string p_str, Color p_clr)
+        public TextLine(string p_str, Color p_clr)
         {
             _string = p_str;
             _color = p_clr;
@@ -53,7 +53,7 @@ public class Console : MonoBehaviour
     {
         for (int i = 0; i < Nb_lines; ++i)
         {
-            _lst_fixed_lines.Add(new Line("", Default_color));
+            _lst_fixed_lines.Add(new TextLine("", Default_color));
             _lst_fixed_lines_time.Add(0);
         }
     }
@@ -69,7 +69,7 @@ public class Console : MonoBehaviour
 
                 if (_lst_fixed_lines_time[i] > Fixed_lines_timeout)
                 {
-                    _lst_fixed_lines[i] = new Line("", Default_color);
+                    _lst_fixed_lines[i] = new TextLine("", Default_color);
                 }
             }
         }
@@ -138,7 +138,7 @@ public class Console : MonoBehaviour
     }
 
     // Write a line to the dynamic log
-    public Console WriteLine<T>(T p_line, Color? p_color = null)
+    private Console WriteLine<T>(T p_line, Color? p_color = null)
     {
         if (Console_on)
         {
@@ -149,30 +149,30 @@ public class Console : MonoBehaviour
                     _lst_lines[i] = _lst_lines[i + 1];
                 }
 
-                _lst_lines[Nb_lines - 1] = new Line(p_line.ToString(), p_color.HasValue ? p_color.Value : Default_color);
+                _lst_lines[Nb_lines - 1] = new TextLine(p_line.ToString(), p_color.HasValue ? p_color.Value : Default_color);
             }
             else
             {
-                _lst_lines.Add(new Line(p_line.ToString(), p_color.HasValue ? p_color.Value : Default_color));
+                _lst_lines.Add(new TextLine(p_line.ToString(), p_color.HasValue ? p_color.Value : Default_color));
             }
         }
 
         return this;
     }
 
-    public Console WriteLine<T>(T p_line, int p_color_index)
+    private Console WriteLine<T>(T p_line, int p_color_index)
     {
         return WriteLine(p_line, ColorFactory.Instance.GetBaseColor(p_color_index));
     }
 
     // Prints a line at the given position in the static console
-    public Console WriteFixedLine<T>(T p_line, int p_id, Color? p_color = null, bool p_time_limit = true)
+    private Console WriteFixedLine<T>(T p_line, int p_id, Color? p_color = null, bool p_time_limit = true)
     {
         if (Console_on)
         {
             if (p_id < Nb_lines)
             {
-                _lst_fixed_lines[p_id] = new Line(p_line.ToString(), p_color.HasValue ? p_color.Value : Default_color);
+                _lst_fixed_lines[p_id] = new TextLine(p_line.ToString(), p_color.HasValue ? p_color.Value : Default_color);
                 _lst_fixed_lines_time[p_id] = p_time_limit ? 0 : -1;
             }
             else
@@ -183,9 +183,29 @@ public class Console : MonoBehaviour
 
         return this;
     }
-    
-    public Console WriteFixedLine<T>(T p_line, int p_id, int p_color_index, bool p_time_limit = true)
+
+    private Console WriteFixedLine<T>(T p_line, int p_id, int p_color_index, bool p_time_limit = true)
     {
         return WriteFixedLine(p_line, p_id, ColorFactory.Instance.GetBaseColor(p_color_index), p_time_limit);
+    }
+
+    // Quick access static methods
+    public static Console Line<T>(T p_line, Color? p_color = null)
+    {
+        return Instance.WriteLine(p_line, p_color);
+    }
+    public static Console Line<T>(T p_line, int p_color_index)
+    {
+        return Instance.WriteLine(p_line, p_color_index);
+    }
+    
+    public static Console FixedLine<T>(T p_line, int p_id, Color? p_color = null, bool p_time_limit = true)
+    {
+        return Instance.WriteFixedLine(p_line, p_id, p_color, p_time_limit);
+    }
+
+    public static Console FixedLine<T>(T p_line, int p_id, int p_color_index, bool p_time_limit = true)
+    {
+        return Instance.WriteFixedLine(p_line, p_id, p_color_index, p_time_limit);
     }
 }

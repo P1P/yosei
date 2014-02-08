@@ -4,7 +4,7 @@ using System;
 
 public class EventTimer
 {
-    public delegate void TickHandler(EventTimer p_timer, EventArgs e);
+    public delegate void TickHandler(EventTimer p_timer, TickInfo p_tick_info);
 
     private event TickHandler _end_tick;
     private event TickHandler _start_tick;
@@ -56,7 +56,7 @@ public class EventTimer
 
         if (p_enabled)
         {
-            Start(p_start_completion);
+            Start(p_goal_time, p_start_completion);
         }
         else
         {
@@ -79,8 +79,11 @@ public class EventTimer
         _enabled = true;
         _current_time = _goal_time * p_start_ratio;
 
-        TickInfo tick_info = new TickInfo(GetCompletion());
-        _start_tick(this, tick_info);
+        if (_start_tick != null)
+        {
+            TickInfo tick_info = new TickInfo(GetCompletion());
+            _start_tick(this, tick_info);
+        }
     }
 
     /// <summary>
@@ -93,7 +96,7 @@ public class EventTimer
         {
             _current_time = Mathf.Min(_goal_time, _current_time + p_delta_time);
 
-            if (HasEnded())
+            if (HasEnded() && _end_tick != null)
             {
                 TickInfo tick_info = new TickInfo(GetCompletion());
                 _end_tick(this, tick_info);

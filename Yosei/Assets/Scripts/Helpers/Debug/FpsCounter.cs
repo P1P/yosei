@@ -42,7 +42,7 @@ public class FpsCounter : MonoBehaviour
                 display_color = 4;
             }
 
-            Console.Instance.WriteFixedLine(format, 0, display_color, false);
+            Console.FixedLine(format, 0, display_color, false);
 
             _time_left = _update_interval;
             _accumulated_fps = 0f;

@@ -258,7 +258,7 @@
      <Compile Include="Assets\Scripts\World\Entities\Terrain\TileGrass.cs" />
      <Compile Include="Assets\Scripts\World\Entities\Terrain\TileLava.cs" />
      <Compile Include="Assets\Scripts\World\Entities\Terrain\TileSpawn.cs" />
-     <Compile Include="Assets\Scripts\World\Map\Map.cs" />
+     <Compile Include="Assets\Scripts\World\Land\Land.cs" />
      <Compile Include="Assets\Scripts\World\Pathfinding\Pathfinder.cs" />
      <Compile Include="Assets\Scripts\Yosei\Yosei.cs" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Depth Cutout.shader" />

@@ -22,6 +22,21 @@ public abstract class Tile : MonoBehaviour
         _mesh_filter = GetComponent<MeshFilter>();
     }
 
+    public void Update()
+    {
+        if (transform.hasChanged)
+        {
+            transform.hasChanged = false;
+
+            Land.Instance.UpdateGraphAtTile(transform.position);
+        }
+    }
+
+    public void OnDestroy()
+    {
+        Land.Instance.UpdateGraphAtTile(transform.position);
+    }
+
     public string ToString()
     {
         return Lookable.Appearance;
