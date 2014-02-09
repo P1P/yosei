@@ -21,7 +21,7 @@ public class Console : MonoBehaviour
     public float Console_height_pc = 0.1f;
     public float Console_height_margin_pc = 0.02f;
     public float Console_height_text_margin_pc = 0.005f;
-    public float Console_width_separation_pc = 0.5f;
+    public float Console_width_separation_pc = 0.75f;
     public float Console_width_separation_margin_pc = 0.01f;
     public float Console_width_text_margin_pc = 0.01f;
 

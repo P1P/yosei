@@ -227,6 +227,7 @@
      <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
      <Compile Include="Assets\Scripts\AI\Brewery\Brewer.cs" />
      <Compile Include="Assets\Scripts\AI\Brewery\Challenge.cs" />
+     <Compile Include="Assets\Scripts\AI\Brewery\RaceChallenge.cs" />
      <Compile Include="Assets\Scripts\Helpers\Configuration\ConfigFetcher.cs" />
      <Compile Include="Assets\Scripts\Helpers\Configuration\ConfigLoader.cs" />
      <Compile Include="Assets\Scripts\Helpers\Configuration\IniFile.cs" />

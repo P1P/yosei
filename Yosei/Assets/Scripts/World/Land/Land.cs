@@ -26,6 +26,12 @@ public class Land : MonoBehaviour
     
     public void InitializeLand(int p_seed, int p_width, int p_depth, Landgen p_landgen)
     {
+        // Cleans up the pre-existing tiles
+        foreach (Transform tile in transform.GetComponentInChildren<Transform>())
+        {
+            GameObject.Destroy(tile.gameObject);
+        }
+
         System.Random random = new System.Random(p_seed);
         _land_width = p_width;
         _land_depth = p_depth;
@@ -34,6 +40,7 @@ public class Land : MonoBehaviour
 
         GameObject line_go;
 
+        // Uses the delegate landgen method to generate tiles
         for (int z = 0; z < _land_depth; ++z)
         {
             Matrix_tiles.Add(new List<Tile>());
@@ -55,13 +62,10 @@ public class Land : MonoBehaviour
         }
     }
 
-    private void UpdateFullGraph()
-    {
-        AstarPath.Instance.UpdateGraphs(new Bounds(
-                new Vector3(_land_width * _tile_width / 2f, 0f, _land_depth * _tile_depth / 2f),
-                new Vector3(_land_width * _tile_width, 5f, _land_depth * _tile_depth)));
-    }
-
+    /// <summary>
+    /// Updates the navigation graph around the position provided, in dimensions equals to a tile's
+    /// </summary>
+    /// <param name="p_pos">The position around which to update the graph</param>
     public void UpdateGraphAtTile(Vector3 p_pos)
     {
         AstarPath.Instance.UpdateGraphs(new Bounds(p_pos, new Vector3(_tile_width, 1f, _tile_depth)));

@@ -16,6 +16,9 @@ public class Yosei : Entity
     private string _name;
     private BannerHolder _bannerholder;
 
+    public event GoalReachedHandler GoalReached;
+    public delegate void GoalReachedHandler(Yosei p_y);
+
     public void Awake()
     {
         Pathfinder = GetComponent<Pathfinder>();
@@ -51,9 +54,22 @@ public class Yosei : Entity
 		{
 			if ((Groundling.Tile_under as TileGoal).FirstReached())
 			{
-				Brewer.Instance.Current_challenge.ReachedGoal(this);
+                if (GoalReached != null)
+                {
+                    GoalReached(this);
+                }
 			}
 		}
+    }
+
+    public void SubscribleGoalReached(GoalReachedHandler p_handler)
+    {
+        GoalReached += p_handler;
+    }
+
+    public void UnsubscribleGoalReached(GoalReachedHandler p_handler)
+    {
+        GoalReached -= p_handler;
     }
 
 	public string ToString()

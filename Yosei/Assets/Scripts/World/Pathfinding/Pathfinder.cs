@@ -21,7 +21,6 @@ public class Pathfinder : MonoBehaviour
 
     public void GoTo(Vector3 p_target_position)
     {
-        //Start a new path to the targetPosition, return the result to the OnPathComplete function
         _seeker.StartPath(transform.position, p_target_position, OnPathComplete);
     }
 
