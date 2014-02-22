@@ -31,17 +31,24 @@ public class Yosei : Entity
         // Give the Yosei a name and appearance
         _name = NameFactory.Instance.GiveMeAName();
 
+
+        // Express the genome
+        Pathfinder.Speed = (float)Genome.GetChromosome("Movement").GetGene(0) * 250f + 100f;
+        float size = (float)Genome.GetChromosome("Size").GetGene(0) * 0.15f + 0.1f;
+        Color color = new Color(
+            (float)Genome.GetChromosome("Appearance").GetGene(0),
+            (float)Genome.GetChromosome("Appearance").GetGene(1),
+            (float)Genome.GetChromosome("Appearance").GetGene(2));
+
         Lookable.SetAppearance(
             "Yosei",
             "Tiles/Material/Material",
             TextureFactory.Instance.GetRandomGrayscaleTexture(1, 1, 0.9f, 0.1f),
             "Tiles/Mesh/Capsule",
-            ColorFactory.Instance.GetRandomColor());
+            color);
 
-        transform.localScale = Vector3.one * 0.25f;
-
-        // Express the genome
-		Pathfinder.Speed = (float)Genome.GetChromosome("Movement").GetGene(0) * 250f + 100f;
+        transform.localScale = Vector3.one * size;
+        
     }
 
     public void Update()

@@ -71,9 +71,11 @@ public class Brewer : MonoBehaviour
         // Creating the genomes
 		for (int i = 0; i < p_population_size; ++i)
 		{
-			Chromosome<decimal> chr_1 = new Chromosome<decimal>("Movement", 1, rules);
+            Chromosome<decimal> chr_1 = new Chromosome<decimal>("Movement", 1, rules);
+            Chromosome<decimal> chr_2 = new Chromosome<decimal>("Size", 1, rules);
+            Chromosome<decimal> chr_3 = new Chromosome<decimal>("Appearance", 3, rules);
 
-			Genome<decimal> genome = new Genome<decimal>(chr_1);
+			Genome<decimal> genome = new Genome<decimal>(chr_1, chr_2, chr_3);
 
 			_population.AddGenome(genome);
 		}

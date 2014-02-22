@@ -37,7 +37,7 @@ public class RaceCompetition : Competition
             gameobject_race_challenge.transform.position = transform.position;
             RaceChallenge race_challenge = gameobject_race_challenge.AddComponent<RaceChallenge>();
 
-            race_challenge.Initialize(_population.GetGenome(i), 8, _lst_tuples_spawn_goal[i].Item_1.transform.position, _lst_tuples_spawn_goal[i].Item_2.Goal);
+            race_challenge.Initialize(_population.GetGenome(i), 6, _lst_tuples_spawn_goal[i].Item_1.transform.position, _lst_tuples_spawn_goal[i].Item_2.Goal);
             race_challenge.SubscribeComplete(ReachedGoal);
         }
     }

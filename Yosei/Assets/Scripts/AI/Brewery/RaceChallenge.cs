@@ -20,7 +20,7 @@ public class RaceChallenge : Challenge
         _yosei_team = new List<Yosei>();
         for (int i = 0; i < p_team_size; ++i)
         {
-            Vector3 start_offset = Vector3.forward * (i - p_team_size / 2f) * 0.25f;
+            Vector3 start_offset = Vector3.forward * (i - p_team_size / 2f) * 0.5f;
 
             Yosei yosei = Yosei.InstantiateYosei(p_start + start_offset, Quaternion.identity, p_genome);
             _yosei_team.Add(yosei);

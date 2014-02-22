@@ -9,7 +9,7 @@ public class TileLava : Tile {
             "Tiles/Material/Material",
             TextureFactory.Instance.GetRandomGrayscaleTexture(2, 2, 0.9f, 0.025f),
             "Tiles/Mesh/Cube",
-            ColorFactory.Instance.GetColor(0.01f, 0.02f, 0.75f, 0f));
+            ColorFactory.Instance.GetColor(0.01f, 0.02f, 0.85f, 0f));
 
         Walkability.SetWalkable(false);
 
