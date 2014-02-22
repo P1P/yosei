@@ -227,7 +227,9 @@
      <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
      <Compile Include="Assets\Scripts\AI\Brewery\Brewer.cs" />
      <Compile Include="Assets\Scripts\AI\Brewery\Challenge.cs" />
+     <Compile Include="Assets\Scripts\AI\Brewery\Competition.cs" />
      <Compile Include="Assets\Scripts\AI\Brewery\RaceChallenge.cs" />
+     <Compile Include="Assets\Scripts\AI\Brewery\RaceCompetition.cs" />
      <Compile Include="Assets\Scripts\Helpers\Configuration\ConfigFetcher.cs" />
      <Compile Include="Assets\Scripts\Helpers\Configuration\ConfigLoader.cs" />
      <Compile Include="Assets\Scripts\Helpers\Configuration\IniFile.cs" />
@@ -247,13 +249,14 @@
      <Compile Include="Assets\Scripts\User\Observer\Commander.cs" />
      <Compile Include="Assets\Scripts\User\Observer\Highlighter.cs" />
      <Compile Include="Assets\Scripts\World\Entities\Attributes\BannerHolder.cs" />
+     <Compile Include="Assets\Scripts\World\Entities\Attributes\EntityTrigger.cs" />
      <Compile Include="Assets\Scripts\World\Entities\Attributes\Gaugeable.cs" />
      <Compile Include="Assets\Scripts\World\Entities\Attributes\GroundlingMonoped.cs" />
      <Compile Include="Assets\Scripts\World\Entities\Attributes\GroundlingQuadruped.cs" />
-     <Compile Include="Assets\Scripts\World\Entities\Attributes\Hiker.cs" />
      <Compile Include="Assets\Scripts\World\Entities\Attributes\Lookable.cs" />
      <Compile Include="Assets\Scripts\World\Entities\Attributes\Walkability.cs" />
      <Compile Include="Assets\Scripts\World\Entities\Entities\Entity.cs" />
+     <Compile Include="Assets\Scripts\World\Entities\Entities\Goal.cs" />
      <Compile Include="Assets\Scripts\World\Entities\Terrain\Tile.cs" />
      <Compile Include="Assets\Scripts\World\Entities\Terrain\TileGoal.cs" />
      <Compile Include="Assets\Scripts\World\Entities\Terrain\TileGrass.cs" />

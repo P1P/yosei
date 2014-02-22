@@ -15,13 +15,13 @@ public class EventTimer
 
     public class TickInfo : EventArgs
     {
-        public DateTime time
+        public DateTime Time
         {
             get;
             private set;
         }
 
-        public float completion
+        public float Completion
         {
             get;
             private set;
@@ -29,8 +29,8 @@ public class EventTimer
 
         public TickInfo(float p_completion)
         {
-            completion = p_completion;
-            time = DateTime.Now;
+            Completion = p_completion;
+            Time = DateTime.Now;
         }
     }
 

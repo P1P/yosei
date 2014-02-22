@@ -2,7 +2,24 @@
 using System.Collections;
 
 public class TileGoal : Tile {
+    public Goal Goal
+    {
+        get;
+        private set;
+    }
+
 	private bool _reached = false;
+
+    public void Awake()
+    {
+        // Creating the child goal entity gameobject
+        GameObject gameobject_goal = new GameObject("Goal");
+        gameobject_goal.transform.parent = transform;
+        gameobject_goal.transform.position = transform.position + Vector3.Scale(Land.Instance._tile_size, Vector3.up);
+        Goal = gameobject_goal.AddComponent<Goal>();
+
+        base.Awake();
+    }
 
 	public void Start()
     {
@@ -16,21 +33,5 @@ public class TileGoal : Tile {
         Walkability.SetWalkable(true);
 
         transform.localScale = new Vector3(1f, 1f, 1f);
-	}
-
-	public bool FirstReached()
-	{
-		if (_reached == false)
-		{
-			_reached = true;
-			return true;
-		}
-
-		return false;
-	}
-
-	public void ResetReached()
-	{
-		_reached = false;
 	}
 }

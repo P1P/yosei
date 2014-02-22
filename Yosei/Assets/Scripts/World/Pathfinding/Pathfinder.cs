@@ -2,6 +2,9 @@
 using System.Collections;
 using Pathfinding;
 
+[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Seeker))]
+
 public class Pathfinder : MonoBehaviour
 {
     public Path Path { get; private set; }

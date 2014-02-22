@@ -15,7 +15,7 @@ public class Brewer : MonoBehaviour
     }
     #endregion
 
-    public RaceChallenge Current_challenge { get; private set; }
+    public RaceCompetition Current_challenge { get; private set; }
 
 	private Population<decimal> _population;
 
@@ -26,7 +26,7 @@ public class Brewer : MonoBehaviour
         go.transform.localPosition = Vector3.zero;
         go.transform.rotation = Quaternion.identity;
 
-        Current_challenge = go.AddComponent<RaceChallenge>();
+        Current_challenge = go.AddComponent<RaceCompetition>();
     }
 
     public void Update()
@@ -43,7 +43,7 @@ public class Brewer : MonoBehaviour
     /// On the next steps, evolves to a new lineage and starts a new challenge
     /// </summary>
     /// <param name="p_challenge">The challenge the population will undergo</param>
-    private void ChallengePopulation(RaceChallenge p_challenge)
+    private void ChallengePopulation(RaceCompetition p_challenge)
     {
         if (_population == null)
         {

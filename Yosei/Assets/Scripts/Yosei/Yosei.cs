@@ -3,25 +3,23 @@ using System.Collections;
 
 using Teacup.Genetic;
 
-[RequireComponent(typeof(GroundlingMonoped))]
-[RequireComponent(typeof(Hiker))]
 [RequireComponent(typeof(Pathfinder))]
 [RequireComponent(typeof(BannerHolder))]
+[RequireComponent(typeof(GroundlingMonoped))]
 
 public class Yosei : Entity
 {
     public Pathfinder Pathfinder { get; private set; }
+    public GroundlingMonoped Groundling { get; private set; }
     public Genome<decimal> Genome { get; private set; }
 
     private string _name;
     private BannerHolder _bannerholder;
 
-    public event GoalReachedHandler GoalReached;
-    public delegate void GoalReachedHandler(Yosei p_y);
-
     public void Awake()
     {
         Pathfinder = GetComponent<Pathfinder>();
+        Groundling = GetComponent<GroundlingMonoped>();
         _bannerholder = GetComponent<BannerHolder>();
 
         base.Awake();
@@ -48,28 +46,6 @@ public class Yosei : Entity
     public void Update()
     {
         WriteToBanner();
-
-        // Detect reaching a challenge goal
-		if (Groundling.Tile_under is TileGoal)
-		{
-			if ((Groundling.Tile_under as TileGoal).FirstReached())
-			{
-                if (GoalReached != null)
-                {
-                    GoalReached(this);
-                }
-			}
-		}
-    }
-
-    public void SubscribleGoalReached(GoalReachedHandler p_handler)
-    {
-        GoalReached += p_handler;
-    }
-
-    public void UnsubscribleGoalReached(GoalReachedHandler p_handler)
-    {
-        GoalReached -= p_handler;
     }
 
 	public string ToString()
