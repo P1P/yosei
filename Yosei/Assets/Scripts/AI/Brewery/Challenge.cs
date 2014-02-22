@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-public abstract class Challenge : MonoBehaviour
+public abstract class Challenge
 {
     private event ChallengeCompleteHandler _challenge_complete;
     protected List<Yosei> _yosei_team;

@@ -32,12 +32,11 @@ public class RaceCompetition : Competition
         // Initializing the (one-man) teams
         for (int i = 0; i < _lst_tuples_spawn_goal.Count; ++i)
         {
-            GameObject gameobject_race_challenge = new GameObject("Race challenge");
-            gameobject_race_challenge.transform.parent = transform;
-            gameobject_race_challenge.transform.position = transform.position;
-            RaceChallenge race_challenge = gameobject_race_challenge.AddComponent<RaceChallenge>();
-
-            race_challenge.Initialize(_population.GetGenome(i), 6, _lst_tuples_spawn_goal[i].Item_1.transform.position, _lst_tuples_spawn_goal[i].Item_2.Goal);
+            RaceChallenge race_challenge = new RaceChallenge(
+                _population.GetGenome(i),
+                6,
+                _lst_tuples_spawn_goal[i].Item_1.transform.position,
+                _lst_tuples_spawn_goal[i].Item_2.Goal);
             race_challenge.SubscribeComplete(ReachedGoal);
         }
     }
@@ -67,8 +66,7 @@ public class RaceCompetition : Competition
         {
             foreach (Yosei yosei in ReferenceHelper.Instance.Object_population.GetComponentsInChildren<Yosei>())
             {
-                // Wait for the next frame since NGUI doesn't like objets being destroyed during physics steps
-                GameObject.Destroy(yosei.gameObject, 0.0000001f);
+                GameObject.Destroy(yosei.gameObject);
             }
 
             IsRunning = false;
@@ -138,6 +136,6 @@ public class RaceCompetition : Competition
     /// <returns>The fitness for the current position</returns>
     private decimal GetCurrentFitnessReward()
     {
-        return _population.GetGenomeCount() - _current_position + (_current_position == 0 ? 10 : 0);
+        return _population.GetGenomeCount() - _current_position/* + (_current_position == 0 ? 10 : 0)*/;
     }
 }

@@ -4,7 +4,6 @@ using System.Collections;
 using Teacup.Genetic;
 
 [RequireComponent(typeof(Pathfinder))]
-[RequireComponent(typeof(BannerHolder))]
 [RequireComponent(typeof(GroundlingMonoped))]
 
 public class Yosei : Entity
@@ -14,14 +13,12 @@ public class Yosei : Entity
     public Genome<decimal> Genome { get; private set; }
 
     private string _name;
-    private BannerHolder _bannerholder;
+    //private BannerHolder _bannerholder;
 
     public void Awake()
     {
         Pathfinder = GetComponent<Pathfinder>();
         Groundling = GetComponent<GroundlingMonoped>();
-        _bannerholder = GetComponent<BannerHolder>();
-        _bannerholder.BannerEnabled = false;
 
         base.Awake();
     }
@@ -58,11 +55,12 @@ public class Yosei : Entity
 
 	public string ToString()
 	{
-		return _name + " (" + Lookable.Appearance + ")";
+		return _name + " (" + Lookable.Description + ")";
 	}
 
     private void WriteToBanner()
     {
+        /*
         if (_bannerholder.BannerEnabled)
         {
             // Display useful debug info on the banner
@@ -87,7 +85,7 @@ public class Yosei : Entity
 
             _bannerholder.AddCoreTextLine("My genome is " + Genome.ToString());
             _bannerholder.AddCoreText("Fitness " + Genome.m_fitness);
-        }
+        }*/
     }
 
 	public static Yosei InstantiateYosei(Vector3 p_position, Quaternion p_rotation, Genome<decimal> p_genome)

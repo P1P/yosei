@@ -15,7 +15,7 @@ public class RaceChallenge : Challenge
     /// <param name="p_team_size">The number of clones in the Team</param>
     /// <param name="p_start">The Start position</param>
     /// <param name="p_goal">The Goal the Team has to reach</param>
-    public void Initialize(Genome<decimal> p_genome, int p_team_size, Vector3 p_start, Goal p_goal)
+    public RaceChallenge(Genome<decimal> p_genome, int p_team_size, Vector3 p_start, Goal p_goal)
     {
         _yosei_team = new List<Yosei>();
         for (int i = 0; i < p_team_size; ++i)
@@ -30,14 +30,14 @@ public class RaceChallenge : Challenge
 
         p_goal.ActivateForTeam(_yosei_team, GoalReachedHandler);
 
-        Invoke("LaunchTeam", 0.25f);
+        LaunchTeam();
     }
 
     private void LaunchTeam()
     {
         foreach (Yosei yosei in _yosei_team)
         {
-            yosei.Pathfinder.GoTo(_goal.transform.position);
+            yosei.Pathfinder.OrderGoTo(_goal.transform.position, 0.25f);
         }
     }
 

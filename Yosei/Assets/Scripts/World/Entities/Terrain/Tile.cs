@@ -39,6 +39,6 @@ public abstract class Tile : MonoBehaviour
 
     public string ToString()
     {
-        return Lookable.Appearance;
+        return Lookable.Description;
     }
 }

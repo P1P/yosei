@@ -16,15 +16,31 @@ public class Pathfinder : MonoBehaviour
     private float _next_waypoint_distance = 0.4f;
     private int _current_waypoint = 0;
 
+    private Vector3 _goto_target_position;
+
     public void Awake()
     {
         _seeker = GetComponent<Seeker>();
         _controller = GetComponent<CharacterController>();
     }
 
-    public void GoTo(Vector3 p_target_position)
+    public void OrderGoTo(Vector3 p_target_position, float p_delay = 0f)
     {
-        _seeker.StartPath(transform.position, p_target_position, OnPathComplete);
+        _goto_target_position = p_target_position;
+
+        if (p_delay > 0f)
+        {
+            Invoke("GoTo", p_delay);
+        }
+        else
+        {
+            GoTo();
+        }
+    }
+
+    private void GoTo()
+    {
+        _seeker.StartPath(transform.position, _goto_target_position, OnPathComplete);
     }
 
     public void OnPathComplete(Path p)

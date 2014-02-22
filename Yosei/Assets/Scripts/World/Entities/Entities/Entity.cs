@@ -17,6 +17,6 @@ public abstract class Entity : MonoBehaviour
 
     public string ToString()
     {
-        return Lookable.Appearance;
+        return Lookable.Description;
     }
 }

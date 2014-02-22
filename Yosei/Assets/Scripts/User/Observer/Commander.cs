@@ -16,7 +16,7 @@ public class Commander : MonoBehaviour {
         {
             foreach (Yosei yosei in ReferenceHelper.Instance.Object_population.GetComponentsInChildren<Yosei>())
             {
-                yosei.Pathfinder.GoTo(_highlighter.Hl_tile.transform.position);
+                yosei.Pathfinder.OrderGoTo(_highlighter.Hl_tile.transform.position);
             }
         }
 

@@ -238,6 +238,7 @@
      <Compile Include="Assets\Scripts\Helpers\Debug\FpsCounter.cs" />
      <Compile Include="Assets\Scripts\Helpers\Misc\EventTimer.cs" />
      <Compile Include="Assets\Scripts\Helpers\Misc\LayerHelper.cs" />
+     <Compile Include="Assets\Scripts\Helpers\Misc\MeshHolder.cs" />
      <Compile Include="Assets\Scripts\Helpers\Misc\ReferenceHelper.cs" />
      <Compile Include="Assets\Scripts\Helpers\Misc\ScreenHelper.cs" />
      <Compile Include="Assets\Scripts\Helpers\Misc\TimeHelper.cs" />
