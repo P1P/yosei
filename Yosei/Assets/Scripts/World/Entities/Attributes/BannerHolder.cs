@@ -19,6 +19,15 @@ public class BannerHolder : MonoBehaviour
         set { _banner_scale = value; UpdateScale(); }
     }
 
+
+    [SerializeField]
+    private bool _enabled = true;
+    public bool BannerEnabled
+    {
+        get { return _enabled; }
+        set { _enabled = value; UpdateScale(); }
+    }
+
     private bool _follow_camera = true;
     private Color _base_text_core_color = Color.white;
 
@@ -76,7 +85,14 @@ public class BannerHolder : MonoBehaviour
 	{
 		if (_banner != null)
 		{
-            _banner.transform.localScale = Vector3.one * Banner_scale;
+            if (BannerEnabled)
+            {
+                _banner.transform.localScale = Vector3.one * Banner_scale;
+            }
+            else
+            {
+                _banner.transform.localScale = Vector3.zero;
+            }
 		}
 	}
 

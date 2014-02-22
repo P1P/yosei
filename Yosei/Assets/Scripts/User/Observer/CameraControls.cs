@@ -48,12 +48,10 @@ public class CameraControls : MonoBehaviour {
         Vector3 direction = Vector3.zero;
 
         direction += -Input.GetAxis("Mouse X") * Vector3.right;
-        direction += -Input.GetAxis("Mouse Y") * Vector3.forward;
+        direction += -Input.GetAxis("Mouse Y") * Vector3.up;
 
         // Transforming direction from the camera rotation
         direction = transform.TransformDirection(direction);
-
-        direction = new Vector3(direction.x, 0f, direction.z);
 
         // Applying total speed
         direction = direction * (Base_speed * (1f + _current_speed_increment));

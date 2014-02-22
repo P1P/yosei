@@ -21,6 +21,7 @@ public class Yosei : Entity
         Pathfinder = GetComponent<Pathfinder>();
         Groundling = GetComponent<GroundlingMonoped>();
         _bannerholder = GetComponent<BannerHolder>();
+        _bannerholder.BannerEnabled = false;
 
         base.Awake();
     }
@@ -55,28 +56,31 @@ public class Yosei : Entity
 
     private void WriteToBanner()
     {
-        // Display useful debug info on the banner
-        _bannerholder.SetTitleText(ToString());
-
-        _bannerholder.SetCoreColor(ColorFactory.Instance.HighlightColor(Lookable.Base_color));
-
-        int color = 0;
-        _bannerholder.ClearCoreText();
-        _bannerholder.AddCoreText("My name is ");
-        _bannerholder.AddCoreTextLine(_name, Lookable.Base_color);
-        _bannerholder.AddCoreText("I'm going ");
-
-        if (Pathfinder.Path != null)
+        if (_bannerholder.BannerEnabled)
         {
-            _bannerholder.AddCoreTextLine("to " + Pathfinder.Path.vectorPath[Pathfinder.Path.vectorPath.Count - 1].ToString(), ColorFactory.Instance.GetBaseColor(color++));
-        }
-        else
-        {
-            _bannerholder.AddCoreTextLine("Nowhere!", ColorFactory.Instance.GetBaseColor(color++));
-        }
+            // Display useful debug info on the banner
+            _bannerholder.SetTitleText(ToString());
 
-		_bannerholder.AddCoreTextLine("My genome is " + Genome.ToString());
-		_bannerholder.AddCoreText("Fitness " + Genome.m_fitness);
+            _bannerholder.SetCoreColor(ColorFactory.Instance.HighlightColor(Lookable.Base_color));
+
+            int color = 0;
+            _bannerholder.ClearCoreText();
+            _bannerholder.AddCoreText("My name is ");
+            _bannerholder.AddCoreTextLine(_name, Lookable.Base_color);
+            _bannerholder.AddCoreText("I'm going ");
+
+            if (Pathfinder.Path != null)
+            {
+                _bannerholder.AddCoreTextLine("to " + Pathfinder.Path.vectorPath[Pathfinder.Path.vectorPath.Count - 1].ToString(), ColorFactory.Instance.GetBaseColor(color++));
+            }
+            else
+            {
+                _bannerholder.AddCoreTextLine("Nowhere!", ColorFactory.Instance.GetBaseColor(color++));
+            }
+
+            _bannerholder.AddCoreTextLine("My genome is " + Genome.ToString());
+            _bannerholder.AddCoreText("Fitness " + Genome.m_fitness);
+        }
     }
 
 	public static Yosei InstantiateYosei(Vector3 p_position, Quaternion p_rotation, Genome<decimal> p_genome)

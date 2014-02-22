@@ -1,40 +1,39 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+using Teacup.Genetic;
+
 public class RaceChallenge : Challenge
 {
     private Goal _goal;
 
     /// <summary>
-    /// Memorizes the team of Yosei assigned to this Challenge
+    /// Creates a Team of clones from the Genome to be tested
     /// and gets ready to be notified of one of them reaching the Goal
     /// </summary>
-    /// <param name="p_yosei_team">The Team of Yosei cooperating in this Challenge</param>
+    /// <param name="p_genome">The Genome of every member of the Team</param>
+    /// <param name="p_team_size">The number of clones in the Team</param>
+    /// <param name="p_start">The Start position</param>
     /// <param name="p_goal">The Goal the Team has to reach</param>
-    public void InitializeForTeam(List<Yosei> p_yosei_team, Goal p_goal)
+    public void Initialize(Genome<decimal> p_genome, int p_team_size, Vector3 p_start, Goal p_goal)
     {
-        _yosei_team = p_yosei_team;
+        _yosei_team = new List<Yosei>();
+        for (int i = 0; i < p_team_size; ++i)
+        {
+            Vector3 start_offset = Vector3.forward * (i - p_team_size / 2f) * 0.25f;
+
+            Yosei yosei = Yosei.InstantiateYosei(p_start + start_offset, Quaternion.identity, p_genome);
+            _yosei_team.Add(yosei);
+        }
+
         _goal = p_goal;
 
         p_goal.ActivateForTeam(_yosei_team, GoalReachedHandler);
 
-        Invoke("OrderYosei", 0.25f);
+        Invoke("LaunchTeam", 0.25f);
     }
 
-    /// <summary>
-    /// Memorizes the Yosei assigned to this Challenge
-    /// and gets ready to be notified of it reaching the Goal
-    /// </summary>
-    /// <param name="p_yosei">The Yosei taking part in this Challenge</param>
-    /// <param name="p_goal">The Goal that it has to reach</param>
-    public void InitializeForYosei(Yosei p_yosei, Goal p_goal)
-    {
-        List<Yosei> yosei_team = new List<Yosei>();
-        yosei_team.Add(p_yosei);
-        InitializeForTeam(yosei_team, p_goal);        
-    }
-
-    private void OrderYosei()
+    private void LaunchTeam()
     {
         foreach (Yosei yosei in _yosei_team)
         {

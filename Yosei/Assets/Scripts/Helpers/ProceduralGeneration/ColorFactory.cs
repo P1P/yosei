@@ -113,11 +113,30 @@ public class ColorFactory : MonoBehaviour
     /// Gets a color with a randomly offset hue (from base - offset to base + offset) and predetermined saturation and value
     /// </summary>
     /// <param name="p_hue">The base hue</param>
-    /// <param name="p_random_offset">The hue offset</param>
+    /// <param name="p_hue_random_offset">The hue offset</param>
     /// <returns>The random offset color</returns>
-    public Color GetColor(float p_hue, float p_random_offset)
+    public Color GetColor(float p_hue, float p_hue_random_offset)
     {
-        return ColorHSV.FromHsv(p_hue + Random.Range(-p_random_offset, p_random_offset), Saturation, Value);
+        return ColorHSV.FromHsv(
+            p_hue + Random.Range(-p_hue_random_offset, p_hue_random_offset),
+            Saturation,
+            Value);
+    }
+
+    /// <summary>
+    /// Gets a color with a randomly offset hue and value (from base - offset to base + offset) and a predetemined saturation
+    /// </summary>
+    /// <param name="p_hue">The base hue</param>
+    /// <param name="p_hue_random_offset">The hue offset</param>
+    /// <param name="p_value">The base value</param>
+    /// <param name="p_value_random_offset">The value offset</param>
+    /// <returns>The random offset color</returns>
+    public Color GetColor(float p_hue, float p_hue_random_offset, float p_value, float p_value_random_offset)
+    {
+        return ColorHSV.FromHsv(
+            p_hue + Random.Range(-p_hue_random_offset, p_hue_random_offset),
+            Saturation,
+            p_value + Random.RandomRange(-p_value_random_offset, p_value_random_offset));
     }
 
     /// <summary>

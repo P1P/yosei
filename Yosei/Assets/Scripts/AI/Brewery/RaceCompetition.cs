@@ -32,14 +32,12 @@ public class RaceCompetition : Competition
         // Initializing the (one-man) teams
         for (int i = 0; i < _lst_tuples_spawn_goal.Count; ++i)
         {
-            Yosei yosei = Yosei.InstantiateYosei(_lst_tuples_spawn_goal[i].Item_1.transform.position, Quaternion.identity, _population.GetGenome(i));
-
             GameObject gameobject_race_challenge = new GameObject("Race challenge");
             gameobject_race_challenge.transform.parent = transform;
             gameobject_race_challenge.transform.position = transform.position;
             RaceChallenge race_challenge = gameobject_race_challenge.AddComponent<RaceChallenge>();
 
-            race_challenge.InitializeForYosei(yosei, _lst_tuples_spawn_goal[i].Item_2.Goal);
+            race_challenge.Initialize(_population.GetGenome(i), 8, _lst_tuples_spawn_goal[i].Item_1.transform.position, _lst_tuples_spawn_goal[i].Item_2.Goal);
             race_challenge.SubscribeComplete(ReachedGoal);
         }
     }
