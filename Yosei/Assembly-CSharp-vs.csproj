@@ -238,6 +238,7 @@
      <Compile Include="Assets\Scripts\Helpers\Debug\FpsCounter.cs" />
      <Compile Include="Assets\Scripts\Helpers\Misc\EventTimer.cs" />
      <Compile Include="Assets\Scripts\Helpers\Misc\LayerHelper.cs" />
+     <Compile Include="Assets\Scripts\Helpers\Misc\MemoryLeaker.cs" />
      <Compile Include="Assets\Scripts\Helpers\Misc\MeshHolder.cs" />
      <Compile Include="Assets\Scripts\Helpers\Misc\ReferenceHelper.cs" />
      <Compile Include="Assets\Scripts\Helpers\Misc\ScreenHelper.cs" />
@@ -264,6 +265,7 @@
      <Compile Include="Assets\Scripts\World\Entities\Terrain\TileLava.cs" />
      <Compile Include="Assets\Scripts\World\Entities\Terrain\TileSpawn.cs" />
      <Compile Include="Assets\Scripts\World\Land\Land.cs" />
+     <Compile Include="Assets\Scripts\World\Land\LandChunk.cs" />
      <Compile Include="Assets\Scripts\World\Pathfinding\Pathfinder.cs" />
      <Compile Include="Assets\Scripts\Yosei\Yosei.cs" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Depth Cutout.shader" />

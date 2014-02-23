@@ -321,10 +321,10 @@ public class AstarPath : MonoBehaviour {
 		get {
 			if (threads != null && threads.Length > 0)
 				return true;
-			else if (threads != null && threads.Length == 0 && threadEnumerator != null)
+			else/* if (threads != null && threads.Length == 0 && threadEnumerator != null)*/
 				return false;
-			else
-				throw new System.Exception ("Not 'using threading' and not 'not using threading'... Are you sure pathfinding is set up correctly?\nIf scripts are reloaded in unity editor during play this could happen.");
+			//else
+			//	throw new System.Exception ("Not 'using threading' and not 'not using threading'... Are you sure pathfinding is set up correctly?\nIf scripts are reloaded in unity editor during play this could happen.");
 		}
 	}
 	

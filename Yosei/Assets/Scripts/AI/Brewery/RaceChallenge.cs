@@ -11,24 +11,29 @@ public class RaceChallenge : Challenge
     /// Creates a Team of clones from the Genome to be tested
     /// and gets ready to be notified of one of them reaching the Goal
     /// </summary>
+    /// <param name="p_position">The world position where the challenge land shall be created</param>
     /// <param name="p_genome">The Genome of every member of the Team</param>
     /// <param name="p_team_size">The number of clones in the Team</param>
-    /// <param name="p_start">The Start position</param>
-    /// <param name="p_goal">The Goal the Team has to reach</param>
-    public RaceChallenge(Genome<decimal> p_genome, int p_team_size, Vector3 p_start, Goal p_goal)
+    public RaceChallenge(Vector3 p_position, Genome<decimal> p_genome, int p_team_size)
     {
+        // Creating the competition land chunk
+        _chunk = Land.Instance.CreateChunkAt(p_position, 0, 10, 3, Land.Instance.LandgenRaceChallenge);
+
+        TileSpawn tile_spawn = _chunk.FindUniqueTile<TileSpawn>();
+        TileGoal tile_goal = _chunk.FindUniqueTile<TileGoal>();
+
         _yosei_team = new List<Yosei>();
         for (int i = 0; i < p_team_size; ++i)
         {
             Vector3 start_offset = Vector3.forward * (i - p_team_size / 2f) * 0.5f;
 
-            Yosei yosei = Yosei.InstantiateYosei(p_start + start_offset, Quaternion.identity, p_genome);
+            Yosei yosei = Yosei.InstantiateYosei(tile_spawn.transform.position + start_offset, Quaternion.identity, p_genome);
             _yosei_team.Add(yosei);
         }
 
-        _goal = p_goal;
+        _goal = tile_goal.Goal;
 
-        p_goal.ActivateForTeam(_yosei_team, GoalReachedHandler);
+        _goal.ActivateForTeam(_yosei_team, GoalReachedHandler);
 
         LaunchTeam();
     }
@@ -37,7 +42,7 @@ public class RaceChallenge : Challenge
     {
         foreach (Yosei yosei in _yosei_team)
         {
-            yosei.Pathfinder.OrderGoTo(_goal.transform.position, 0.25f);
+            yosei.Pathfinder.OrderGoTo(_goal.transform.position, 1f);
         }
     }
 

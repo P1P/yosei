@@ -40,7 +40,7 @@ public class Yosei : Entity
         Lookable.SetAppearance(
             "Yosei",
             "Tiles/Material/Material",
-            TextureFactory.Instance.GetRandomGrayscaleTexture(1, 1, 0.9f, 0.1f),
+            TextureFactory.Instance.GetDummyTexture(),
             "Tiles/Mesh/Capsule",
             color);
 

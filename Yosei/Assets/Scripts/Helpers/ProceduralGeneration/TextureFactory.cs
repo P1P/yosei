@@ -7,11 +7,19 @@ public class TextureFactory : MonoBehaviour
     private static TextureFactory _instance = null;
     public static TextureFactory Instance { get { return _instance; } }
 
-    void Awake()
+    private Texture2D _default_texture;
+
+    public void Awake()
     {
         _instance = this;
+        _default_texture = Resources.Load("Tiles/Texture/Texture", typeof(Texture2D)) as Texture2D;;
     }
     #endregion
+
+    public void Update()
+    {
+        //GetRandomGrayscaleTexture(4, 4, 0.5f, 0.1f);
+    }
 
     /// <summary>
     /// Returns a random texture with gray tone textures
@@ -33,9 +41,11 @@ public class TextureFactory : MonoBehaviour
             }
         }
 
-        texture.filterMode = FilterMode.Point;
-        texture.Apply();
-
         return texture;
+    }
+
+    public Texture2D GetDummyTexture()
+    {
+        return _default_texture;
     }
 }

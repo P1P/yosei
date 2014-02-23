@@ -7,7 +7,7 @@ public class TileGrass : Tile {
         Lookable.SetAppearance(
             "Grass",
             "Tiles/Material/Material",
-            TextureFactory.Instance.GetRandomGrayscaleTexture(2, 2, 0.9f, 0.01f),
+            TextureFactory.Instance.GetDummyTexture(),
             "Tiles/Mesh/Cube",
             ColorFactory.Instance.GetColor(0.35f, 0.02f, 0.85f, 0.01f));
 

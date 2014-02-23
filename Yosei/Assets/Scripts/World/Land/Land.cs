@@ -7,11 +7,6 @@ public class Land : MonoBehaviour
     #region SINGLETON
     private static Land _instance = null;
     public static Land Instance { get { return _instance; } }
-
-    public void Awake()
-    {
-        _instance = this;
-    }
     #endregion
 
     public delegate System.Type Landgen(int p_x, int p_z, System.Random p_random);
@@ -22,49 +17,45 @@ public class Land : MonoBehaviour
         private set;
     }
 
-    public List<List<Tile>> Matrix_tiles { get; private set; }
+    public List<Chunk> Chunks { get; private set; }
 
     private int _land_width;
     private int _land_depth;
-    
-    public void InitializeLand(int p_seed, int p_width, int p_depth, Landgen p_landgen, Vector3? p_tile_size = null)
+
+    public void Awake()
     {
-        _tile_size = p_tile_size.HasValue ? p_tile_size.Value : Vector3.one;
-
-        // Cleans up the pre-existing tiles
-        foreach (Transform tile in transform.GetComponentInChildren<Transform>())
+        _instance = this;
+        Chunks = new List<Chunk>();
+    }
+    
+    public Chunk CreateChunkAt(Vector3 p_position, int p_seed, int p_width, int p_depth, Landgen p_landgen, Vector3? p_tile_size = null)
+    {
+        if (p_tile_size.HasValue)
         {
-            GameObject.Destroy(tile.gameObject);
+            _tile_size = p_tile_size.Value;
+        }
+        else
+        {
+            _tile_size = Vector3.one;
         }
 
-        System.Random random = new System.Random(p_seed);
-        _land_width = p_width;
-        _land_depth = p_depth;
+        // Initializing the Chunk
+        GameObject gameobject_chunk = new GameObject("Chunk");
+        gameobject_chunk.transform.parent = transform;
+        gameobject_chunk.transform.position = transform.position;
+        Chunk chunk = gameobject_chunk.AddComponent<Chunk>();
 
-        Matrix_tiles = new List<List<Tile>>();
+        chunk.Initialize(p_position, p_seed, p_width, p_depth, p_landgen, _tile_size);
 
-        GameObject line_go;
+        Chunks.Add(chunk);
 
-        // Uses the delegate landgen method to generate tiles
-        for (int z = 0; z < _land_depth; ++z)
-        {
-            Matrix_tiles.Add(new List<Tile>());
+        return chunk;
+    }
 
-            line_go = new GameObject("Line " + z);
-            line_go.transform.parent = this.transform;
-
-            for (int x = 0; x < _land_width; ++x)
-            {
-                GameObject tile_go = new GameObject(x + " / " + z + " ");
-
-                tile_go.transform.position = new Vector3(x * _tile_size.x, 0, z * _tile_size.z);
-                tile_go.transform.localScale = _tile_size;
-
-                Matrix_tiles[z].Add(tile_go.AddComponent(p_landgen(x, z, random)) as Tile);
-
-                tile_go.transform.parent = line_go.transform;
-            }
-        }
+    public void DestroyChunk(Chunk p_chunk)
+    {
+        Chunks.Remove(p_chunk);
+        Destroy(p_chunk.gameObject);
     }
 
     /// <summary>
@@ -109,6 +100,20 @@ public class Land : MonoBehaviour
             }
 
             return typeof(TileLava);
+        }
+
+        return typeof(TileGrass);
+    }
+
+    public System.Type LandgenRaceChallenge(int p_x, int p_z, System.Random p_random)
+    {
+        if (p_x == 0 && p_z == 2)
+        {
+            return typeof(TileSpawn);
+        }
+        if (p_x == 9 && p_z == 2)
+        {
+            return typeof(TileGoal);
         }
 
         return typeof(TileGrass);

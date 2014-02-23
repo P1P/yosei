@@ -6,6 +6,7 @@ public abstract class Challenge
 {
     private event ChallengeCompleteHandler _challenge_complete;
     protected List<Yosei> _yosei_team;
+    protected Chunk _chunk;
 
     public delegate void ChallengeCompleteHandler(ChallengeCompleteInfo p_info);
 
@@ -66,5 +67,18 @@ public abstract class Challenge
     public void UnsubscribeComplete(ChallengeCompleteHandler p_handler)
     {
         _challenge_complete -= p_handler;
+    }
+
+    /// <summary>
+    /// Destroys the challenge, its participants and chunk
+    /// </summary>
+    public void Dispose()
+    {
+        foreach (Yosei yosei in _yosei_team)
+        {
+            GameObject.Destroy(yosei.gameObject);
+        }
+
+        Land.Instance.DestroyChunk(_chunk);
     }
 }

@@ -26,7 +26,7 @@ public class TileGoal : Tile {
         Lookable.SetAppearance(
             "Goal",
             "Tiles/Material/Material",
-            TextureFactory.Instance.GetRandomGrayscaleTexture(2, 2, 0.9f, 0.0f),
+            TextureFactory.Instance.GetDummyTexture(),
             "Tiles/Mesh/Cube",
             ColorFactory.Instance.GetColor(0.7f, 0f));
 

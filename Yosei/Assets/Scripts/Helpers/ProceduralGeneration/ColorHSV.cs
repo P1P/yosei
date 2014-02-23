@@ -25,11 +25,10 @@ namespace UnityEngine
             p_hue *= 255.0f;
 
             Color resColor = Color.clear;
-
+            
             if (p_saturation == 0.0)
             {
-                int rgb = Convert.ToInt16((float) (p_value * 255));
-                resColor = new Color(rgb, rgb, rgb);
+                resColor = new Color(p_value, p_value, p_value);
             }
             else
             {

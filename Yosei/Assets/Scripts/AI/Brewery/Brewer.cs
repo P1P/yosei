@@ -15,25 +15,25 @@ public class Brewer : MonoBehaviour
     }
     #endregion
 
-    public RaceCompetition Current_challenge { get; private set; }
+    public RaceCompetition CurrentCompetition { get; private set; }
 
 	private Population<decimal> _population;
 
     public void Start()
     {
-        GameObject go = new GameObject("Challenge");
+        GameObject go = new GameObject("Competition");
         go.transform.parent = transform;
         go.transform.localPosition = Vector3.zero;
         go.transform.rotation = Quaternion.identity;
 
-        Current_challenge = go.AddComponent<RaceCompetition>();
+        CurrentCompetition = go.AddComponent<RaceCompetition>();
     }
 
     public void Update()
     {
-        if (!Current_challenge.IsRunning)
+        if (!CurrentCompetition.IsRunning)
         {
-            ChallengePopulation(Current_challenge);
+            ChallengePopulation(CurrentCompetition);
         }
     }
 
@@ -42,19 +42,19 @@ public class Brewer : MonoBehaviour
     /// On the first step, creates the first population and starts a challenge
     /// On the next steps, evolves to a new lineage and starts a new challenge
     /// </summary>
-    /// <param name="p_challenge">The challenge the population will undergo</param>
-    private void ChallengePopulation(RaceCompetition p_challenge)
+    /// <param name="p_competition">The competition the population will undergo</param>
+    private void ChallengePopulation(RaceCompetition p_competition)
     {
         if (_population == null)
         {
-            CreatePopulation(6);
+            CreatePopulation(20);
         }
         else
         {
             EvolvePopulation();
         }
 
-        p_challenge.Initialize(_population);
+        p_competition.Initialize(_population);
     }
 
     /// <summary>

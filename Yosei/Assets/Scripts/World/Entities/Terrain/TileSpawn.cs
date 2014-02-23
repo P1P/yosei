@@ -7,7 +7,7 @@ public class TileSpawn : Tile {
         Lookable.SetAppearance(
             "Spawn",
             "Tiles/Material/Material",
-            TextureFactory.Instance.GetRandomGrayscaleTexture(2, 2, 0.9f, 0.0f),
+            TextureFactory.Instance.GetDummyTexture(),
             "Tiles/Mesh/Cube",
             ColorFactory.Instance.GetColor(0.9f, 0f));
 

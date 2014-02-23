@@ -6,14 +6,21 @@ public class TimeHelper : MonoBehaviour
     #region SINGLETON
     private static TimeHelper _instance = null;
     public static TimeHelper Instance { get { return _instance; } }
+    #endregion
+
+    public bool Quitting
+    {
+        get;
+        private set;
+    }
+
+    private List<EventTimer> _lst_timers = new List<EventTimer>();
 
     void Awake()
     {
         _instance = this;
+        Quitting = false;
     }
-    #endregion
-
-    private List<EventTimer> _lst_timers = new List<EventTimer>();
 
     public void AddTimer(EventTimer _timer)
     {
@@ -26,5 +33,11 @@ public class TimeHelper : MonoBehaviour
         {
             timer.Roll(Time.deltaTime);
         }
+    }
+
+
+    public void OnApplicationQuit()
+    {
+        Quitting = true;
     }
 }

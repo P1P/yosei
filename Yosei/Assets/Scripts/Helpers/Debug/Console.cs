@@ -162,7 +162,12 @@ public class Console : MonoBehaviour
 
     private Console WriteLine<T>(T p_line, int p_color_index)
     {
-        return WriteLine(p_line, ColorFactory.Instance.GetBaseColor(p_color_index));
+        if (Console_on)
+        {
+            return WriteLine(p_line, ColorFactory.Instance.GetBaseColor(p_color_index));
+        }
+
+        return this;
     }
 
     // Prints a line at the given position in the static console
@@ -186,7 +191,12 @@ public class Console : MonoBehaviour
 
     private Console WriteFixedLine<T>(T p_line, int p_id, int p_color_index, bool p_time_limit = true)
     {
-        return WriteFixedLine(p_line, p_id, ColorFactory.Instance.GetBaseColor(p_color_index), p_time_limit);
+        if (Console_on)
+        {
+            return WriteFixedLine(p_line, p_id, ColorFactory.Instance.GetBaseColor(p_color_index), p_time_limit);
+        }
+
+        return this;
     }
 
     // Quick access static methods
